@@ -1,1 +1,15 @@
-spring.application.name=notfound
+# Server config
+server:
+  port: 8080
+
+# DB config
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/officedb
+    username: notfound
+    password: notfound
+
+# MyBatis Framework config
+mybatis:
+  mapper-locations: mapper/**/*.xml

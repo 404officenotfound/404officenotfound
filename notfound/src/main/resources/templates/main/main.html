@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>메인</title>
+</head>
+<body>
+<h1 style="text-align: center; border: solid 3px black;">Spring Security - Session 방식</h1>
+<h3>1-1. Spring Security를 이용한 로그인 및 회원 가입</h3>
+<a href="auth/login">로그인(SELECT USER)</a>
+<br>
+<a href="member/signup">회원가입(INSERT USER)</a>
+<br>
+
+<script th:inline="text">
+    /* 설명. 회원가입 결과 메세지를 출력용 alert() */
+    const message = `[[${ message }]]`;
+    if (message) {
+        window.alert(message);
+    }
+</script>
+</body>
+</html>
