@@ -1,5 +1,7 @@
 package com.office.notfound.member.model.dto;
 
+import java.time.LocalDateTime;
+
 public class SignupDTO {
 
     private String memberName;
@@ -7,21 +9,19 @@ public class SignupDTO {
     private String memberPassword;
     private String memberEmail;
     private String memberPhone;
-    private String memberEnrolldate;
-    private String memberEnddate;
-    private String memberEndstatus;
+    private LocalDateTime memberEnddate = null;  // 탈퇴 날짜 기본값 null
+    private String memberEndstatus = "N";  // 기본 탈퇴 상태 'N'
 
     public SignupDTO() {
     }
 
-    public SignupDTO(String memberName, String memberId, String memberPassword, String memberEmail,
-                     String memberPhone, String memberEnrolldate, String memberEnddate, String memberEndstatus) {
+    public SignupDTO(String memberName, String memberId, String memberPassword,
+                     String memberEmail, String memberPhone, LocalDateTime memberEnddate, String memberEndstatus) {
         this.memberName = memberName;
         this.memberId = memberId;
         this.memberPassword = memberPassword;
         this.memberEmail = memberEmail;
         this.memberPhone = memberPhone;
-        this.memberEnrolldate = memberEnrolldate;
         this.memberEnddate = memberEnddate;
         this.memberEndstatus = memberEndstatus;
     }
@@ -66,19 +66,11 @@ public class SignupDTO {
         this.memberPhone = memberPhone;
     }
 
-    public String getMemberEnrolldate() {
-        return memberEnrolldate;
-    }
-
-    public void setMemberEnrolldate(String memberEnrolldate) {
-        this.memberEnrolldate = memberEnrolldate;
-    }
-
-    public String getMemberEnddate() {
+    public LocalDateTime getMemberEnddate() {
         return memberEnddate;
     }
 
-    public void setMemberEnddate(String memberEnddate) {
+    public void setMemberEnddate(LocalDateTime memberEnddate) {
         this.memberEnddate = memberEnddate;
     }
 
@@ -98,8 +90,7 @@ public class SignupDTO {
                 ", memberPassword='" + memberPassword + '\'' +
                 ", memberEmail='" + memberEmail + '\'' +
                 ", memberPhone='" + memberPhone + '\'' +
-                ", memberEnrolldate='" + memberEnrolldate + '\'' +
-                ", memberEnddate='" + memberEnddate + '\'' +
+                ", memberEnddate=" + memberEnddate +
                 ", memberEndstatus='" + memberEndstatus + '\'' +
                 '}';
     }

@@ -1,18 +1,18 @@
 -- 정상협 : tbl_member 테이블에 데이터 삽입
 INSERT INTO tbl_member
-(member_name, member_id, member_password, member_email, member_phone, member_enrolldate, member_enddate, member_endstatus)
+(member_name, member_id, member_password, member_email, member_phone, member_enddate, member_endstatus)
 VALUES
-    ('홍길동', 'hong123', 'password123', 'hong@example.com', '010-1234-5678', '2025-01-01', '2025-01-02', 'N'),
-    ('김철수', 'kim123', 'password456', 'kim@example.com', '010-9876-5432', '2025-02-01', '2025-02-02', 'N'),
-    ('이영희', 'lee123', 'password789', 'lee@example.com', '010-1122-3344', '2025-03-01', '2025-03-02', 'N'),
-    ('박지은', 'park123', 'password000', 'park@example.com', '010-2233-4455', '2025-03-05', '2025-03-06', 'N');
+    ('홍길동', 'hong123', 'password123', 'hong@example.com', '010-1234-5678', NULL, 'N'),
+    ('김철수', 'kim123', 'password456', 'kim@example.com', '010-9876-5432', NULL, 'N'),
+    ('이영희', 'lee123', 'password789', 'lee@example.com', '010-1122-3344', NULL, 'N'),
+    ('박지은', 'park123', 'password000', 'park@example.com', '010-2233-4455', NOW(), 'Y');
 
 -- 정상협 : tbl_authority 테이블에 데이터 삽입
 INSERT INTO tbl_authority
-(authority_name)
+(authority_code, authority_name)
 VALUES
-    ('ADMIN'),
-    ('USER');
+    (1, 'ADMIN'),
+    (2, 'USER');
 
 -- 정상협 : tbl_member_role 테이블에 데이터 삽입
 INSERT INTO tbl_member_role

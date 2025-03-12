@@ -4,5 +4,27 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.office.notfound.member.model.dao.MemberMapper">
 
+    <insert id="regist" parameterType="com.office.notfound.member.model.dto.SignupDTO">
+        INSERT INTO tbl_member
+        (
+            member_name,
+            member_id,
+            member_password,
+            member_email,
+            member_phone,
+            member_enddate,
+            member_endstatus
+        )
+        VALUES
+        (
+            #{memberName},
+            #{memberId},
+            #{memberPassword},
+            #{memberEmail},
+            #{memberPhone},
+            #{memberEnddate},
+            #{memberEndstatus}
+        )
+    </insert>
 </mapper>
 

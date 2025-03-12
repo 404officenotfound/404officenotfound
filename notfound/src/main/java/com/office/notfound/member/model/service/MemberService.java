@@ -41,6 +41,27 @@ public class MemberService {
             result1 = 0;
             e.printStackTrace();
         }
+        /*  tbl_member_role 테이블에 사용자 별 권한 INSERT */
+        /*  사용자 db에 등록된 member_code 최대 pk값 조회 */
+        int maxUserCode = memberMapper.findMaxUserCode();
+        System.out.println("#2-1 현재 tbl_member의 PK 최대값 : " + maxUserCode);
+
+        /* 목차. 2-2 tbl_user_role 테이블에 신규 등록된 사용자의 PK와 디폴트 권한(일반 사용자) PK인 2를 조합하여 INSERT*/
+        Integer result2 = null;
+
+        try{
+            result2 = memberMapper.registUserAuthority(new UserAuthorityDTO(maxUserCode, 2));
+        } catch(DuplicateKeyException e){
+            result2 = 0;
+            e.printStackTrace();
+        } catch(BadSqlGrammarException e){
+            result2 = 0;
+            e.printStackTrace();
+        }
+
+        System.out.println("#2-2 신규 사용자 및 권한 코드 삽입 결과 : " + result2);
+
+    }
 
     }
 }
