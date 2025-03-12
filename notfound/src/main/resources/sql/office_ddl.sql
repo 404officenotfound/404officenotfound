@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS tbl_member
     member_password VARCHAR(255) NOT NULL COMMENT '비밀번호',
     member_email VARCHAR (20) NOT NUll COMMENT '이메일',
     member_phone VARCHAR (20) NOT NULL COMMENT '전화번호',
-    member_enddate DATETIME NUll COMMENT '탈퇴날짜',
+    member_enddate VARCHAR (30) NUll COMMENT '탈퇴날짜',
     member_endstatus VARCHAR (20) NOT NULL DEFAULT 'N' COMMENT '탈퇴여부',
     -- TABLE LEVEL CONSTRAINTS
     CONSTRAINT pk_category_code PRIMARY KEY (member_code)
@@ -81,3 +81,34 @@ CREATE TABLE IF NOT EXISTS tbl_member_role
     CONSTRAINT fk_member_code FOREIGN KEY (member_code) REFERENCES tbl_member (member_code),
     CONSTRAINT fk_authority_code FOREIGN KEY (authority_code) REFERENCES tbl_authority (authority_code)
     ) ENGINE=INNODB COMMENT '회원별권한';
+
+-- 양서진(지점 테이블)
+CREATE TABLE IF NOT EXISTS tbl_store
+(
+    store_code BIGINT(5) AUTO_INCREMENT COMMENT '해당지점 식별번호',
+    store_name VARCHAR(30) NOT NULL COMMENT '지점 이름',
+    store_city VARCHAR(30) NOT NULL COMMENT '주소(시도)',
+    store_gu VARCHAR(30) NOT NULL COMMENT '주소(지역구)',
+    store_address VARCHAR(255) NOT NULL COMMENT '상세 주소',
+    longitude DOUBLE NOT NULL COMMENT '지도 경도',
+    latitude DOUBLE NOT NULL COMMENT '지점 위도',
+    description VARCHAR(255) NOT NULL COMMENT '지점 소개',
+    store_thumbnail VARCHAR(255) NOT NULL COMMENT '지점썸네일 URL',
+    store_img1 VARCHAR(255) NULL COMMENT '공용공간1사진 URL',
+    store_img2 VARCHAR(255) NULL COMMENT '공용공간2사진 URL',
+    store_img3 VARCHAR(255) NULL COMMENT '공용공간3사진 URL',
+    CONSTRAINT pk_store_code PRIMARY KEY (store_code)
+) ENGINE=INNODB COMMENT '지점';
+
+-- 양서진(사무실 테이블)
+CREATE TABLE IF NOT EXISTS tbl_office
+(
+    office_code BIGINT(10) AUTO_INCREMENT NOT NULL COMMENT '사무실 식별번호',
+    store_code BIGINT(5) NOT NULL COMMENT '해당지점 식별번호',
+    office_type VARCHAR(30) NOT NULL COMMENT '사무실 유형',
+    office_num INT NOT NULL COMMENT '사무실 호실',
+    office_price INT NOT NULL COMMENT '사무실 가격(2시간)',
+    office_thumbnail VARCHAR(255) NOT NULL COMMENT '사무실 사진 URL',
+    CONSTRAINT pk_office_code PRIMARY KEY (office_code),
+    CONSTRAINT fk_store_code FOREIGN KEY (store_code) REFERENCES tbl_store (store_code)
+) ENGINE=INNODB COMMENT '사무실';
