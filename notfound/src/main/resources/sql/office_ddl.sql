@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS tbl_member_role
     CONSTRAINT fk_authority_code FOREIGN KEY (authority_code) REFERENCES tbl_authority (authority_code)
 ) ENGINE=INNODB COMMENT '회원별권한';
 
--- 양서진(지점 테이블)
+-- 양서진: 지점 테이블 (tbl_store)
 CREATE TABLE IF NOT EXISTS tbl_store
 (
     store_code BIGINT(5) AUTO_INCREMENT COMMENT '해당지점 식별번호',
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS tbl_store
     CONSTRAINT pk_store_code PRIMARY KEY (store_code)
 ) ENGINE=INNODB COMMENT '지점';
 
--- 양서진(사무실 테이블)
+-- 양서진 : 사무실 테이블 (tbl_office)
 CREATE TABLE IF NOT EXISTS tbl_office
 (
     office_code BIGINT(10) AUTO_INCREMENT NOT NULL COMMENT '사무실 식별번호',
