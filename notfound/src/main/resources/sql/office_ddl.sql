@@ -139,7 +139,7 @@ CREATE TABLE tbl_review (
  review_rating TINYINT NOT NULL COMMENT '평점',
  review_image VARCHAR(255) NULL COMMENT '이미지 파일 경로',
  FOREIGN KEY (member_code) REFERENCES tbl_member(member_code) ON DELETE CASCADE,
- FOREIGN KEY (payment_code) REFERENCES tbl_payment(payment_code) ON DELETE CASCADE
+#  FOREIGN KEY (payment_code) REFERENCES tbl_payment(payment_code) ON DELETE CASCADE
 );
 
 -- 이슬기 : FAQ 테이블 (tbl_faq)
