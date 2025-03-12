@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS tbl_member_role
 -- 양서진(지점 테이블)
 CREATE TABLE IF NOT EXISTS tbl_store (
     store_code BIGINT(5) AUTO_INCREMENT COMMENT '해당지점 식별번호',
-#     authority_code INT NOT NULL COMMENT '권한 번호';
+    authority_code INT NOT NULL COMMENT '권한 번호',
     store_name VARCHAR(30) NOT NULL COMMENT '지점 이름',
     store_city VARCHAR(30) NOT NULL COMMENT '주소(시도)',
     store_gu VARCHAR(30) NOT NULL COMMENT '주소(지역구)',
@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS tbl_store (
     store_img2 VARCHAR(255) NULL COMMENT '공용공간2사진 URL',
     store_img3 VARCHAR(255) NULL COMMENT '공용공간3사진 URL',
     CONSTRAINT pk_store_code PRIMARY KEY (store_code),
-#     CONSTRAINT fk_authority_code FOREIGN KEY (authority_code) REFFERENCES tbl_authority (authority_code)
+    CONSTRAINT fk_authority_code FOREIGN KEY (authority_code) REFERENCES tbl_authority (authority_code)
 ) ENGINE=INNODB COMMENT '지점';
 
 -- 양서진(사무실 테이블)
