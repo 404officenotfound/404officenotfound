@@ -28,10 +28,18 @@ grant all privileges on officedb.* to 'officenotfound'@'%';
 show grants for 'officenotfound'@'%';
 -- use officedb
 
+  -- officedb로 이동
+use officedb;*/
+
+
 -- 1) 테이블 생성
 DROP TABLE IF EXISTS tbl_member_role CASCADE;
 DROP TABLE IF EXISTS tbl_member CASCADE;
 DROP TABLE IF EXISTS tbl_authority CASCADE;
+DROP TABLE IF EXISTS tbl_inquiry CASCADE;
+DROP TABLE IF EXISTS tbl_review CASCADE;
+DROP TABLE IF EXISTS tbl_faq CASCADE;
+DROP TABLE IF EXISTS tbl_inquiry CASCADE;
 
 
 
@@ -78,11 +86,56 @@ CREATE TABLE IF NOT EXISTS tbl_member_role
 
 
 
+-- 이슬기 : 이벤트 테이블 (tbl_event)
+CREATE TABLE tbl_event (
+    event_code INT PRIMARY KEY AUTO_INCREMENT COMMENT '이벤트 번호',
+    authority_code INT NOT NULL COMMENT '권한번호',
+    event_title VARCHAR(50) NOT NULL COMMENT '제목',
+    event_content VARCHAR(255) NOT NULL COMMENT '내용',
+    event_img VARCHAR(255) NOT NULL COMMENT '이미지 파일 경로',
+    event_status VARCHAR(10) NOT NULL COMMENT '진행 상태'
+);
 
 
--- officedb로 이동
-use officedb;*/
+-- 이슬기 : 리뷰 테이블 (tbl_review)
+CREATE TABLE tbl_review (
+    review_code INT PRIMARY KEY AUTO_INCREMENT COMMENT '리뷰 번호',
+    member_code INT NOT NULL COMMENT '회원번호',
+    payment_code INT NOT NULL COMMENT '결제번호',
+    member_id VARCHAR(20) NOT NULL COMMENT '아이디',
+    review_title VARCHAR(50) NOT NULL COMMENT '제목',
+    review_content VARCHAR(255) NOT NULL COMMENT '내용',
+    review_created_at VARCHAR(30) NOT NULL COMMENT '등록일자',
+    review_rating TINYINT NOT NULL COMMENT '평점',
+    review_image VARCHAR(255) NULL COMMENT '이미지 파일 경로',
+    FOREIGN KEY (member_code) REFERENCES tbl_member(member_code) ON DELETE CASCADE,
+    FOREIGN KEY (payment_code) REFERENCES tbl_payment(payment_code) ON DELETE CASCADE
+);
+
+-- 이슬기 : FAQ 테이블 (tbl_faq)
+CREATE TABLE tbl_faq (
+    faq_code INT PRIMARY KEY AUTO_INCREMENT COMMENT 'FAQ 번호',
+    faq_title VARCHAR(50) NOT NULL COMMENT '제목',
+    faq_content VARCHAR(255) NOT NULL COMMENT '내용'
+);
+
+
+-- 이슬기 : 1:1 문의 테이블 (tbl_inquiry)
+CREATE TABLE tbl_inquiry (
+    inquiry_code INT PRIMARY KEY AUTO_INCREMENT COMMENT '문의글 번호',
+    member_code INT NOT NULL COMMENT '회원번호',
+    member_id VARCHAR(20) NOT NULL COMMENT '아이디',
+    inquiry_title VARCHAR(50) NOT NULL COMMENT '제목',
+    inquiry_content VARCHAR(255) NOT NULL COMMENT '내용',
+    inquiry_created_at VARCHAR(30) NOT NULL COMMENT '등록일자',
+    inquiry_answer_state VARCHAR(10) NOT NULL COMMENT '답변 상태',
+    inquiry_admin_answer VARCHAR(255) NULL COMMENT '관리자 답변',
+    CONSTRAINT fk_inquiry_member FOREIGN KEY (member_code) REFERENCES tbl_member (member_code) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='1:1 문의 게시판';
+
+
 
 -- --------------------------------------------------------
 -- ddl
 -- -------------------------------------------------------
+
