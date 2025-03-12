@@ -38,8 +38,8 @@
 DROP TABLE IF EXISTS tbl_member_role CASCADE;
 DROP TABLE IF EXISTS tbl_member CASCADE;
 DROP TABLE IF EXISTS tbl_authority CASCADE;
-DROP TABLE IF EXISTS tbl_store;
-DROP TABLE IF EXISTS tbl_office;
+DROP TABLE IF EXISTS tbl_store CASCADE;
+DROP TABLE IF EXISTS tbl_office CASCADE;
 DROP TABLE IF EXISTS tbl_inquiry CASCADE;
 DROP TABLE IF EXISTS tbl_review CASCADE;
 DROP TABLE IF EXISTS tbl_faq CASCADE;
@@ -126,7 +126,6 @@ CREATE TABLE tbl_event (
   event_img VARCHAR(255) NOT NULL COMMENT '이미지 파일 경로',
   event_status VARCHAR(10) NOT NULL COMMENT '진행 상태'
 );
-
 
 -- 이슬기 : 리뷰 테이블 (tbl_review)
 CREATE TABLE tbl_review (
