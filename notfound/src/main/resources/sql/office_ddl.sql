@@ -35,11 +35,6 @@
 -- --------------------------------------------------------
 
 -- 1) 테이블 생성
-DROP TABLE IF EXISTS tbl_member_role CASCADE;
-DROP TABLE IF EXISTS tbl_member CASCADE;
-DROP TABLE IF EXISTS tbl_authority CASCADE;
-DROP TABLE IF EXISTS tbl_store CASCADE;
-DROP TABLE IF EXISTS tbl_office CASCADE;
 DROP TABLE IF EXISTS tbl_review CASCADE;
 DROP TABLE IF EXISTS tbl_inquiry CASCADE;
 DROP TABLE IF EXISTS tbl_faq CASCADE;
@@ -47,6 +42,11 @@ DROP TABLE IF EXISTS tbl_event CASCADE;
 DROP TABLE IF EXISTS tbl_reservation_payment CASCADE;
 DROP TABLE IF EXISTS tbl_payment CASCADE;
 DROP TABLE IF EXISTS tbl_reservation CASCADE;
+DROP TABLE IF EXISTS tbl_office CASCADE;
+DROP TABLE IF EXISTS tbl_store CASCADE;
+DROP TABLE IF EXISTS tbl_member_role CASCADE;
+DROP TABLE IF EXISTS tbl_authority CASCADE;
+DROP TABLE IF EXISTS tbl_member CASCADE;
 
 -- 1. 회원정보 테이블 (tbl_member)
 CREATE TABLE IF NOT EXISTS tbl_member (

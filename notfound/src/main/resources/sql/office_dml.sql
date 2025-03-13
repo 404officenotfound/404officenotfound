@@ -113,14 +113,16 @@ VALUES ('판교역 점', '경기', '성남시 분당구', '판교역로 166', 37
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/2502/average-bartable.webp',
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/2502/average-focusroom.webp');
 INSERT INTO tbl_store (store_name, store_city, store_gu, store_address, latitude, longitude, description, store_thumbnail, store_img1, store_img2, store_img3)
-VALUES ('수원화성 점', '경기', '수원시 장안구', '정조로 825', 37.282575, 127.015819,
+VALUES
+    ('수원화성 점', '경기', '수원시 장안구', '정조로 825', 37.282575, 127.015819,
         '건물 2층에 입점한 안과에서 입주사 직원 한정 무료 시력검진 진행 중.',
         'https://cdn.hitnews.co.kr/news/photo/202403/52804_70142_406.png',
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/2502/average-sofa.webp',
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/2502/average-bartable.webp',
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/sec-lounge_picture-slide06.jpg');
 
-INSERT INTO tbl_office (store_code, office_type, office_num, office_price, office_thumbnail) VALUES
+INSERT INTO tbl_office (store_code, office_type, office_num, office_price, office_thumbnail)
+VALUES
 (1, '1인실', '101', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
 (1, '4인실', '102', 1500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
 (2, '1인실', '201', 550000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
@@ -152,5 +154,45 @@ INSERT INTO tbl_office (store_code, office_type, office_num, office_price, offic
 (15, '1인실', '1501', 480000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
 (15, '4인실', '1502', 1600000, 'http://www.dodreamoffice.com/img/why_img1.jpg');
 
+INSERT INTO tbl_reservation (member_code, office_code, start_datetime, end_datetime, total_price, reservation_status)
+VALUES
+(1, 1, '2025-03-15 08:00:00', '2025-03-15 10:00:00', 500000, '예약완료'),
+(2, 4, '2025-03-18 10:00:00', '2025-03-18 12:00:00', 4000000, '예약완료'),
+(3, 6, '2025-03-20 12:00:00', '2025-03-20 14:00:00', 1600000, '예약완료'),
+(3, 9, '2025-03-20 14:00:00', '2025-03-20 16:00:00', 500000, '예약완료'),
+(4, 7, '2025-03-22 18:00:00', '2025-03-22 20:00:00', 4500000, '예약완료'),
+(1, 3, '2025-03-25 16:00:00', '2025-03-25 18:00:00', 500000, '예약취소'),
+(2, 10, '2025-03-27 12:00:00', '2025-03-27 14:00:00', 4000000, '예약완료'),
+(2, 12, '2025-03-27 14:00:00', '2025-03-27 16:00:00', 1550000, '예약완료'),
+(2, 15, '2025-03-27 16:00:00', '2025-03-27 18:00:00', 500000, '예약완료'),
+(4, 5, '2025-04-01 08:00:00', '2025-04-01 10:00:00', 1500000, '예약완료'),
+(3, 8, '2025-04-05 10:00:00', '2025-04-05 12:00:00', 500000, '예약취소'),
+(3, 11, '2025-04-05 12:00:00', '2025-04-05 14:00:00', 1500000, '예약취소');
+
+INSERT INTO tbl_payment (reservation_code, payment_date, payment_method, payment_amount, payment_status)
+VALUES
+    (1, '2025-03-15 07:50:00', '카드', 500000, '결제완료'),
+    (2, '2025-03-18 09:50:00', '계좌이체', 4000000, '결제완료'),
+    (3, '2025-03-20 11:50:00', '카드', 2100000, '결제완료'),
+    (5, '2025-03-22 17:50:00', '카드', 4500000, '결제완료'),
+    (6, '2025-03-25 15:50:00', '계좌이체', 500000, '결제취소'),
+    (7, '2025-03-27 11:50:00', '카드', 6050000, '결제완료'),
+    (10, '2025-04-01 07:50:00', '계좌이체', 1500000, '결제완료'),
+    (11, '2025-04-05 09:50:00', '카드', 2000000, '결제취소');
+
+INSERT INTO tbl_reservation_payment (reservation_code, payment_code)
+VALUES
+(1, 1), -- 예약 1번 -> 결제 1번
+(2, 2), -- 예약 2번 -> 결제 2번
+(3, 3), -- 예약 3번 -> 결제 3번
+(4, 3), -- 예약 4번 -> 결제 3번
+(5, 4), -- 예약 5번 -> 결제 4번
+(6, 5), -- 예약 6번 -> 결제 5번 (취소됨)
+(7, 6), -- 예약 7번 -> 결제 6번
+(8, 6), -- 예약 8번 -> 결제 6번
+(9, 6), -- 예약 9번 -> 결제 6번
+(10, 7), -- 예약 10번 -> 결제 7번
+(11, 8), -- 예약 11번 -> 결제 8번 (취소됨)
+(12, 8); -- 예약 12번 -> 결제 8번 (취소됨)
 
 COMMIT;
