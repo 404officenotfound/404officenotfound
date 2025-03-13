@@ -75,7 +75,12 @@ public class MemberService {
         return finalResult;
 
     }
-
+    /* Ajax 방식으로 서버에 요청하고, 서버에서 응답으로 JSON 데이터를 반환받아 처리 */
+    // 아이디 중복 체크
+    public boolean memberIdDuplicate(String memberId) {
+        Integer count = memberMapper.countMemberById(memberId);
+        return count != null && count > 0;
+    }
 }
 
 

@@ -15,6 +15,17 @@
             TABLE_SCHEMA = 'officedb' and
             TABLE_NAME = 'tbl_member'
     </select>
+
+    <!-- 중복사용자조회   -->
+    <select id="countMemberById" parameterType="string" resultType="Integer">
+        SELECT
+            COUNT(*)
+        FROM
+            tbl_member
+        WHERE
+            member_id = #{memberId}
+    </select>
+
     <!--  신규 사용자 등록  -->
     <insert id="regist" parameterType="com.office.notfound.member.model.dto.SignupDTO">
         INSERT INTO tbl_member

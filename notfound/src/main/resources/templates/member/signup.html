@@ -3,32 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <title>회원가입</title>
+
+    <link rel="stylesheet" href="/css/signup.css">
 </head>
 <body>
+
+<!-- 회원가입 폼 -->
 <div>
     <div>
-        <h2>회원가입을 위해<br>정보를 입력해주세요.</h2>
-<!--name 속성값을 DTO필드변수와 일치시켜야한다.-->
+        <h2 class="signup-title">회원가입을 위해<br>정보를 입력해주세요.</h2>
         <form th:action="@{/member/signup}" method="post">
+            <!--    이름        -->
             <label for="memberName">* 이름<br>
                 <input type="text" id="memberName" name="memberName"><br><br>
             </label>
+            <!--    이메일 -->
             <label for="memberEmail">* 이메일<br>
                 <input type="text" id="memberEmail" name="memberEmail"><br><br>
             </label>
+            <!-- 아이디 입력 + 중복 확인 버튼 -->
             <label for="memberId">* 아이디<br>
-                <input type="text" id="memberId" name="memberId"><br><br>
+                <input type="text" id="memberId" name="memberId">
+                <button type="button" id="idDuplicate">아이디 중복 확인</button>
             </label>
+            <!--   중복확인결과 메시지  -->
+            <small id="idCheckResult" style="color: red;"></small>
+            <br><br>
+            <!--  비밀번호   -->
             <label for="memberPassword">* 비밀번호<br>
                 <input type="password" id="memberPassword" name="memberPassword"><br><br>
             </label>
+            <!--   전화번호   -->
             <label for="memberPhone">* 전화번호<br>
                 <input type="tel" id="memberPhone" name="memberPhone"><br><br>
             </label>
-            <hr>
-            <button type="submit">회원등록</button>
+
+            <!-- 모달 열기 버튼 -->
+            <button type="button" id="openModalBtn">약관 동의</button>
+
+            <!-- 모달 창 -->
+            <div id="termsModal" class="modal">
+                <div class="modal-content">
+                    <h2>약관 동의 내용</h2>
+                    <ul>
+                        <li>
+                            <label>
+                                <input type="checkbox">
+                                <span>[필수] 이용약관 동의</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox">
+                                <span>[필수] 개인정보 수집 및 이용 동의</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox">
+                                <span>[선택] 개인정보 자사 마케팅 수집 및 이용 동의</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox">
+                                <span>[선택] 마케팅 정보 수신 동의</span>
+                            </label>
+                        </li>
+                    </ul>
+                    <!-- 닫기 버튼 -->
+                    <button type="button" id="closeModalBtn">닫기</button>
+                </div>
+            </div>
+
+            <br><br>
+
+            <!-- 회원등록 버튼, 가운데 배치 -->
+            <div class="form-container">
+                <button type="submit">회원등록</button>
+            </div>
+
         </form>
+
     </div>
 </div>
+
+
+<!--AJAX(Asynchronous JavaScript and XML)는 웹 페이지에서 서버와 비동기적으로 데이터를 주고받을 수 있게 해주는 기술로, 데이터를 json이나 xml방식을 사용한다. 서버에서 클라이언트로
+        전달할때 JSON을 많이 사용.
+        fetch는 JavaScript에서 웹 브라우저가 서버와 비동기적으로 데이터를 주고받을 수 있게 해주는 API로,
+        이를 통해 클라이언트 측에서 서버로 HTTP 요청을 보내고, 서버의 응답을 받을 수 있습니다. fetch는 주로 REST API와 통신할 때 사용된다.
+         /member/check-duplicate는 서버에서 아이디 중복을 확인하는 기능을 담당하는 API의 경로이며, memberId는 사용자가 입력한 아이디로, 이 값은 URL의 쿼리 매개변수로 전달하고
+         서버로부터 응답은 response변수에 저장되고, response.json()은 서버에서 받은 응답 본문을 JSON 형식으로 변환하는 메서드로 변환후 date변수에서 사용된다.
+        이 메서드는 반환값이 Promise 객체이므로, 변환된 데이터를 처리하기 위해 .then()을 사용해야 한다.
+-->
+<script>
+    // 모달 요소
+    var modal = document.getElementById("termsModal");
+    var openModalBtn = document.getElementById("openModalBtn");
+    var closeModalBtn = document.getElementById("closeModalBtn");
+
+    // 모달 열기
+    openModalBtn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    // 모달 닫기
+    closeModalBtn.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    document.getElementById("idDuplicate").addEventListener("click", function () {
+        const memberId = document.getElementById("memberId").value;
+        const resultText = document.getElementById("idCheckResult");
+
+        if (!memberId) {
+            resultText.style.color = "red";
+            resultText.innerText = "아이디를 입력해주세요.";
+            return;
+        }
+        fetch(`/member/check-duplicate?memberId=${memberId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.duplicate) {
+                    resultText.style.color = "red";
+                    resultText.innerText = "이미 사용 중인 아이디입니다.";
+                } else {
+                    resultText.style.color = "green";
+                    resultText.innerText = "사용 가능한 아이디입니다.";
+                }
+            })
+            .catch(error => {
+                console.error("Error : ", error);
+                resultText.style.color = "red";
+                resultText.innerText = "오류가 발생했습니다.";
+            });
+    });
+
+
+</script>
 </body>
 </html>
