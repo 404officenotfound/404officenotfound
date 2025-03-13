@@ -1,0 +1,135 @@
+
+    /* 기본 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+h2 {
+    color: #333;
+    text-align: center;
+}
+
+label {
+    font-size: 16px;
+    color: #555;
+}
+
+/* 수정된 input 스타일 */
+input[type="text"], input[type="password"], input[type="tel"] {
+    width: 250px; /* 기존보다 작게 설정 */
+    padding: 10px;
+    margin: 5px 0 15px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+button {
+    padding: 12px 15px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* 회원가입 버튼 가운데 정렬 */
+.form-container {
+    display: flex;
+    justify-content: center; /* 버튼을 가운데 정렬 */
+    width: 100%; /* 폼의 너비를 100%로 설정 */
+}
+
+/* 모달 스타일 */
+.modal {
+    display: none; /* 처음에는 모달을 숨김 */
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+    overflow: auto; /* 모달 내용이 화면을 넘치지 않도록 처리 */
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 500px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h2 {
+    font-size: 24px;
+    color: #333;
+}
+
+.modal-content ul {
+    padding-left: 20px;
+}
+
+.modal-content li {
+    font-size: 16px;
+    color: #555;
+}
+
+.modal-content button {
+    background-color: #f44336; /* 닫기 버튼에 빨간색 */
+    margin-top: 20px;
+}
+
+.modal-content button:hover {
+    background-color: #e53935;
+}
+
+/* 회원가입 폼 스타일 */
+form {
+    width: 100%;
+    margin: 20px auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fdfdfd; /* 배경을 밝은 색으로 변경 */
+}
+
+form label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+small {
+    font-size: 14px;
+}
+
+small#idCheckResult {
+    font-weight: bold;
+}
+
+/* 회원가입을 위한 안내 텍스트 */
+.signup-title {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
