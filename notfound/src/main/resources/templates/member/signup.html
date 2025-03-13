@@ -8,48 +8,26 @@
 <div>
     <div>
         <h2>회원가입을 위해<br>정보를 입력해주세요.</h2>
-
-    <form th:action="@{/member/signup}" method = "post">
-        <label for="name">* 이름<br>
-            <input type="text" id="name"><br><br>
-        </label>
-        <label for="email">* 이메일<br>
-            <input type="text" id="email"><br><br>
-        </label>
-        <label for="id">* 아이디<br>
-            <input type="text" id="id"><br><br>
-        </label>
-        <label for="password1">* 비밀번호<br>
-            <input type="password" id="password1" ><br><br>
-        </label>
-        <label for="password2">* 비밀번호 확인<br>
-            <input type="password" id="password2" ><br><br>
-        </label>
-        <label for="phone">* 전화번호<br>
-            <input type ="tel" id="phone" ><br><br>
-        </label>
-
-
-        <!-- 임시로 만든 성별 하나의 그룹으로 묶어준다. -->
-        <p>
-             임시로 만든 성별 하나의 그룹으로 묶어준다.
-        </p>
-        <form>
-            <input type="radio" class="radio" name="gender">&nbsp 여성
-            <input type="radio" class="radio" name="gender">&nbsp 남성
+<!--name 속성값을 DTO필드변수와 일치시켜야한다.-->
+        <form th:action="@{/member/signup}" method="post">
+            <label for="memberName">* 이름<br>
+                <input type="text" id="memberName" name="memberName"><br><br>
+            </label>
+            <label for="memberEmail">* 이메일<br>
+                <input type="text" id="memberEmail" name="memberEmail"><br><br>
+            </label>
+            <label for="memberId">* 아이디<br>
+                <input type="text" id="memberId" name="memberId"><br><br>
+            </label>
+            <label for="memberPassword">* 비밀번호<br>
+                <input type="password" id="memberPassword" name="memberPassword"><br><br>
+            </label>
+            <label for="memberPhone">* 전화번호<br>
+                <input type="tel" id="memberPhone" name="memberPhone"><br><br>
+            </label>
+            <hr>
+            <button type="submit">회원등록</button>
         </form>
-        <br><br>
-<!--      임시로 만든 개인정보 동의서 html코드-->
-        <p>
-            임시로 만든 개인정보 동의서 html코드
-        </p>
-        <form>
-            <input type="checkbox" class="agree">&nbsp 이용약관 개인정보 수집 및 정보이용에 동의합니다.
-        </form>
-        <hr>
-        <hr>
-        <button>회원등록</button>
-    </form>
     </div>
 </div>
 </body>

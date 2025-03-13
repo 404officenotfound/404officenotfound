@@ -23,11 +23,11 @@ public class MemberController {
     }
 
     @GetMapping("/signup")
-    public String signup(){
+    public String signup() {
         return "member/signup";
     }
 
-    @PostMapping
+    @PostMapping("/signup")
     public ModelAndView signup(ModelAndView mv,
                                SignupDTO signupDTO,
                                RedirectAttributes rAttr){
