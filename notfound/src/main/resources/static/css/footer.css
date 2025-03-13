@@ -3,8 +3,8 @@ footer {
     justify-content: space-between;  /* 좌, 중, 우로 정렬 */
     align-items: center;  /* 세로 정렬 */
     padding: 20px;
-    background-color: #333;
-    color: white;
+    background-color: #ffffff;
+    color: black;
     text-align: center;
 }
 
