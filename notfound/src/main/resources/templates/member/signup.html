@@ -8,12 +8,8 @@
 </head>
 <body>
 
-<!-- 회원가입 폼 -->
-<!-- 중복 아이디 또는 이메일로 실패했을 때 메시지 표시 -->
-<div>
-    <p th:if="${message}" th:text="${message}"></p>
-</div>
 
+<!-- 회원가입 폼 -->
 <div>
     <div>
         <h2 class="signup-title">회원가입을 위해<br>정보를 입력해주세요.</h2>
@@ -24,7 +20,7 @@
             </label>
             <!--    이메일 -->
             <label for="memberEmail">* 이메일<br>
-                <input type="text" id="memberEmail" name="memberEmail"><br><br>
+                <input type="text" id="memberEmail" name="memberEmail"><br>
             </label>
             <!-- 아이디 입력 + 중복 확인 버튼 -->
             <label for="memberId">* 아이디<br>
@@ -36,12 +32,19 @@
             <br><br>
             <!--  비밀번호   -->
             <label for="memberPassword">* 비밀번호<br>
-                <input type="password" id="memberPassword" name="memberPassword"><br><br>
+                <input type="password" id="memberPassword" name="memberPassword"><br>
             </label>
             <!--   전화번호   -->
             <label for="memberPhone">* 전화번호<br>
-                <input type="tel" id="memberPhone" name="memberPhone"><br><br>
+                <input type="tel" id="memberPhone" name="memberPhone"><br>
             </label>
+
+            <!-- 경고 메시지를 표시할 영역 -->
+            <div id="warningMessage">
+            <!-- 중복 아이디 또는 이메일로 실패했을 때 메시지 표시 -->
+            <p th:if="${message}" th:utext="${message}" style="font-weight: bold; font-size: 18px;"></p>
+            </div><br>
+
 
             <!-- 모달 열기 버튼 -->
             <button type="button" id="openModalBtn">약관 동의</button>
@@ -101,8 +104,6 @@
         이 메서드는 반환값이 Promise 객체이므로, 변환된 데이터를 처리하기 위해 .then()을 사용해야 한다.
 -->
 <script>
-
-
     // 모달 요소
     var modal = document.getElementById("termsModal");
     var openModalBtn = document.getElementById("openModalBtn");
@@ -143,6 +144,27 @@
                 resultText.style.color = "red";
                 resultText.innerText = "오류가 발생했습니다.";
             });
+    });
+
+    document.querySelector("form").addEventListener("submit", function(event) {
+        // 입력 값 가져오기
+        var memberName = document.getElementById("memberName").value;
+        var memberId = document.getElementById("memberId").value;
+        var memberPassword = document.getElementById("memberPassword").value;
+        var memberEmail = document.getElementById("memberEmail").value;
+        var memberPhone = document.getElementById("memberPhone").value;
+
+        // 경고 메시지를 표시할 요소 가져오기
+        var warningMessage = document.getElementById("warningMessage");
+
+        // 필수 필드 검사
+        if (!memberName || !memberId || !memberPassword || !memberEmail || !memberPhone) {
+            warningMessage.textContent = "모든 필수 항목을 입력해 주세요.";
+            warningMessage.style.color = "red";  // 색깔 변경
+            event.preventDefault(); // 폼 제출을 막는다
+        } else {
+            warningMessage.textContent = "";  // 필수 항목이 입력된 경우 경고 메시지 비우기
+        }
     });
 
 

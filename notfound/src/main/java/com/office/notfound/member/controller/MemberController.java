@@ -39,7 +39,7 @@ public class MemberController {
         String message = null;
 
         if (result == 0) {
-            message = "이미 해당 아이디 또는 이메일로 가입된 회원이 있습니다. 다시 입력해주세요.";
+            message = "이미 해당 아이디 또는 이메일로 가입된 회원이 있습니다.<br> 다시 입력해주세요.";
             System.out.println("message = " + message);
             mv.setViewName("redirect:/member/signup");
         }else if(result >= 1){
