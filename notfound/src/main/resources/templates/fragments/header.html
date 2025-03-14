@@ -1,39 +1,39 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="/css/header.css">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/css/header.css">
+  <title>Title</title>
 </head>
 <body>
 <header>
+  <div class="top-header">
     <div th:fragment="top-header">
-        <div class="auth-links">
-            <a th:href="@{/login}">로그인</a>
-            <a th:href="@{signup}">회원가입</a>
-        </div>
+      <div class="auth-links">
+        <a th:href="@{/login}">로그인</a>
+        <a th:href="@{signup}">회원가입</a>
+      </div>
     </div>
+
     <span id="logo-header"><img th:src="@{/img/logo/새로고.JPG}" width="300px" height="150px"></span>
     <nav>
-        <ul class="nav-menu">
-            <li><a th:href="@{/company}">회사소개</a></li>
-            <li class="dropdown">
-                <span>지점</span>
-                <ul class="dropdown-menu">
-                    <li><a th:href="@{/storelist}">전체지점조회</a></li>
-                    <li><a th:href="@{/storeregion}">지역별지점조회</a></li>
-                </ul>
-            </li>
-            <li class="dropdown">
-                <span>게시판</span>
-                <ul class="dropdown-menu">
-                    <li><a th:href="@{/main/board/faq}">FAQ</a></li>
-                    <li><a th:href="@{/board/inquiry}">1:1 문의</a></li>
-                </ul>
-            </li>
-            <li><a th:href="@{/event}">이벤트</a></li>
-        </ul>
+      <ul class="nav-menu">
+        <li><a th:href="@{/company}">회사소개</a></li>
+        <li class="dropdown">
+          <span>지점</span>
+          <ul class="dropdown-menu">
+            <li><a th:href="@{/storelist}">전체지점조회</a></li>
+            <li><a th:href="@{/storeregion}">지역별지점조회</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <span>게시판</span>
+          <ul class="dropdown-menu">
+            <li><a th:href="@{/main/board/faq}">FAQ</a></li>
+            <li><a th:href="@{/board/inquiry}">1:1 문의</a></li>
+          </ul>
+        </li>
+        <li><a th:href="@{/event}">이벤트</a></li>
+      </ul>
     </nav>
 </header>
-</body>
-</html>
