@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.office.notfound.inquiry.model.dao.InquiryMapper">
+
+    <!-- tbl_inquiry -->
+    <resultMap id="selectAllInquiryListMapper" type="com.office.notfound.inquiry.model.dto.InquiryDTO">
+        <id property="inquiryCode" column="inquiry_code"/>
+        <result property="memberCode" column="member_code"/>
+        <result property="memberId" column="member_id"/>
+        <result property="inquiryTitle" column="inquiry_title"/>
+        <result property="inquiryContent" column="inquiry_content"/>
+        <result property="inquiryDate" column="inquiry_created_at"/>
+        <result property="inquiryAnswerState" column="inquiry_answer_state"/>
+        <result property="inquiryAdminAnswer" column="inquiry_admin_answer"/>
+    </resultMap>
+
+    <select id="selectAllInquiryList" resultMap="selectAllInquiryListMapper">
+        SELECT * FROM tbl_inquiry i
+    </select>
+
+    <select id="selectInquiryByCode" parameterType="int" resultMap="selectAllInquiryListMapper">
+        SELECT * FROM tbl_inquiry
+        WHERE inquiry_code = #{code}
+    </select>
+</mapper>
