@@ -62,20 +62,26 @@ CREATE TABLE IF NOT EXISTS tbl_member (
 ) ENGINE=INNODB COMMENT '회원정보';
 
 -- 2. 권한 테이블 (tbl_authority)
-CREATE TABLE IF NOT EXISTS tbl_authority (
-                                             authority_code INT NOT NULL COMMENT '권한번호',
-                                             authority_name VARCHAR(20) NOT NULL COMMENT '권한이름',
-                                             CONSTRAINT pk_authority_code PRIMARY KEY (authority_code)
-) ENGINE=INNODB COMMENT '권한';
+CREATE TABLE IF NOT EXISTS tbl_authority
+(
+    -- COLUMN LEVEL CONSTRAINTS
+    authority_code INT AUTO_INCREMENT COMMENT '권한번호',
+    authority_name VARCHAR(20) NOT NULL COMMENT '권한이름',
+    -- TABLE LEVEL CONSTRAINTS
+    CONSTRAINT pk_authority_code PRIMARY KEY (authority_code)
+    ) ENGINE=INNODB COMMENT '권한';
 
 -- 3. 회원별권한 테이블 (tbl_member_role)
-CREATE TABLE IF NOT EXISTS tbl_member_role (
-                                               member_code INT NOT NULL COMMENT '회원번호',
-                                               authority_code INT NOT NULL COMMENT '권한번호',
-                                               CONSTRAINT pk_member_role PRIMARY KEY (member_code, authority_code),
-                                               CONSTRAINT fk_member_code FOREIGN KEY (member_code) REFERENCES tbl_member (member_code),
-                                               CONSTRAINT fk_authority_code FOREIGN KEY (authority_code) REFERENCES tbl_authority (authority_code)
-) ENGINE=INNODB COMMENT '회원별권한';
+CREATE TABLE IF NOT EXISTS tbl_member_role
+(
+    -- COLUMN LEVEL CONSTRAINTS
+    member_code INT AUTO_INCREMENT COMMENT '회원번호',
+    authority_code INT NOT NULL COMMENT '권한번호',
+    -- TABLE LEVEL CONSTRAINTS
+    CONSTRAINT pk_member_role PRIMARY KEY (member_code, authority_code),
+    CONSTRAINT fk_member_code FOREIGN KEY (member_code) REFERENCES tbl_member (member_code),
+    CONSTRAINT fk_authority_code FOREIGN KEY (authority_code) REFERENCES tbl_authority (authority_code)
+    ) ENGINE=INNODB COMMENT '회원별권한';
 
 -- 4. 지점 테이블 (tbl_store)
 CREATE TABLE IF NOT EXISTS tbl_store (

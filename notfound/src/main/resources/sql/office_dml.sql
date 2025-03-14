@@ -1,4 +1,5 @@
 
+
 INSERT INTO tbl_member
 (member_name, member_id, member_password, member_email, member_phone, member_enddate, member_endstatus)
 VALUES
@@ -7,11 +8,12 @@ VALUES
     ('이영희', 'lee123', 'password789', 'lee@example.com', '010-1122-3344', NULL, 'N'),
     ('박지은', 'park123', 'password000', 'park@example.com', '010-2233-4455', NOW(), 'Y');
 
+
 INSERT INTO tbl_authority
-(authority_code , authority_name)
+(authority_name)
 VALUES
-    (1,'ADMIN'),
-    (2,'USER');
+    ('ADMIN'), ('USER');
+
 
 INSERT INTO tbl_member_role
 (member_code, authority_code)
@@ -19,7 +21,8 @@ VALUES
     (1, 1),
     (1, 2),
     (2, 2),
-    (3, 2);
+    (3, 2),
+    (4, 2);
 
 INSERT INTO tbl_store (store_name, store_city, store_gu, store_address, latitude, longitude, description, store_thumbnail, store_img1, store_img2, store_img3)
 VALUES ('마곡나루역 점', '서울', '강서구', '마곡중앙로 136 LG 아트센터', 37.565223, 126.829091,
