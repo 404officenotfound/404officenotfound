@@ -102,7 +102,7 @@ VALUES ('중앙로 점', '대구', '중구', '국채보상로 586 교보생명 �
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/2502/average-meetingroom.webp',
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/sec-lounge_picture-slide06.jpg');
 INSERT INTO tbl_store (store_name, store_city, store_gu, store_address, latitude, longitude, description, store_thumbnail, store_img1, store_img2, store_img3)
-VALUES ('라페스타 점', '경기', '고양시 일산동구', '', 123, 123, '',
+VALUES ('라페스타 점', '경기', '고양시 일산동구', '무궁화로 32-34 라페스타', 37.661203, 126.768914, '입주사 한정 고객 라페스타 건물 내 롯데시네마 주1회 50%할인 중.',
         '라운지 공용 커피머신 외 입주사 사무실 마다 네스프레소 캡슐 커피 머신 제공.',
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/sec-lounge_picture-slide05.jpg',
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/2502/average-bartable.webp',
@@ -121,6 +121,7 @@ VALUES
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/2502/average-sofa.webp',
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/2502/average-bartable.webp',
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/sec-lounge_picture-slide06.jpg');
+
 
 INSERT INTO tbl_office (store_code, office_type, office_num, office_price, office_thumbnail)
 VALUES
