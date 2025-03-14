@@ -126,12 +126,14 @@ CREATE TABLE IF NOT EXISTS tbl_reservation (
 CREATE TABLE IF NOT EXISTS tbl_payment (
                                            payment_code INT AUTO_INCREMENT COMMENT '결제식별코드',
                                            reservation_code INT NOT NULL COMMENT '예약식별코드',
+                                           member_code INT NOT NULL COMMENT '회원번호',
                                            payment_date DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '결제일시',
                                            payment_method VARCHAR(50) NOT NULL COMMENT '결제수단',
                                            payment_amount INT NOT NULL COMMENT '결제금액',
                                            payment_status VARCHAR(20) DEFAULT '결제완료' COMMENT '결제상태',
                                            PRIMARY KEY (payment_code),
-                                           FOREIGN KEY (reservation_code) REFERENCES tbl_reservation(reservation_code)
+                                           FOREIGN KEY (reservation_code) REFERENCES tbl_reservation(reservation_code),
+                                           FOREIGN KEY (`member_code`) REFERENCES `tbl_member` (`member_code`)
 ) ENGINE=InnoDB COMMENT '결제';
 
 -- 8. 예약별 결제 테이블 (tbl_reservation_payment)
@@ -152,19 +154,20 @@ CREATE TABLE tbl_event (
                            event_content VARCHAR(255) NOT NULL COMMENT '내용',
                            event_img VARCHAR(255) NOT NULL COMMENT '이미지 파일 경로',
                            event_status VARCHAR(10) NOT NULL COMMENT '진행 상태'
-);
+)ENGINE=INNODB COMMENT '이벤트';
 
 -- 10. FAQ 테이블 (tbl_faq)
 CREATE TABLE tbl_faq (
                          faq_code INT PRIMARY KEY AUTO_INCREMENT COMMENT 'FAQ 번호',
                          faq_title VARCHAR(50) NOT NULL COMMENT '제목',
                          faq_content VARCHAR(255) NOT NULL COMMENT '내용'
-);
+)ENGINE=INNODB COMMENT 'FAQ';
 
 -- 11. 1:1 문의 테이블 (tbl_inquiry)
 CREATE TABLE tbl_inquiry (
                              inquiry_code INT PRIMARY KEY AUTO_INCREMENT COMMENT '문의글 번호',
                              member_code INT NOT NULL COMMENT '회원번호',
+                             member_id VARCHAR(20) NOT NULL COMMENT '아이디',
                              inquiry_title VARCHAR(50) NOT NULL COMMENT '제목',
                              inquiry_content VARCHAR(255) NOT NULL COMMENT '내용',
                              inquiry_created_at VARCHAR(30) NOT NULL COMMENT '등록일자',
@@ -178,8 +181,12 @@ CREATE TABLE tbl_review (
                             review_code INT PRIMARY KEY AUTO_INCREMENT COMMENT '리뷰 번호',
                             member_code INT NOT NULL COMMENT '회원번호',
                             payment_code INT NOT NULL COMMENT '결제번호',
+                            member_id VARCHAR(20) NOT NULL COMMENT '아이디',
+                            review_title VARCHAR(50) NOT NULL COMMENT '제목',
                             review_content VARCHAR(255) NOT NULL COMMENT '내용',
+                            review_created_at VARCHAR(30) NOT NULL COMMENT '등록일자',
                             review_rating TINYINT NOT NULL COMMENT '평점',
+                            review_image VARCHAR(255) NULL COMMENT '이미지 파일 경로',
                             FOREIGN KEY (member_code) REFERENCES tbl_member(member_code) ON DELETE CASCADE,
                             FOREIGN KEY (payment_code) REFERENCES tbl_payment(payment_code) ON DELETE CASCADE
 );
