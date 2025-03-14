@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.office.notfound.member.model.dao.MemberMapper">
+
+    <!-- tbl_member 테이블의 마지막 auto_increment pk값 조회-->
+    <!-- information_schema.TABLES는 데이터베이스의 테이블 정보(메타데이터)를 저장하는 시스템 테이블-->
+    <select id = "findMaxMemberCode" parameterType="_int" resultType="int">
+        select
+            (AUTO_INCREMENT - 1) as 'cursor'
+        from
+            information_schema.TABLES
+        where
+            TABLE_SCHEMA = 'officedb' and
+            TABLE_NAME = 'tbl_member'
+    </select>
+
+    <!-- 중복사용자조회   -->
+    <select id="countMemberById" parameterType="string" resultType="Integer">
+        SELECT
+            COUNT(*)
+        FROM
+            tbl_member
+        WHERE
+            member_id = #{memberId}
+    </select>
+
+    <!--  중복이메일 조회  -->
+    <select id="countMemberByEmail" parameterType="string" resultType="Integer">
+        SELECT
+        COUNT(*)
+        FROM
+        tbl_member
+        WHERE
+        member_email = #{memberEmail}
+    </select>
+
+    <!--  신규 사용자 등록  -->
+    <insert id="regist" parameterType="com.office.notfound.member.model.dto.SignupDTO">
+        INSERT INTO tbl_member
+        (
+            member_name,
+            member_id,
+            member_password,
+            member_email,
+            member_phone,
+            member_enddate,
+            member_endstatus
+        )
+        VALUES
+        (
+            #{memberName},
+            #{memberId},
+            #{memberPassword},
+            #{memberEmail},
+            #{memberPhone},
+            #{memberEnddate},
+            #{memberEndstatus}
+        )
+    </insert>
+
+    <!--   신규 사용자 정보 및 기본 권한 설정-->
+    <insert id="registMemberAuthority" parameterType="com.office.notfound.member.model.dto.MemberAuthorityDTO">
+        INSERT INTO tbl_member_role
+        (
+            member_code,
+            authority_code
+        )
+        VALUES
+        (
+            #{memberCode},
+            #{authorityCode}
+        )
+    </insert>
+
+
+</mapper>
+

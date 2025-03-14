@@ -7,11 +7,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class MainController {
 
-    @GetMapping(value = {"/","/main"})
-    public String main(ModelAndView mv) {
-        mv.setViewName("main/main");
-
-        return "main/main";
+        @GetMapping(value = {"/", "/main"})
+        public ModelAndView main(ModelAndView mv) {
+            mv.setViewName("main/main");
+            return mv;
+        }
     }
-
-}
