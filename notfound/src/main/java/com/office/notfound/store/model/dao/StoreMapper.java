@@ -10,15 +10,6 @@ public interface StoreMapper {
 
     List<StoreDTO> findAllStores();
 
-    List<StoreDTO> findStoresByCity(String storeCity);
-
-    List<String> findGuByCity(String storeCity);
-
-    void insertStore(StoreDTO store);
-
-    void updateStore(StoreDTO store);
-
-    void deleteStore(StoreDTO store);
-
     StoreDTO findStoreByCode(int storeCode);
 }
+
