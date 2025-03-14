@@ -20,34 +20,16 @@
 
     <select id="findAllStores" parameterType="com.office.notfound.store.model.dto.StoreDTO">
         SELECT
+            store_code,
             store_name,
             store_city,
             store_gu,
             store_address,
             description,
             store_thumbnail
+
         FROM tbl_store
         ORDER BY store_name;
-    </select>
-    <select id="findStoresByCity" parameterType="com.office.notfound.store.model.dto.StoreDTO">
-        SELECT
-            store_name,
-            store_city,
-            store_gu,
-            store_address,
-            description,
-            store_thumbnail
-        FROM tbl_store
-        WHERE store_city = #{ storeCity }
-        ORDER BY store_name;
-    </select>
-    <select id="findGuByCity" parameterType="com.office.notfound.store.model.dto.StoreDTO">
-        SELECT
-            store_gu
-        FROM tbl_store
-        WHERE
-            store_city = #{storeCity}
-        ORDER BY store_gu;
     </select>
     <select id="findStoreByCode" resultMap="storeResultMap">
         SELECT
@@ -56,9 +38,10 @@
             store_city,
             store_gu,
             store_address,
-            description
-        FROM tbl_store s
-        WHERE s.store_code = #{storeCode}
+            description,
+            store_thumbnail
+        FROM tbl_store
+        WHERE store_code = #{storeCode}
     </select>
 
 </mapper>
