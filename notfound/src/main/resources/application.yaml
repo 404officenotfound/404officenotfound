@@ -7,8 +7,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/officedb
-    username: notfound
-    password: notfound
+    username: officenotfound
+    password: officenotfound
 
 # MyBatis Framework config
 mybatis:
