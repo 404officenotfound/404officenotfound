@@ -1,18 +1,14 @@
 package com.office.notfound.store.controller;
 
-
 import com.office.notfound.store.model.dto.StoreDTO;
 import com.office.notfound.store.model.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.Collections;
 import java.util.List;
 
 
@@ -27,63 +23,25 @@ public class StoreController {
     }
 
     // 전체 지점 조회
-    @GetMapping("/storelist")
+    @GetMapping("/store/storelist")
     public String storeList(Model model) {
 
         List<StoreDTO> storeList  = storeService.findAllStores();
 
         model.addAttribute("storeList", storeList);
 
-        return "storelist";
+        return "/store/storelist";
     }
 
-//    // 지역별 지점 조회 : 시도를 정하고 시군구를 정한다.
-//    @GetMapping("storeregion/{storeCity}")
-//    @ResponseBody
-//    public String getStoreRegion(@PathVariable String storeCity, Model model) {
-//
-//        List<StoreDTO> storeRegion = storeService.findStoresByCity(storeCity);
-//
-//        model.addAttribute("storeRegion", storeRegion);
-//
-//        return "store/storeregion";
-//    }
-//
-//    @GetMapping()
-//    @ResponseBody
-//    public List<StoreDTO> getStoreCityAndGu(@PathVariable String storeCity) {
-//        List<StoreDTO> storeCityAndGuList = storeService.findStoresByCity(storeCity);
-//        return storeCityAndGuList;
-//    }
+    // 상세 지점 조회
+    @GetMapping("/store/detailstore/{storeCode}")
+    public String storeDetail(@PathVariable("storeCode") int storeCode, Model model) {
+        // storeCode에 해당하는 매장 정보 조회
+        StoreDTO store = storeService.findStoreByCode(storeCode);
 
-//    @GetMapping("/storeregion")
-//    public String showRegionForm(Model model) {
-//        // 데이터베이스에서 storeCity 목록 가져오기 (예제 코드)
-//        List<String> cityList = StoreService.findStoresByCity();
-//
-////        if (cityList == null) {
-////            cityList = Collections.emptyList();
-////        }
-//
-//        model.addAttribute("cities", cityList != null ? cityList : Collections.emptyList());
-//
-//        // view에서 storeregion.html을 보여주기로 결정함.
-//        return "storeregion";
-//    }
-//
-//    @GetMapping("/gu")
-//    @ResponseBody
-//    public List<String> getGuByCity(@RequestParam String storeCity) {
-//        return storeService.getGuByCity(storeCity);
-//    }
+        // 모델에 해당 매장 정보를 담아 상세 페이지를 반환
+        model.addAttribute("store", store);
+        return "store/detailstore";
+    }
 
-//    // 상세 지점 조회
-//    @GetMapping("/store/detailstore/{storeCode}")
-//    public ModelAndView storeDetail(@PathVariable int storeCode, ModelAndView mv) {
-//
-//        mv.addObject("store", storeService.findStoreByCode(storeCode));
-//        mv.setViewName("store/detailstore");
-//
-//        return mv;
-//    }
 }
