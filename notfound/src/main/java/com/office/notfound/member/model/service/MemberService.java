@@ -25,6 +25,15 @@ public class MemberService {
     @Transactional
     public Integer regist(SignupDTO signupDTO) {
 
+        // 아이디 중복 체크
+        boolean isIdDuplicate = memberMapper.countMemberById(signupDTO.getMemberId()) > 0;
+        // 이메일 중복 체크
+        boolean isEmailDuplicate = memberMapper.countMemberByEmail(signupDTO.getMemberEmail()) > 0;
+
+        if (isIdDuplicate || isEmailDuplicate) {
+            return 0; // 중복이 있는 경우 실패
+        }
+
         //비밀번호 암호화 표시
         System.out.println("암호화 전 PW : " + signupDTO.getMemberPassword());
         signupDTO.setMemberPassword(passwordEncoder.encode(signupDTO.getMemberPassword()));
@@ -45,6 +54,8 @@ public class MemberService {
         /*  tbl_member_role 테이블에 사용자 별 권한 삽입 */
         /*  사용자 db에 등록된 member_code 최대 pk값 조회 */
         int maxMemberCode = memberMapper.findMaxMemberCode();
+        System.out.println("maxMemberCode = " + maxMemberCode);
+                
 
 
         /* tbl_user_role 테이블에 신규 등록된 사용자의 PK와 일반사용자 권한 2(user)를 조합하여 삽입*/

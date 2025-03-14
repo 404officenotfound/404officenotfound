@@ -26,6 +26,16 @@
             member_id = #{memberId}
     </select>
 
+    <!--  중복이메일 조회  -->
+    <select id="countMemberByEmail" parameterType="string" resultType="Integer">
+        SELECT
+        COUNT(*)
+        FROM
+        tbl_member
+        WHERE
+        member_email = #{memberEmail}
+    </select>
+
     <!--  신규 사용자 등록  -->
     <insert id="regist" parameterType="com.office.notfound.member.model.dto.SignupDTO">
         INSERT INTO tbl_member

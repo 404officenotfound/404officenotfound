@@ -9,6 +9,11 @@
 <body>
 
 <!-- 회원가입 폼 -->
+<!-- 중복 아이디 또는 이메일로 실패했을 때 메시지 표시 -->
+<div>
+    <p th:if="${message}" th:text="${message}"></p>
+</div>
+
 <div>
     <div>
         <h2 class="signup-title">회원가입을 위해<br>정보를 입력해주세요.</h2>
@@ -82,9 +87,7 @@
             <div class="form-container">
                 <button type="submit">회원등록</button>
             </div>
-
         </form>
-
     </div>
 </div>
 
@@ -98,6 +101,8 @@
         이 메서드는 반환값이 Promise 객체이므로, 변환된 데이터를 처리하기 위해 .then()을 사용해야 한다.
 -->
 <script>
+
+
     // 모달 요소
     var modal = document.getElementById("termsModal");
     var openModalBtn = document.getElementById("openModalBtn");

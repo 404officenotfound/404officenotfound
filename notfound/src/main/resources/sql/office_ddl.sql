@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS tbl_member
 CREATE TABLE IF NOT EXISTS tbl_authority
 (
     -- COLUMN LEVEL CONSTRAINTS
-    authority_code INT NOT NULL COMMENT '권한번호',
+    authority_code INT AUTO_INCREMENT COMMENT '권한번호',
     authority_name VARCHAR(20) NOT NULL COMMENT '권한이름',
     -- TABLE LEVEL CONSTRAINTS
     CONSTRAINT pk_authority_code PRIMARY KEY (authority_code)

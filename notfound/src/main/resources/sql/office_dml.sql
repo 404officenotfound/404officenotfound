@@ -9,10 +9,9 @@ VALUES
 
 -- 정상협 : tbl_authority 테이블에 데이터 삽입
 INSERT INTO tbl_authority
-(authority_code, authority_name)
+    (authority_name)
 VALUES
-    (1, 'ADMIN'),
-    (2, 'USER');
+    ('ADMIN'), ('USER');
 
 -- 정상협 : tbl_member_role 테이블에 데이터 삽입
 INSERT INTO tbl_member_role
@@ -21,6 +20,7 @@ VALUES
     (1, 1),
     (1, 2),
     (2, 2),
-    (3, 2);
+    (3, 2),
+    (4, 2);
 
 COMMIT;

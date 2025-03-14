@@ -38,12 +38,8 @@ public class MemberController {
         /* 비즈니스 로직 성공 여부에 따라서 Dispatcher Servlet에 반환할 View와 Model을 세팅. */
         String message = null;
 
-        if(result == null){
-            message = "이미 해당 정보로 가입된 회원이 존재합니다.";
-            System.out.println("message = " + message);
-            mv.setViewName("redirect:/member/signup");
-        }else if(result == 0){
-            message = "회원가입에 실패했습니다. 다시 시도해주세요.";
+        if (result == 0) {
+            message = "이미 해당 아이디 또는 이메일로 가입된 회원이 있습니다. 다시 입력해주세요.";
             System.out.println("message = " + message);
             mv.setViewName("redirect:/member/signup");
         }else if(result >= 1){
