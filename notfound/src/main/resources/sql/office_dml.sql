@@ -122,6 +122,7 @@ VALUES
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/2502/average-bartable.webp',
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/sec-lounge_picture-slide06.jpg');
 
+
 INSERT INTO tbl_office (store_code, office_type, office_num, office_price, office_thumbnail)
 VALUES
 (1, '1인실', '101', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
