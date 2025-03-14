@@ -9,8 +9,8 @@ header {
     flex-direction: column; /* 내부 요소를 세로 정렬 */
     justify-content: space-between; /* 상단과 하단으로 요소 배치 */
     z-index: 1000; /* 다른 요소보다 위 */
+    transition: height 0.3s ease-in-out; /* 부드럽게 변경 */
 }
-
 /* 최상단 로그인/회원가입 영역 */
 .top-header {
     display: flex;
