@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--<p th:text="${officeReview}"></p>-->
+<table>
+    <tr>
+        <th>사무실 식별번호</th>
+        <th>해당지점 식별번호</th>
+        <th>사무실 유형</th>
+        <th>사무실 호실</th>
+        <th>사무실 가격(2시간)</th>
+
+        <th>결제 번호</th>
+        <th>아이디</th>
+
+        <th>제목</th>
+        <th>내용</th>
+        <th>등록일자</th>
+        <th>평점</th>
+        <th>이미지 파일 경로</th>
+    </tr>
+    <tr th:each="officeReview : ${officeReview}">
+        <td th:text="${officeReview.officeCode}"></td>
+        <td th:text="${officeReview.storeCode}"></td>
+        <td th:text="${officeReview.officeType}"></td>
+        <td th:text="${officeReview.officeNum}"></td>
+        <td th:text="${officeReview.officePrice}"></td>
+
+        <td th:text="${officeReview.paymentCode}"></td>
+        <td th:text="${officeReview.memberId}"></td>
+
+        <td th:text="${officeReview.reviewTitle}"></td>
+        <td th:text="${officeReview.reviewContent}"></td>
+        <td th:text="${officeReview.reviewDate}"></td>
+        <td th:text="${officeReview.reviewRating}"></td>
+        <td th:text="${officeReview.reviewImage}"></td>
+    </tr>
+</table>
+</body>
+</html>
