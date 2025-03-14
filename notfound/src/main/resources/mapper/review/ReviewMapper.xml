@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.office.notfound.review.model.dao.ReviewMapper">
+
+    <!-- tbl_review -->
+    <resultMap id="selectAllReviewListMapper" type="com.office.notfound.review.model.dto.ReviewDTO">
+        <id property="reviewCode" column="review_code"/>
+        <result property="memberCode" column="member_code"/>
+        <result property="paymentCode" column="payment_code"/>
+        <result property="memberId" column="member_id"/>
+        <result property="reviewTitle" column="review_title"/>
+        <result property="reviewContent" column="review_content"/>
+        <result property="reviewDate" column="review_created_at"/>
+        <result property="reviewRating" column="review_rating"/>
+        <result property="reviewImage" column="review_image"/>
+    </resultMap>
+
+    <!-- tbl_office + tbl_review 정보를 결합한 resultMap -->
+    <resultMap id="officeReviewResultMap" type="com.office.notfound.review.model.dto.OfficeReviewDTO">
+
+
+        <!-- Office 정보 -->
+        <result property="officeCode" column="office_code"/>
+        <result property="storeCode" column="store_code"/>
+        <result property="officeType" column="office_type"/>
+        <result property="officeNum" column="office_num"/>
+        <result property="officePrice" column="office_price"/>
+
+        <!-- Review 정보 -->
+        <result property="paymentCode" column="payment_code"/>
+        <result property="memberId" column="member_id"/>
+        <result property="reviewTitle" column="review_title"/>
+        <result property="reviewContent" column="review_content"/>
+        <result property="reviewRating" column="review_rating"/>
+        <result property="reviewDate" column="review_created_at"/>
+        <result property="reviewImage" column="review_image"/>
+    </resultMap>
+
+
+
+ <!--   <sql id="reviewColumns">
+        r.review_title,
+        r.review_content,
+        r.review_rating,
+        r.review_created_at,
+        r.review_image
+    </sql>-->
+
+
+
+    <!--<select id="selectAllReviewList" resultMap="selectAllReviewListMapper">-->
+    <select id="selectAllReviewList" resultType="com.office.notfound.review.model.dto.ReviewDTO">
+        SELECT * FROM  tbl_review r
+    </select>
+
+    <!-- 사무실(tbl_office) + 리뷰 이름, 내용, 날짜, 별점, 이미지 -->
+    <!--    <select id="selectOfficeReviewList" resultType="com.office.notfound.review.model.dto.OfficeReviewDTO">-->
+    <select id="selectOfficeReviewList" resultMap="officeReviewResultMap">
+        SELECT p.payment_code, r2.member_id, o.office_code, o.store_code, o.office_type, o.office_num, o.office_price,
+                r2.review_title, r2.review_content, r2.review_rating, r2.review_created_at,
+               r2.review_image
+    <!-- <include refid="reviewColumns"/> -->
+        FROM tbl_office o
+                 JOIN tbl_reservation r ON o.office_code = r.office_code
+                 JOIN tbl_payment p ON r.reservation_code = p.reservation_code
+                 JOIN tbl_review r2 ON p.payment_code = r2.payment_code
+    </select>
+</mapper>
