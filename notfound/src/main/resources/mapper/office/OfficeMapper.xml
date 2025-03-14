@@ -1,0 +1,24 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.office.notfound.samusil.model.dao.OfficeMapper">
+
+    <resultMap id="officeResultMap" type="com.office.notfound.samusil.model.dto.OfficeDTO">
+        <id property="officeCode" column="office_code"/>
+        <result property="storeCode" column="store_code"/>
+        <result property="officeType" column="office_type"/>
+        <result property="officeNum" column="office_num"/>
+        <result property="officePrice" column="office_price"/>
+        <result property="officeThumbnail" column="office_thumbnail"/>
+    </resultMap>
+
+    <select id="findAllOffices" resultMap="officeResultMap">
+        SELECT
+            office_thumbnail,
+            office_num,
+            office_type,
+            office_price
+        FROM tbl_office
+        WHERE store_code = #{storeCode}
+    </select>
+</mapper>

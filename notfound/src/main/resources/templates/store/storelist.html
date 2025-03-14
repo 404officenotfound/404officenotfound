@@ -3,23 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/header.css">
-    <link rel="stylesheet" href="/css/footer.css">
-    <link rel="stylesheet" href="/css/common.css">
-    <title>지점조회리스트</title>
-    <script type="text/javascript"
-            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=YOUR_KAKAO_API_KEY&libraries=services"></script>
     <style>
-        .store-container {
-            width: 80%;
-            margin: 10px auto;
-            padding: 10px;
-            border: 1px solid #ccc;
-            cursor: pointer;
-            background-color: #ffffff;
+        main {
+            margin-top: 280px; /* 헤더 높이만큼 여백 추가 */
+            padding: 20px; /* 내부 여백 */
         }
         .store-thumbnail {
-            width: 100px;
-            height: 100px;
+            width: 250px;
+            height: 250px;
             object-fit: cover; /* 이미지 왜곡 방지 */
         }
         a {
@@ -31,25 +22,36 @@
             color: inherit; /* 방문한 링크 색상도 부모 색상으로 설정 */
         }
     </style>
+    <title>지점조회리스트</title>
+    <script type="text/javascript"
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=YOUR_KAKAO_API_KEY&libraries=services"></script>
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
 <main>
     <div class="content">
-        <div th:each="store, iterStat : ${storeList}" class="store-container" onclick="toggleDetails(this, [[${store.storeAddress}]], 'map' + [[${iterStat.index}]])">
+        <div th:each="store, iterStat : ${storeList}" class="store-container">
+            <img th:src="${store.storeThumbnail}" th:alt="${store.storeName}" class="store-thumbnail">
             <div class="store-grid">
                 <div class="store-item">
+                    <!-- 브라우저에 표시될 경로 주소다. -->
                     <a th:href="@{'/store/detailstore/' + ${store.storeCode}}">
-                        <img th:src="${store.storeThumbnail}" th:alt="${store.storeName}" class="store-thumbnail">
-                        <p th:text="${store.storeName}">지점</p>
+                        <strong th:text="${store.storeName}"></strong>
                         <p th:text="${store.storeAddress}">상세주소</p>
                         <p th:text="${store.description}">지점 설명</p>
+                        <p th:text="${store.storeCode}">storeCode</p>
                     </a>
                 </div>
             </div>
         </div>
     </div>
 </main>
+<aside class="left-aside">
+
+</aside>
+<aside class="right-aside">
+
+</aside>
 <div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

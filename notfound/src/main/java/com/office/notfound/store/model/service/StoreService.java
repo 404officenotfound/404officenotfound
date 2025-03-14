@@ -20,7 +20,7 @@ public class StoreService {
     }
 
     public List<StoreDTO> findAllStores() {
-//        List<StoreDTO> stores = storeMapper.findAllStores();
+        List<StoreDTO> stores = storeMapper.findAllStores();
         return storeMapper.findAllStores();
     }
 
