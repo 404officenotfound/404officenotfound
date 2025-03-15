@@ -27,8 +27,6 @@
             payment_status
         from
             tbl_payment
-        where
-            payment_status = '결제완료'
         order by
             payment_code
     </select>
