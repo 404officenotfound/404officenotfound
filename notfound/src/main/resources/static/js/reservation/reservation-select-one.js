@@ -1,3 +1,5 @@
+// select search 기능
+
 // 🔥 검색 필드 토글 함수
 function toggleSearchFields() {
     // 모든 검색 필드를 숨김
@@ -44,3 +46,58 @@ function validateDates() {
 window.onload = function() {
     toggleSearchFields();
 };
+
+// 🔥 전체 선택 기능 (취소된 예약 제외)
+function toggleAllCheckboxes(selectAllCheckbox) {
+    let checkboxes = document.querySelectorAll('.reservationCheckbox:not(.disabled-checkbox)');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = selectAllCheckbox.checked;
+    });
+}
+
+// 🔥 개별 체크 시 취소된 예약 방지
+document.addEventListener("DOMContentLoaded", function () {
+    let checkboxes = document.querySelectorAll(".reservationCheckbox");
+    let selectAllCheckbox = document.getElementById("selectAll");
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener("click", function (event) {
+            if (this.classList.contains("disabled-checkbox")) {
+                alert("이미 취소된 예약은 취소할 수 없습니다.");
+                event.preventDefault();
+                this.checked = false; // 체크 해제
+            }
+
+            // 전체 체크박스 업데이트
+            let allChecked = document.querySelectorAll(".reservationCheckbox:not(.disabled-checkbox):checked").length ===
+                document.querySelectorAll(".reservationCheckbox:not(.disabled-checkbox)").length;
+            selectAllCheckbox.checked = allChecked;
+        });
+    });
+});
+
+// 🔥 선택한 예약 취소 확인창
+function confirmCancelBatch(event) {
+    let selectedCheckboxes = document.querySelectorAll('.reservationCheckbox:checked');
+
+    if (selectedCheckboxes.length === 0) {
+        alert("취소할 예약을 선택해주세요.");
+        event.preventDefault(); // 폼 제출 막기
+        return false;
+    }
+
+    // 🔥 이미 취소된 예약 선택 여부 확인
+    let hasCancelled = Array.from(selectedCheckboxes).some(checkbox => checkbox.classList.contains("disabled-checkbox"));
+    if (hasCancelled) {
+        alert("이미 취소된 예약은 취소할 수 없습니다.");
+        event.preventDefault();
+        return false;
+    }
+
+    let confirmResult = confirm(`선택한 ${selectedCheckboxes.length}건의 예약을 취소하시겠습니까?`);
+    if (!confirmResult) {
+        event.preventDefault(); // 취소 선택 시 폼 제출 막기
+        return false;
+    }
+
+}
