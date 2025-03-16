@@ -1,9 +1,13 @@
 package com.office.notfound.member.model.dao;
 
+import com.office.notfound.member.model.dto.AuthorityDTO;
 import com.office.notfound.member.model.dto.MemberAuthorityDTO;
+import com.office.notfound.member.model.dto.MemberDTO;
 import com.office.notfound.member.model.dto.SignupDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 @Mapper
 public interface MemberMapper {
@@ -19,4 +23,8 @@ public interface MemberMapper {
 
     // 이메일 중복 체크 메서드 추가
     Integer countMemberByEmail(@Param("memberEmail") String memberEmail);
+
+    MemberDTO findByUsername(String username);
+
+    List<AuthorityDTO> findAllAuthoritiesByMemberCode(int memberCode);
 }

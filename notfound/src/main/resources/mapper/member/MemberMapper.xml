@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.office.notfound.member.model.dao.MemberMapper">
+
+    <resultMap id="authenticated" type="com.office.notfound.member.model.dto.MemberDTO">
+        <id property="memberCode" column="member_code"/>
+        <result property="memberName" column="member_name"/>
+        <result property="memberId" column="member_id"/>
+        <result property="memberPassword" column="member_password"/>
+        <result property="memberEmail" column="member_email"/>
+        <result property="memberPhone" column="member_phone"/>
+        <result property="memberEnddate" column="member_enddate"/>
+        <result property="memberEndstatus" column="member_endstatus"/>
+    </resultMap>
 
     <!-- tbl_member 테이블의 마지막 auto_increment pk값 조회-->
     <!-- information_schema.TABLES는 데이터베이스의 테이블 정보(메타데이터)를 저장하는 시스템 테이블-->
@@ -14,6 +25,36 @@
         where
             TABLE_SCHEMA = 'officedb' and
             TABLE_NAME = 'tbl_member'
+    </select>
+
+    <!-- 로그인 인증 -->
+    <select id="findByUsername" parameterType="string"  resultMap="authenticated">
+        select
+            member_code,
+            member_name,
+            member_id,
+            member_password,
+            member_email,
+            member_phone,
+            member_enddate,
+            member_endstatus
+        from
+            tbl_member
+        where
+            member_id = #{username}
+    </select>
+
+    <!--  사용자별 권한 조회  -->
+    <select id = "findAllAuthoritiesByMemberCode" parameterType="_int" resultType="com.office.notfound.member.model.dto.AuthorityDTO">
+        select
+            a.authority_code as authorityCode,
+            a.authority_name as authorityName
+        from
+            tbl_member_role mr
+        join
+            tbl_authority a on mr.authority_code = a.authority_code
+        where
+            mr.member_code = #{ memberCode }
     </select>
 
     <!-- 중복사용자조회   -->
