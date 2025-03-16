@@ -1,10 +1,13 @@
 package com.office.notfound.member.controller;
 
 
+import com.office.notfound.member.model.dto.MemberDTO;
 import com.office.notfound.member.model.dto.SignupDTO;
 import com.office.notfound.member.model.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -63,5 +66,15 @@ public class MemberController {
         Map<String, Boolean> response = new HashMap<>(); // 객체생성
         response.put("duplicate", isDuplicate); //  duplicate키에 중복여부 저장
         return response;
+    }
+
+    // 회원마이페이지
+    @GetMapping("/mypage")
+    public String mypage(@AuthenticationPrincipal MemberDTO member,
+                         Model model) {
+
+        model.addAttribute("member", member);
+
+        return "member/mypage";
     }
 }
