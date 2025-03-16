@@ -4,15 +4,14 @@ import com.office.notfound.payment.model.dto.PaymentDTO;
 import com.office.notfound.reservation.model.dto.ReservationDTO;
 import com.office.notfound.reservation.model.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping ("/reservation")
@@ -75,7 +74,7 @@ public class ReservationController {
         }
 
         // 검색 수행
-        List<PaymentDTO> searchReservation = reservationService.searchReservation(reservationCodeInt, reservationDate, startDatetime, endDatetime);
+        List<ReservationDTO> searchReservation = reservationService.searchReservation(reservationCodeInt, reservationDate, startDatetime, endDatetime);
 
         // 검색이 실행되었음을 표시
         model.addAttribute("searchExecuted", true);

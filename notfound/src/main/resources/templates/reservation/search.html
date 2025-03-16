@@ -53,7 +53,6 @@
         <tr>
             <th><input type="checkbox" id="selectAll" onclick="toggleAllCheckboxes(this)"></th>
             <th>예약번호</th>
-            <th>회원 ID</th>
             <th>사무실</th>
             <th>예약날짜</th>
             <th>이용시작시간</th>
@@ -72,7 +71,6 @@
                        th:classappend="${reservation.reservationStatus == '예약취소' ? 'disabled-checkbox' : ''}">
             </td>
             <td th:text="${reservation.reservationCode}"></td>
-            <td th:text="${reservation.memberCode}"></td>
             <td th:text="${reservation.storeName}"></td>
             <td th:text="${reservation.startDatetime != null ? #temporals.format(reservation.startDatetime, 'yyyy-MM-dd') : '날짜 없음'}"></td>
             <td th:text="${reservation.startDatetime != null ? #temporals.format(reservation.startDatetime, 'HH:mm') : '시간 없음'}"></td>
@@ -92,7 +90,6 @@
                        th:classappend="${reservation.reservationStatus == '예약취소' ? 'disabled-checkbox' : ''}">
             </td>
             <td th:text="${reservation.reservationCode}"></td>
-            <td th:text="${reservation.memberCode}"></td>
             <td th:text="${reservation.storeName}"></td>
             <td th:text="${#temporals.format(reservation.startDatetime, 'yyyy-MM-dd')}"></td>
             <td th:text="${#temporals.format(reservation.startDatetime, 'HH:mm')}"></td>
