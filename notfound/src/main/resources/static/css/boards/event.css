@@ -1,0 +1,28 @@
+main {
+    margin-top: 280px; /* 헤더 높이만큼 여백 추가 */
+    padding: 20px; /* 내부 여백 */
+}
+.event {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #f9f9f9; /* 부드러운 배경색 */
+    border-radius: 10px; /* 모서리 둥글게 처리 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 약간의 그림자 추가 */
+    display: flex;
+    flex-direction: column; /* 리뷰 섹션을 수직 레이아웃으로 정렬 */
+    gap: 20px; /* 리뷰 간 간격 */
+}
+.card-text {
+    margin: 0;
+}
+.text-body-secondary {
+    margin-left: 120px;
+}
+.card-body h5 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 30px;
+    a {
+        text-decoration-line: none;
+    }
+}
