@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="/css/header.css">
@@ -10,8 +11,18 @@
   <div class="top-header">
     <div th:fragment="top-header">
       <div class="auth-links">
-        <a th:href="@{/auth/login}">로그인</a>
-        <a th:href="@{/member/signup}">회원가입</a>
+        <th:block sec:authorize="isAnonymous()">
+          <a th:href="@{/auth/login}">로그인</a>
+          <a th:href="@{/member/signup}">회원가입</a>
+        </th:block>
+        <th:block sec:authorize="isAuthenticated()">
+          <span th:text="|${ #authentication.principal.memberName } 님 안녕하세요.|"></span>
+          <a th:href="@{/member/mypage}">마이페이지</a>
+          <form th:action="@{/auth/logout}" method="post" style="display: inline;">
+            <button type="submit">로그아웃</button>
+          </form>
+        </th:block>
+      </div>
       </div>
     </div>
 
