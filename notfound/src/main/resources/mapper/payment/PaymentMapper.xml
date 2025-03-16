@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.office.notfound.payment.model.dao.PaymentMapper">
+<resultMap id="paymentResultMap" type="com.office.notfound.payment.model.dto.PaymentDTO">
+    <id property="paymentCode" column="payment_code"/>
+    <result property="memberCode" column="member_code"/>
+    <result property="reservationCode" column="reservation_code"/>
+    <result property="paymentDate" column="payment_date"/>
+    <result property="paymentMethod" column="payment_method"/>
+    <result property="paymentAmount" column="payment_amount"/>
+    <result property="paymentStatus" column="payment_status"/>
+</resultMap>
+
+
+    <!-- 결제 전체 조회 -->
+
+    <select id="findAllPayment" resultMap="paymentResultMap">
+        SELECT
+            payment_code,
+            reservation_code,
+            member_code,
+            payment_date,
+            payment_method,
+            payment_amount,
+            payment_status
+        from
+            tbl_payment
+        order by
+            payment_code
+    </select>
+
+    <!-- 결제 상세 조회 -->
+    <select id="searchPayment" resultMap="paymentResultMap">
+        select
+            payment_code,
+            reservation_code,
+            member_code,
+            payment_date,
+            payment_method,
+            payment_amount,
+            payment_status
+        from
+            tbl_payment
+        where
+        1 = 1
+        <if test="paymentCodeInt != null">
+            AND payment_code = #{paymentCodeInt}
+        </if>
+
+        <if test="paymentDate != null and paymentDate != ''">
+            AND DATE_FORMAT(payment_date, '%Y-%m-%d') = #{paymentDate}
+        </if>
+
+        <if test="startDate != null and startDate != ''">
+            AND DATE_FORMAT(payment_date, '%Y-%m-%d') >= #{startDate}
+        </if>
+
+        <if test="endDate != null and endDate != ''">
+            AND DATE_FORMAT(payment_date, '%Y-%m-%d') &lt; #{endDate}
+        </if>
+
+        ORDER BY payment_date DESC
+    </select>
+
+
+
+
+</mapper>

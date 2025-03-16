@@ -1,0 +1,109 @@
+/* inquiryDetail.css */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #FFFFFF; /* 배경 흰색 */
+    color: #000000; /* 기본 텍스트 검정 */
+}
+
+main {
+    margin-top: 280px; /* 헤더 높이만큼 여백 추가 */
+    padding: 20px; /* 내부 여백 */
+}
+
+
+/*.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #FFFFFF; !* 흰색 배경 *!
+    border: 1px solid #000000; !* 검정 테두리 *!
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}*/
+
+/*.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}*/
+
+.box1, .box2, .box3 {
+    padding: 10px;
+    border: 1px solid #000000; /* 검정 테두리 */
+    border-radius: 8px;
+    background-color: #FFFFFF; /* 흰색 배경 */
+    margin: 10px;
+}
+
+.box1 div {
+    /*display: flex;*/
+    justify-content: space-between;
+    padding: 10px 0;
+}
+
+
+.span-box div {
+    border: 1px solid black;
+    width: 150px;
+    display: inline-block;
+}
+
+.span-box span {
+    margin-left :  100px;
+}
+
+
+
+.box2 .box2-1 {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+}
+
+
+.box2-1 span {
+    color: #000000; /* 검정 텍스트 */
+}
+
+button {
+    background-color: #000000; /* 검정 배경 */
+    color: #FFFFFF; /* 흰색 텍스트 */
+    border: 1px solid #000000;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    width: 100px;
+}
+
+button:hover {
+    background-color: #FFFFFF; /* 흰색 배경 */
+    color: #000000; /* 검정 텍스트 */
+    border: 1px solid #000000;
+}
+
+.box3 .box4 {
+    border: 1px solid #000000; /* 검정 테두리 */
+    background-color: #F9F9F9; /* 연한 흰색 */
+    border-radius: 8px;
+    padding: 10px;
+}
+
+/* 반응형 디자인 */
+/*
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .box1, .box2, .box3 {
+        padding: 8px;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+    }
+}*/

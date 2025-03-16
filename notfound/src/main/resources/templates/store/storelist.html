@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/header.css">
+    <style>
+        main {
+            margin-top: 280px; /* 헤더 높이만큼 여백 추가 */
+            padding: 20px; /* 내부 여백 */
+        }
+        .store-thumbnail {
+            width: 250px;
+            height: 250px;
+            object-fit: cover; /* 이미지 왜곡 방지 */
+        }
+        a {
+            color: inherit; /* 부모 요소의 색상으로 상속 */
+            text-decoration: none; /* 밑줄 제거 */
+        }
+        /* 방문한 링크 색상도 동일하게 변경 */
+        a:visited {
+            color: inherit; /* 방문한 링크 색상도 부모 색상으로 설정 */
+        }
+    </style>
+    <title>지점조회리스트</title>
+    <script type="text/javascript"
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=YOUR_KAKAO_API_KEY&libraries=services"></script>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<main>
+    <div class="content">
+        <div th:each="store, iterStat : ${storeList}" class="store-container">
+            <img th:src="${store.storeThumbnail}" th:alt="${store.storeName}" class="store-thumbnail">
+            <div class="store-grid">
+                <div class="store-item">
+                    <!-- 브라우저에 표시될 경로 주소다. -->
+                    <a th:href="@{'/store/detailstore/' + ${store.storeCode}}">
+                        <strong th:text="${store.storeName}"></strong>
+                        <p th:text="${store.storeAddress}">상세주소</p>
+                        <p th:text="${store.description}">지점 설명</p>
+                        <p th:text="${store.storeCode}">storeCode</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<aside class="left-aside">
+
+</aside>
+<aside class="right-aside">
+
+</aside>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

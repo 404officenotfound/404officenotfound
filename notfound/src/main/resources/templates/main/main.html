@@ -1,15 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>메인</title>
+    <title>main페이지</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
 </head>
 <body>
+<div th:replace="~{fragments/header :: header}"></div>
+<video  width="100%" muted="muted" preload="none" loop="loop" data-resize="true" autoplay>
+    <source th:src="@{/img/logo/mainhomevideo.mp4}" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+<div th:replace="~{fragments/footer :: footer}"></div>
+<button onclick="location.href='reservation/search'">이환섭-예약조회</button>
+<button onclick="location.href='payment/search'">이환섭-결제조회</button>
+
+<a href="review/list">이슬기-리뷰 전체 조회</a>
 <h1 style="text-align: center; border: solid 3px black;">Spring Security - Session 방식</h1>
 <h3>1-1. Spring Security를 이용한 로그인 및 회원 가입</h3>
 <a th:href="@{/auth/login}">로그인(SELECT USER)</a>
 <br>
-<a th:href="@{/member/signup}">회원가입(INSERT USER)</a>
 <br>
 
 <script th:inline="text">

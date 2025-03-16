@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>예약</title>
+</head>
+<body>
+
+<form action = "/reservation/search/all" method = "get">
+    <button type="submit" class="search-button">전체 조회</button>
+</form>
+
+<table th:if="${searchExecuted != null and searchExecuted}">
+        <thead>
+        <tr>
+            <th>예약번호</th>
+            <th>회원 ID</th>
+            <th>사무실</th>
+            <th>예약날짜</th>
+            <th>이용시작시간</th>
+            <th>이용마감시간</th>
+            <th>가격</th>
+            <th>예약완료날짜</th>
+        </tr>
+        <tr th:each="reservation : ${reservationList}">
+            <td th:text="${reservation.reservationCode != null ? reservation.reservationCode : 'N/A'}"></td>
+            <td th:text="${reservation.memberCode != null ? reservation.memberCode : 'N/A'}"></td>
+            <td th:text="${reservation.storeName}"></td>
+            <td th:text="${reservation.startDatetime != null ? #temporals.format(reservation.startDatetime, 'yyyy-MM-dd') : '날짜 없음'}"></td>
+            <td th:text="${reservation.startDatetime != null ? #temporals.format(reservation.startDatetime, 'HH:mm') : '시간 없음'}"></td>
+            <td th:text="${reservation.endDatetime != null ? #temporals.format(reservation.endDatetime, 'HH:mm') : '시간 없음'}"></td>
+            <td th:text="${reservation.totalPrice != null ? #numbers.formatInteger(reservation.totalPrice, 3, 'COMMA') + '원' : '가격 없음'}"></td>
+            <td th:text="${reservation.reservationDate != null ? #temporals.format(reservation.reservationDate, 'yyyy-MM-dd') : '날짜 없음'}"></td>
+
+        </tr>
+
+    </table>
+
+</body>
+</html>

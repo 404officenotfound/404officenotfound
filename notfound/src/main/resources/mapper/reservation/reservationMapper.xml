@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.office.notfound.reservation.model.dao.ReservationMapper">
+    <resultMap id="reservationResultMap" type="com.office.notfound.reservation.model.dto.ReservationDTO">
+        <result property="reservationCode" column="reservation_code"/>
+        <result property="memberCode" column="member_code"/>
+        <result property="storeName" column="storeName"/>
+        <result property="reservationDate" column="reservation_date"/>
+        <result property="startDatetime" column="start_datetime"/>
+        <result property="endDatetime" column="end_datetime"/>
+        <result property="totalPrice" column="total_price"/>
+    </resultMap>
+
+
+
+
+<!-- 예약 전체 조회 -->
+    <select id="findAllReservation" resultMap="reservationResultMap">
+        SELECT
+            r.reservation_code,
+            r.member_code,
+            CONCAT(s.store_name, '(', o.office_num, ')') AS storeName,
+            r.reservation_date,
+            r.start_datetime,
+            r.end_datetime,
+            r.total_price
+        FROM
+            tbl_reservation r
+                JOIN tbl_office o ON r.office_code = o.office_code
+                JOIN tbl_store s ON o.store_code = s.store_code
+        ORDER BY
+            r.reservation_date DESC;
+    </select>
+
+<!-- 결제 상세 조회 -->
+    <select id="searchReservation" resultMap="reservationResultMap">
+        SELECT
+            reservation_code,
+            member_code,
+            office_code,
+            resrevation_date,
+            start_datetime,
+            end_datetime,
+            total_price
+        FROM
+            tbl_reservation
+        WHERE
+        1 = 1
+        <if test="reservationCode != null">
+            AND resercation_code = #{reservationCode}
+        </if>
+
+        <if test="reservationDate != null and paymentDate != ''">
+            AND DATE_FORMAT(reservation_date, '%Y-%m-%d') = #{reservationDate}
+        </if>
+
+        <if test="startDatetime != null and startDate != ''">
+            AND DATE_FORMAT(start_datetime, '%Y-%m-%d') >= #{startDatetime}
+        </if>
+
+        <if test="endDatetime != null and endDate != ''">
+            AND DATE_FORMAT(end_datetime, '%Y-%m-%d') &lt; #{endDatetime}
+        </if>
+
+        ORDER BY payment_date DESC
+
+    </select>
+</mapper>
