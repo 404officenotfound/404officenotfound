@@ -27,4 +27,13 @@ public class ReservationService {
 
 
     }
+
+    public void cancelReservation(int reservationCode) {
+        String status = "예약취소";
+        reservationMapper.updateReservationStatus(status, reservationCode);
+    }
+
+    public int deleteOldCanceledReservations() {
+        return reservationMapper.deleteOldCanceledReservations();
+    }
 }

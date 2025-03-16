@@ -4,13 +4,15 @@ import com.office.notfound.payment.model.dto.PaymentDTO;
 import com.office.notfound.reservation.model.dto.ReservationDTO;
 import com.office.notfound.reservation.model.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping ("/reservation")
@@ -85,6 +87,15 @@ public class ReservationController {
         model.addAttribute("selectedSearchType", selectedSearchType);
         model.addAttribute("searchReservation", searchReservation);
         return "reservation/search";
+    }
+    @PostMapping("/cancel-multiple")
+    public String cancelMultipleReservations(@RequestParam("reservationCodes") List<Integer> reservationCodes) {
+        if (reservationCodes != null && !reservationCodes.isEmpty()) {
+            for (int reservationCode : reservationCodes) {
+                reservationService.cancelReservation(reservationCode);
+            }
+        }
+        return "redirect:/reservation/search"; // 예약 목록 페이지로 이동
     }
 
 }
