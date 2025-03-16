@@ -37,6 +37,8 @@ public class AuthService implements UserDetailsService {
             throw new UsernameNotFoundException("회원 정보가 존재하지 않습니다.");
         }
 
+
+
         /* 검색된 사용자의 PK값을 사용해 tbl_member_role 테이블로부터 해당 사용자가 인가받을 수 있는 모든 권한을 조회 */
         int memberCode = foundUser.getMemberCode();
 
