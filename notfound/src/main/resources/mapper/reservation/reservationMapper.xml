@@ -37,34 +37,36 @@
 <!-- 결제 상세 조회 -->
     <select id="searchReservation" resultMap="reservationResultMap">
         SELECT
-            reservation_code,
-            member_code,
-            office_code,
-            resrevation_date,
-            start_datetime,
-            end_datetime,
-            total_price
+            r.reservation_code,
+            r.member_code,
+            CONCAT(s.store_name, '(', o.office_num, ')') AS storeName,
+            r.reservation_date,
+            r.start_datetime,
+            r.end_datetime,
+            r.total_price
         FROM
-            tbl_reservation
+        tbl_reservation r
+            JOIN tbl_office o ON r.office_code = o.office_code
+            JOIN tbl_store s ON o.store_code = s.store_code
         WHERE
         1 = 1
-        <if test="reservationCode != null">
-            AND resercation_code = #{reservationCode}
+        <if test="reservationCodeInt != null">
+            AND reservation_code = #{reservationCodeInt}
         </if>
 
-        <if test="reservationDate != null and paymentDate != ''">
+        <if test="reservationDate != null and reservationDate != ''">
             AND DATE_FORMAT(reservation_date, '%Y-%m-%d') = #{reservationDate}
         </if>
 
-        <if test="startDatetime != null and startDate != ''">
+        <if test="startDatetime != null and startDatetime != ''">
             AND DATE_FORMAT(start_datetime, '%Y-%m-%d') >= #{startDatetime}
         </if>
 
-        <if test="endDatetime != null and endDate != ''">
+        <if test="endDatetime != null and endDatetime != ''">
             AND DATE_FORMAT(end_datetime, '%Y-%m-%d') &lt; #{endDatetime}
         </if>
 
-        ORDER BY payment_date DESC
-
+        ORDER BY
+        r.reservation_date DESC;
     </select>
 </mapper>
