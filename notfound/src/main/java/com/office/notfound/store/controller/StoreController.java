@@ -1,5 +1,7 @@
 package com.office.notfound.store.controller;
 
+import com.office.notfound.review.model.dto.OfficeReviewDTO;
+import com.office.notfound.review.model.service.ReviewService;
 import com.office.notfound.samusil.model.dto.OfficeDTO;
 import com.office.notfound.samusil.model.service.OfficeService;
 import com.office.notfound.store.model.dto.StoreDTO;
@@ -19,11 +21,13 @@ public class StoreController {
 
     private final StoreService storeService;
     private final OfficeService officeService;
+    private final ReviewService reviewService;
 
     @Autowired
-    public StoreController(StoreService storeService, OfficeService officeService) {
+    public StoreController(StoreService storeService, OfficeService officeService, ReviewService reviewService) {
         this.storeService = storeService;
         this.officeService = officeService;
+        this.reviewService = reviewService;
     }
 
     // 전체 지점 조회
@@ -44,10 +48,19 @@ public class StoreController {
         StoreDTO store = storeService.findStoreByCode(storeCode);
 
         List<OfficeDTO> officeList = officeService.findAllOffices(storeCode);
+        // 사무실 상세 리스트 내 리뷰 조회용
+        List<OfficeReviewDTO> FindOfficeReview = reviewService.findOfficeReview(storeCode);
+
 
         // 모델에 해당 매장 정보를 담아 상세 페이지를 반환
         model.addAttribute("store", store);
         model.addAttribute("officeList", officeList);
+        model.addAttribute("FindOfficeReview", FindOfficeReview);
+
+
+//        System.out.println("officeList = " + officeList);
+//        System.out.println("FindOfficeReview = " + FindOfficeReview);
+
         return "store/detailstore";
     }
 

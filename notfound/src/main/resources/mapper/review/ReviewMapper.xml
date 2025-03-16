@@ -39,18 +39,6 @@
         <result property="reviewImage" column="review_image"/>
     </resultMap>
 
-
-
- <!--   <sql id="reviewColumns">
-        r.review_title,
-        r.review_content,
-        r.review_rating,
-        r.review_created_at,
-        r.review_image
-    </sql>-->
-
-
-
     <!--<select id="selectAllReviewList" resultMap="selectAllReviewListMapper">-->
     <select id="selectAllReviewList" resultType="com.office.notfound.review.model.dto.ReviewDTO">
         SELECT * FROM  tbl_review r
@@ -62,10 +50,22 @@
         SELECT p.payment_code, r2.member_id, o.office_code, o.store_code, o.office_type, o.office_num, o.office_price,
                 r2.review_title, r2.review_content, r2.review_rating, r2.review_created_at,
                r2.review_image
-    <!-- <include refid="reviewColumns"/> -->
         FROM tbl_office o
                  JOIN tbl_reservation r ON o.office_code = r.office_code
                  JOIN tbl_payment p ON r.reservation_code = p.reservation_code
                  JOIN tbl_review r2 ON p.payment_code = r2.payment_code
+    </select>
+
+
+    <!-- 사무실 상세 리스트 내 리뷰 조회용 -->
+    <select id="findOfficeReview" resultMap="officeReviewResultMap">
+        SELECT p.payment_code, r2.member_id, o.office_code, o.store_code, o.office_type, o.office_num, o.office_price,
+        r2.review_title, r2.review_content, r2.review_rating, r2.review_created_at,
+        r2.review_image
+        FROM tbl_office o
+        JOIN tbl_reservation r ON o.office_code = r.office_code
+        JOIN tbl_payment p ON r.reservation_code = p.reservation_code
+        JOIN tbl_review r2 ON p.payment_code = r2.payment_code
+        WHERE o.store_code = #{storeCode}
     </select>
 </mapper>

@@ -24,13 +24,13 @@ public class ReviewService {
 
     }
 
-//    public List<OfficeReviewDTO> selectOfficeReviewList {
-//
-//        return reviewMapper.selectOfficeReviewList();
-//    }
-
     public List<OfficeReviewDTO> selectOfficeReviewList() {
 
         return reviewMapper.selectOfficeReviewList();
+    }
+
+    public List<OfficeReviewDTO> findOfficeReview(int storeCode) {
+
+        return reviewMapper.findOfficeReview(storeCode);
     }
 }
