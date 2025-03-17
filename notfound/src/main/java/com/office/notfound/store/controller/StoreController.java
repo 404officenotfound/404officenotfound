@@ -99,6 +99,7 @@ public class StoreController {
         }
     }
 
+
     // 지역별 지점 조회 페이지
     @GetMapping("/store/storeregion")
     public String storeRegionPage(
