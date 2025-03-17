@@ -17,7 +17,7 @@
         <div class="side-menu">
             <ul>
                 <li><a href="/member/adminmypage">개인정보변경</a></li>
-                <li><a href="/member/reservation">매장관리</a></li>
+                <li><a href="/storeadmin/storemanage">매장관리</a></li>
                 <li><a href="/member/inquiry">예약관리</a></li>
                 <li><a href="/member/reviews">결제관리</a></li>
                 <li><a href="/member/reviews">리뷰관리</a></li>
@@ -28,7 +28,7 @@
         </div>
 
         <div class="main-content">
-            <form th:action="@{/member/update}" method="post">
+            <form th:action="@{/member/adminupdate}" method="post">
                 <div class="form-group">
                     <label for="memberId">ID</label>
                     <input type="text" id="memberId" name="memberId" th:value="${member.memberId}" readonly>
@@ -37,25 +37,36 @@
                 <div class="form-group">
                     <label for="memberName">이름</label>
                     <input type="text" id="memberName" name="memberName" th:value="${member.memberName}">
-                    <button type="button" class="verify-button">변경</button>
+                    <button type="submit" class="verify-button">변경</button>
                 </div>
 
                 <div class="form-group">
                     <label for="memberPassword">비밀번호</label>
                     <input type="password" id="memberPassword" name="memberPassword">
-                    <button type="button" class="verify-button">변경</button>
+                    <button type="submit" class="verify-button">변경</button>
                 </div>
 
                 <div class="form-group">
                     <label for="memberEmail">이메일</label>
                     <input type="text" id="memberEmail" name="memberEmail" th:value="${member.memberEmail}">
-                    <button type="button" class="verify-button">변경</button>
+                    <button type="submit" class="verify-button">변경</button>
                 </div>
 
                 <div class="form-group">
                     <label for="memberPhone">휴대폰</label>
                     <input type="text" id="memberPhone" name="memberPhone" th:value="${member.memberPhone}">
-                    <button type="button" class="verify-button">변경</button>
+                    <button type="submit" class="verify-button">변경</button>
+                </div>
+
+                <!-- adminmypage.html -->
+                <div th:if="${successMessage}">
+                    <div class="alert alert-success" th:text="${successMessage}"
+                         style="color: red; text-align: center; font-size: 18px; font-weight: bold;"></div>
+                </div>
+
+                <div th:if="${errorMessage}">
+                    <div class="alert alert-danger" th:text="${errorMessage}"
+                         style="color: red; text-align: center; font-size: 18px; font-weight: bold;"></div>
                 </div>
             </form>
 
