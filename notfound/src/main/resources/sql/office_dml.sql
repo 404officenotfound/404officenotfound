@@ -3,10 +3,10 @@
 INSERT INTO tbl_member
 (member_name, member_id, member_password, member_email, member_phone, member_enddate, member_endstatus)
 VALUES
-    ('홍길동', 'hong123', 'password123', 'hong@example.com', '010-1234-5678', NULL, 'N'),
-    ('김철수', 'kim123', 'password456', 'kim@example.com', '010-9876-5432', NULL, 'N'),
-    ('이영희', 'lee123', 'password789', 'lee@example.com', '010-1122-3344', NULL, 'N'),
-    ('박지은', 'park123', 'password000', 'park@example.com', '010-2233-4455', NOW(), 'Y');
+    ('정상협', 'user01', '$2a$10$cYuXuzmhojpxD2AV7CoZX.dq1qVXnWUlmdvx1Y3P5xezD5z968nNu', 'user01@gmail.com', '010-1234-5678', NULL, 'N'),
+    ('일반사용자','user02', '$2a$10$A.i2AkaE/4qhjwo45MHofeShPXOLsD0HanK7Ce..npQj7GKslsJR.', 'user02@gmail.com', '010-1234-5678', NULL, 'N' ),
+    ('이영희', 'user03', '$2a$10$kF6MZTsmD8B78zEUPPTq8ufFgXfGZrzb9s9EHG2uILGeObAaFYb9W', 'user03@gmail.com', '010-9876-4321', NULL, 'N'),
+    ('박민수', 'user04', '$2a$10$uYFZbnG/dKvXzU9EwlYXxOlXzBd.OOXpBzO/LH9KhNJ8Io9kWzJ2.', 'user04@gmail.com', '010-3456-7890', NULL, 'N');
 
 
 INSERT INTO tbl_authority
@@ -23,6 +23,8 @@ VALUES
     (2, 2),
     (3, 2),
     (4, 2);
+
+
 
 INSERT INTO tbl_store (store_name, store_city, store_gu, store_address, latitude, longitude, description, store_thumbnail, store_img1, store_img2, store_img3)
 VALUES ('마곡나루역 점', '서울', '강서구', '마곡중앙로 136 LG 아트센터', 37.565223, 126.829091,

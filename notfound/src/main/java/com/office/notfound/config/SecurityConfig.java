@@ -82,7 +82,10 @@ public class SecurityConfig {
             session.maximumSessions(1);
             // 세션 만료 시 이동할 페이지
             session.invalidSessionUrl("/");
-            // #5. CSRF(Cross-Site Request Forgery: 사이트간 요청 위조) 관련 설정
+        }).rememberMe(rememberMe -> {
+            rememberMe.key("Key");
+            rememberMe.tokenValiditySeconds(86400);
+            rememberMe.alwaysRemember(true);
         }).csrf(csrf ->
                 // CSRF 보호 비활성화
                 csrf.disable()

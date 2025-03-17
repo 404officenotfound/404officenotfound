@@ -18,6 +18,9 @@ public class AdminController {
         this.reservationService = reservationService;
     }
 
+    /**
+     * 🔹 관리자: 특정 조건으로 예약 검색
+     */
     @GetMapping("/reservation/search")
     public String searchReservation(
             @RequestParam(required = false) String reservationCode,
@@ -59,9 +62,11 @@ public class AdminController {
             }
         }
 
-        // 검색 수행
-        List<ReservationDTO> searchReservation = reservationService.searchAdminReservation(
-                reservationCodeInt, memberCode, reservationDate, startDatetime, endDatetime);
+        // 검색 수행 (reservationCodeInt를 String으로 변환)
+        List<ReservationDTO> searchReservation = reservationService.searchReservations(
+                null, true,
+                reservationCodeInt != null ? String.valueOf(reservationCodeInt) : null,
+                reservationDate, startDatetime, endDatetime);
 
         // 검색이 실행되었음을 표시
         model.addAttribute("searchExecuted", true);
@@ -75,9 +80,12 @@ public class AdminController {
         return "admin/reservation/search";
     }
 
+    /**
+     * 🔹 관리자: 모든 예약 조회
+     */
     @GetMapping("/reservation/search/all")
     public String getAllReservations(Model model) {
-        List<ReservationDTO> reservationList = reservationService.findAllReservation();
+        List<ReservationDTO> reservationList = reservationService.findAllReservations(null, true);
         model.addAttribute("reservationList", reservationList);
         model.addAttribute("searchExecuted", true);
         if (reservationList.isEmpty()) {
@@ -86,27 +94,36 @@ public class AdminController {
         return "admin/reservation/search";
     }
 
+    /**
+     * 🔹 관리자: 특정 예약 취소
+     */
     @PostMapping("/reservation/cancel")
     public String cancelMultipleReservations(@RequestParam("reservationCodes") List<Integer> reservationCodes) {
         if (reservationCodes != null && !reservationCodes.isEmpty()) {
             for (int reservationCode : reservationCodes) {
-                reservationService.cancelReservation(reservationCode);
+                reservationService.cancelMemberReservations(null, List.of(reservationCode));
             }
         }
         return "redirect:/admin/reservation/search";
     }
 
+    /**
+     * 🔹 관리자: 일정 기간 지난 예약 삭제
+     */
     @PostMapping("/reservation/delete-old")
     public String deleteOldReservations() {
         int deletedCount = reservationService.deleteOldCanceledReservations();
         return "redirect:/admin/reservation/search";
     }
 
-        @PostMapping("/reservation/delete")
+    /**
+     * 🔹 관리자: 특정 예약 삭제
+     */
+    @PostMapping("/reservation/delete")
     public String deleteReservations(@RequestParam("reservationCodes") List<Integer> reservationCodes) {
         if (reservationCodes != null && !reservationCodes.isEmpty()) {
             reservationService.deleteReservations(reservationCodes);
         }
         return "redirect:/admin/reservation/search";
     }
-} 
+}
