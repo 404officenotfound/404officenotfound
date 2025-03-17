@@ -3,8 +3,8 @@
 INSERT INTO tbl_member
 (member_name, member_id, member_password, member_email, member_phone, member_enddate, member_endstatus)
 VALUES
-    ('정상협', 'user01', '$2a$10$cYuXuzmhojpxD2AV7CoZX.dq1qVXnWUlmdvx1Y3P5xezD5z968nNu', 'user01@gmail.com', '010-1234-5678', NULL, 'N');
-
+    ('정상협', 'user01', '$2a$10$cYuXuzmhojpxD2AV7CoZX.dq1qVXnWUlmdvx1Y3P5xezD5z968nNu', 'user01@gmail.com', '010-1234-5678', NULL, 'N'),
+    ('일반사용자','user02', '$2a$10$A.i2AkaE/4qhjwo45MHofeShPXOLsD0HanK7Ce..npQj7GKslsJR.', 'user02@gmail.com', '010-1234-5678', NULL, 'N' );
 
 
 INSERT INTO tbl_authority
@@ -17,7 +17,8 @@ INSERT INTO tbl_member_role
 (member_code, authority_code)
 VALUES
     (1, 1),
-    (1, 2);
+    (1, 2),
+    (2,2);
 
 
 
