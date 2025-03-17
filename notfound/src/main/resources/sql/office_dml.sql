@@ -3,10 +3,8 @@
 INSERT INTO tbl_member
 (member_name, member_id, member_password, member_email, member_phone, member_enddate, member_endstatus)
 VALUES
-    ('홍길동', 'hong123', 'password123', 'hong@example.com', '010-1234-5678', NULL, 'N'),
-    ('김철수', 'kim123', 'password456', 'kim@example.com', '010-9876-5432', NULL, 'N'),
-    ('이영희', 'lee123', 'password789', 'lee@example.com', '010-1122-3344', NULL, 'N'),
-    ('박지은', 'park123', 'password000', 'park@example.com', '010-2233-4455', NOW(), 'Y');
+    ('정상협', 'user01', '$2a$10$cYuXuzmhojpxD2AV7CoZX.dq1qVXnWUlmdvx1Y3P5xezD5z968nNu', 'user01@gmail.com', '010-1234-5678', NULL, 'N');
+
 
 
 INSERT INTO tbl_authority
@@ -19,10 +17,9 @@ INSERT INTO tbl_member_role
 (member_code, authority_code)
 VALUES
     (1, 1),
-    (1, 2),
-    (2, 2),
-    (3, 2),
-    (4, 2);
+    (1, 2);
+
+
 
 INSERT INTO tbl_store (store_name, store_city, store_gu, store_address, latitude, longitude, description, store_thumbnail, store_img1, store_img2, store_img3)
 VALUES ('마곡나루역 점', '서울', '강서구', '마곡중앙로 136 LG 아트센터', 37.565223, 126.829091,
