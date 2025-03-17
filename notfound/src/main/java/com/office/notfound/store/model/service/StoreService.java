@@ -4,6 +4,8 @@ package com.office.notfound.store.model.service;
 import com.office.notfound.common.util.FileUploadUtils;
 import com.office.notfound.store.model.dao.StoreMapper;
 import com.office.notfound.store.model.dto.StoreDTO;
+import org.apache.catalina.Store;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -16,10 +18,10 @@ import java.util.UUID;
 @Service
 public class StoreService {
 
-    @Value("${image.image-dir}")
+    @Value("build/resources/main/static/img/store")
     private String IMAGE_DIR;
 
-    @Value("${image.image-url}")
+    @Value("/img/store/")
     private String IMAGE_URL;
 
     private final StoreMapper storeMapper;
@@ -65,5 +67,10 @@ public class StoreService {
     public List<String> getGuByCity(String city) {
 
         return storeMapper.findGuByCity(city);
+    }
+
+    public List<StoreDTO> findStoresByCityAndGu(String city, String gu) {
+
+        return storeMapper.findStoresByCityAndGu(city, gu);
     }
 }

@@ -1,7 +1,9 @@
 package com.office.notfound.store.model.dao;
 
 import com.office.notfound.store.model.dto.StoreDTO;
+import org.apache.catalina.Store;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,5 +19,7 @@ public interface StoreMapper {
     List<String> findGuByCity(String city);
 
     void insertStore(StoreDTO store);
+
+    List<StoreDTO> findStoresByCityAndGu(@Param("city") String city, @Param("gu") String gu);
 }
 

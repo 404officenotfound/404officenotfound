@@ -6,6 +6,7 @@ import com.office.notfound.samusil.model.dto.OfficeDTO;
 import com.office.notfound.samusil.model.service.OfficeService;
 import com.office.notfound.store.model.dto.StoreDTO;
 import com.office.notfound.store.model.service.StoreService;
+import org.apache.catalina.Store;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -100,7 +101,13 @@ public class StoreController {
 
     // 지역별 지점 조회 페이지
     @GetMapping("/store/storeregion")
-    public String storeRegionPage() {
+    public String storeRegionPage(
+            @RequestParam(required = false) String storeCity,
+            @RequestParam(required = false) String storeGu,
+            Model model) {
+
+//        List<Store> storesRegion = storeService.findStoresByRegion(city, gu);
+//        model.addAttribute("storeRegionPage", storesRegion); // 여기에 리스트 저장
         return "store/storeregion";
     }
 
@@ -117,4 +124,12 @@ public class StoreController {
     public List<String> getGuByCity(@RequestParam("city") String city) {
         return storeService.getGuByCity(city);
     }
+
+    @GetMapping("/store/storeregion/search")
+    @ResponseBody
+    public List<StoreDTO> getStoresByRegion(@RequestParam String city,
+                                            @RequestParam String gu) {
+        return storeService.findStoresByCityAndGu(city, gu);
+    }
+
 }
