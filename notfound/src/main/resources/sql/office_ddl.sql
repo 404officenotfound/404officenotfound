@@ -1,11 +1,11 @@
 # -- --------------------------------------------------------
 # -- db 생성 및 유저 권한 할당
 # -- --------------------------------------------------------
-# -- 1) 새로운 officenotfound 계정 만들기
+-- 1) 새로운 officenotfound 계정 만들기
 # create user 'officenotfound'@'%' identified by 'officenotfound';
-# -- 'localhost'대신 '%'(와일드카드 패턴)를 사용하면 외부 IP에서도 접근 가능하다.
-#
-# -- 현재 존재하는 데이터베이스 확인
+-- 'localhost'대신 '%'(와일드카드 패턴)를 사용하면 외부 IP에서도 접근 가능하다.
+
+-- 현재 존재하는 데이터베이스 확인
 # show databases;
 #
 # -- mysql 데이터베이스로 이동.
@@ -60,6 +60,7 @@ CREATE TABLE IF NOT EXISTS tbl_member (
                                           member_endstatus VARCHAR(20) NOT NULL DEFAULT 'N' COMMENT '탈퇴여부',
                                           CONSTRAINT pk_member_code PRIMARY KEY (member_code)
 ) ENGINE=INNODB COMMENT '회원정보';
+
 
 -- 2. 권한 테이블 (tbl_authority)
 CREATE TABLE IF NOT EXISTS tbl_authority
