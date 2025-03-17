@@ -61,6 +61,7 @@ CREATE TABLE IF NOT EXISTS tbl_member (
                                           CONSTRAINT pk_member_code PRIMARY KEY (member_code)
 ) ENGINE=INNODB COMMENT '회원정보';
 
+
 -- 2. 권한 테이블 (tbl_authority)
 CREATE TABLE IF NOT EXISTS tbl_authority
 (
