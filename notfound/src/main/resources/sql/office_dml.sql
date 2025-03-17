@@ -3,7 +3,17 @@
 INSERT INTO tbl_member
 (member_name, member_id, member_password, member_email, member_phone, member_enddate, member_endstatus)
 VALUES
-    ('정상협', 'user01', '$2a$10$cYuXuzmhojpxD2AV7CoZX.dq1qVXnWUlmdvx1Y3P5xezD5z968nNu', 'user01@gmail.com', '010-1234-5678', NULL, 'N');
+('정상협', 'user01', '$2a$10$cYuXuzmhojpxD2AV7CoZX.dq1qVXnWUlmdvx1Y3P5xezD5z968nNu', 'user01@gmail.com', '010-1234-5678', NULL, 'N'),
+('김철수', 'user02', '$2a$10$XyTzA6FJVPdLmX6iX10mS.iH9yE7LzHjyp9pU6pygprrjXapLEqO6', 'user02@gmail.com', '010-5678-1234', NULL, 'N'),
+('이영희', 'user03', '$2a$10$kF6MZTsmD8B78zEUPPTq8ufFgXfGZrzb9s9EHG2uILGeObAaFYb9W', 'user03@gmail.com', '010-9876-4321', NULL, 'N'),
+('박민수', 'user04', '$2a$10$uYFZbnG/dKvXzU9EwlYXxOlXzBd.OOXpBzO/LH9KhNJ8Io9kWzJ2.', 'user04@gmail.com', '010-3456-7890', NULL, 'N'),
+('정수현', 'user05', '$2a$10$Fl2/OLwXWZTIpaP.ZAp68uyF7Y3h2IYYFhA1LpgJd3w9SglHe.WS6', 'user05@gmail.com', '010-2580-3690', NULL, 'N'),
+('한지민', 'user06', '$2a$10$D4rOX6GKu4H/Z5l2/GYfGuYH7Z9J7E3Dz8o.Xpf92z4Ja4NYV3HR6', 'user06@gmail.com', '010-7410-8520', NULL, 'N'),
+('최성훈', 'user07', '$2a$10$GoxbzV9FsBdIezbPq4Ck/uFL8/8l5LgKoGKHfPzebRbXw8AqLX9yC', 'user07@gmail.com', '010-1597-4862', NULL, 'N'),
+('이준호', 'user08', '$2a$10$hVqFmJZsJxD8UL9B/zI08.9ZJXLyUbNJyRQb9VGZJpxI/oK2zYEjm', 'user08@gmail.com', '010-3652-7854', NULL, 'N'),
+('오세진', 'user09', '$2a$10$P3g4WfJmWql7f/oV8Bz/JYQ3A6FZ9Jpl9LFxJ/HYJ4z/KlO5Y28Me', 'user09@gmail.com', '010-4785-2369', NULL, 'N'),
+('강민지', 'user10', '$2a$10$Qf9z3LpJZsJxD8UL9B/ZJXLyUbNJyRQb9VGZJpxI/oK2zYEjmLK06', 'user10@gmail.com', '010-1597-4862', NULL, 'N'),
+('배수진', 'user11', '$2a$10$Zf5L7FpK9JYFZ8bJxO6F/JqLX9BZQb9VGJpxI/oK2zYEjmXlQZR8X', 'user11@gmail.com', '010-6234-9856', NULL, 'N');
 
 
 
@@ -16,9 +26,17 @@ VALUES
 INSERT INTO tbl_member_role
 (member_code, authority_code)
 VALUES
-    (1, 1),
-    (1, 2);
-
+    (1, 1), (1, 2),
+    (2, 2),
+    (3, 2),
+    (4, 2),
+    (5, 2),
+    (6, 2),
+    (7, 2),
+    (8, 2),
+    (9, 2),
+    (10, 2),
+    (11, 2);
 
 
 INSERT INTO tbl_store (store_name, store_city, store_gu, store_address, latitude, longitude, description, store_thumbnail, store_img1, store_img2, store_img3)
@@ -159,10 +177,10 @@ VALUES
 INSERT INTO tbl_reservation (member_code, office_code, start_datetime, end_datetime, total_price, reservation_status)
 VALUES
     (1, 1, '2025-03-15 08:00:00', '2025-03-15 10:00:00', 500000, '예약완료'),
-    (2, 4, '2025-03-18 10:00:00', '2025-03-18 12:00:00', 4000000, '예약완료'),
-    (3, 6, '2025-03-20 12:00:00', '2025-03-20 14:00:00', 1600000, '예약완료'),
-    (3, 9, '2025-03-20 14:00:00', '2025-03-20 16:00:00', 500000, '예약완료'),
-    (4, 7, '2025-03-22 18:00:00', '2025-03-22 20:00:00', 4500000, '예약완료'),
+    (1, 4, '2025-03-18 10:00:00', '2025-03-18 12:00:00', 4000000, '예약완료'),
+    (1, 6, '2025-03-20 12:00:00', '2025-03-20 14:00:00', 1600000, '예약완료'),
+    (1, 9, '2025-03-20 14:00:00', '2025-03-20 16:00:00', 500000, '예약완료'),
+    (1, 7, '2025-03-22 18:00:00', '2025-03-22 20:00:00', 4500000, '예약완료'),
     (1, 3, '2025-03-25 16:00:00', '2025-03-25 18:00:00', 500000, '예약취소'),
     (2, 10, '2025-03-27 12:00:00', '2025-03-27 14:00:00', 4000000, '예약완료'),
     (2, 12, '2025-03-27 14:00:00', '2025-03-27 16:00:00', 1550000, '예약완료'),
