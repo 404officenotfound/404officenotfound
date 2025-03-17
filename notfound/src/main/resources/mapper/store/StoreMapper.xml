@@ -27,9 +27,10 @@
             store_address,
             description,
             store_thumbnail
-
-        FROM tbl_store
-        ORDER BY store_name;
+        FROM
+            tbl_store
+        ORDER BY
+            store_name;
     </select>
     <select id="findStoreByCode" resultMap="storeResultMap">
         SELECT
@@ -40,8 +41,50 @@
             store_address,
             description,
             store_thumbnail
-        FROM tbl_store
-        WHERE store_code = #{storeCode}
+        FROM
+            tbl_store
+        WHERE
+            store_code = #{storeCode}
     </select>
+    <select id="findDistinctCities" parameterType="com.office.notfound.store.model.dto.StoreDTO">
+        SELECT DISTINCT
+            store_city
+        FROM tbl_store
+        ORDER BY store_city
+    </select>
+    <select id="findGuByCity" resultMap="storeResultMap">
+        SELECT DISTINCT
+            store_gu
+        FROM
+            tbl_store
+        WHERE
+            store_city = #{city}
+        ORDER BY store_gu
+    </select>
+    <insert id="insertStore" parameterType="com.office.notfound.store.model.dto.StoreDTO">
+        INSERT INTO tbl_store
+        (
+            store_name,
+            store_city,
+            store_gu,
+            store_address,
+            description,
+            store_thumbnail,
+            store_img1,
+            store_img2,
+            store_img3
+        )
+        VALUES (
+                   #{storeName},
+                   #{storeCity},
+                   #{storeGu},
+                   #{storeAddress},
+                   #{description},
+                   #{storeThumbnail},
+                   #{storeImg1},
+                   #{storeImg2},
+                   #{storeImg3}
+               );
+    </insert>
 
 </mapper>
