@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+앙뇽
+<main>
+    <span class="region-select">
+        <label for="city-select">시 선택 : </label>
+        <select id="city-select" name="storeCity" required>
+            <option value="" th:text="선택하세요" selected></option>
+            <option th:each="city : ${cityList}" th:value="${city}" th:text="${city}"></option>
+        </select>
+        <label for="gu-select">시/군/구 선택 : </label>
+        <select id="gu-select" name="storeGu" required disabled>
+            <option value="" th:text="선택하세요" disabled selected></option>
+            <option th:each="gu : ${guList}" th:value="${gu}" th:text="${gu}"></option>
+        </select>
+        지역선택하자
+    </span>
+    <span>
+        결과값이다
+        <div class="content">
+            <div th:each="store, iterStat : ${storeRegionPage}" class="store-container">
+                <div class="store-grid">
+                    <img th:src="${store.storeThumbnail}" th:alt="${store.storeName}" class="store-thumbnail">
+                    <div class="store-item">
+                        <!-- 상세지점으로 갈 때 브라우저에 표시될 경로 주소다. -->
+                        <a th:href="@{'/store/detailstore/' + ${store.storeCode}}">
+                            <strong th:text="${store.storeName}"></strong>
+                            <p th:text="${store.storeAddress}">상세주소</p>
+                            <p th:text="${store.storeCode}">storeCode</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </span>
+</main>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const citySelect = document.getElementById("city-select");
+        const guSelect = document.getElementById("gu-select");
+
+        // 시 데이터를 가져오는 Ajax 호출
+        fetch('/store/storeregion/cities')
+            .then(response => response.json())
+            .then(cities => {
+                cities.forEach(city => {
+                    const option = document.createElement("option");
+                    option.value = city;
+                    option.textContent = city;
+                    citySelect.appendChild(option);
+                });
+            });
+
+        // 시 선택 시 구/군 데이터를 가져오는 Ajax 호출
+        citySelect.addEventListener("change", function () {
+            const city = citySelect.value;
+            guSelect.innerHTML = '<option value="">-- 구/군 선택 --</option>';
+            guSelect.disabled = !city;
+
+            if (city) {
+                fetch(`/store/storeregion/gu?city=${city}`)
+                    .then(response => response.json())
+                    .then(guList => {
+                        guList.forEach(gu => {
+                            const option = document.createElement("option");
+                            option.value = gu;
+                            option.textContent = gu;
+                            guSelect.appendChild(option);
+                        });
+                    });
+            }
+        });
+    });
+</script>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

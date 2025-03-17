@@ -11,5 +11,11 @@ public interface StoreMapper {
     List<StoreDTO> findAllStores();
 
     StoreDTO findStoreByCode(int storeCode);
+
+    List<String> findDistinctCities();
+
+    List<String> findGuByCity(String city);
+
+    void insertStore(StoreDTO store);
 }
 

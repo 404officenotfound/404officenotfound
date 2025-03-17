@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>예약</title>
+    <title>예약 조회</title>
     <link rel="stylesheet" href="/css/payment/payment-select-one.css">
     <script src="/js/reservation/reservation-select-one.js" defer></script>
 </head>
@@ -32,7 +32,7 @@
         <div id="reservationPeriodSearch" style="display: none;">
             <input type="date" name="startDatetime" id="startDateInput" onchange="validateDates()">
             <span>~</span>
-            <input type="date" name="endDate" id="endDatetimeInput" onchange="validateDates()">
+            <input type="date" name="endDatetime" id="endDatetimeInput" onchange="validateDates()">
             <button type="submit" class="search-button">검색</button>
         </div>
     </form>
@@ -47,6 +47,7 @@
     검색 결과가 없습니다.
 </p>
 
+<!-- 🔥 예약 내역 목록 -->
 <form id="cancelFormAll" th:action="@{/reservation/cancel-multiple}" method="post" onsubmit="return confirmCancelBatch(event)">
     <table>
         <thead>
@@ -55,8 +56,8 @@
             <th>예약번호</th>
             <th>사무실</th>
             <th>예약날짜</th>
-            <th>이용시작시간</th>
-            <th>이용마감시간</th>
+            <th>이용 시작 시간</th>
+            <th>이용 종료 시간</th>
             <th>가격</th>
             <th>상태</th>
         </tr>
@@ -77,7 +78,7 @@
             <td th:text="${reservation.endDatetime != null ? #temporals.format(reservation.endDatetime, 'HH:mm') : '시간 없음'}"></td>
             <td th:text="${reservation.totalPrice != null ? #numbers.formatInteger(reservation.totalPrice, 3, 'COMMA') + '원' : '가격 없음'}"></td>
             <td th:text="${reservation.reservationStatus}"
-                th:style="${reservation.reservationStatus == '취소됨' ? 'color: red;' : ''}">
+                th:style="${reservation.reservationStatus == '예약취소' ? 'color: red;' : ''}">
             </td>
         </tr>
 
@@ -91,12 +92,12 @@
             </td>
             <td th:text="${reservation.reservationCode}"></td>
             <td th:text="${reservation.storeName}"></td>
-            <td th:text="${#temporals.format(reservation.startDatetime, 'yyyy-MM-dd')}"></td>
-            <td th:text="${#temporals.format(reservation.startDatetime, 'HH:mm')}"></td>
-            <td th:text="${#temporals.format(reservation.endDatetime, 'HH:mm')}"></td>
-            <td th:text="${#numbers.formatInteger(reservation.totalPrice, 3, 'COMMA') + '원'}"></td>
+            <td th:text="${reservation.startDatetime != null ? #temporals.format(reservation.startDatetime, 'yyyy-MM-dd') : '날짜 없음'}"></td>
+            <td th:text="${reservation.startDatetime != null ? #temporals.format(reservation.startDatetime, 'HH:mm') : '시간 없음'}"></td>
+            <td th:text="${reservation.endDatetime != null ? #temporals.format(reservation.endDatetime, 'HH:mm') : '시간 없음'}"></td>
+            <td th:text="${reservation.totalPrice != null ? #numbers.formatInteger(reservation.totalPrice, 3, 'COMMA') + '원' : '가격 없음'}"></td>
             <td th:text="${reservation.reservationStatus}"
-                th:style="${reservation.reservationStatus == '취소됨' ? 'color: red;' : ''}">
+                th:style="${reservation.reservationStatus == '예약취소' ? 'color: red;' : ''}">
             </td>
         </tr>
         </tbody>
@@ -104,6 +105,7 @@
 
     <button type="submit" class="cancel-button">예약 취소</button>
 </form>
+
 
 
 </body>
