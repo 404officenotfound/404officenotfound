@@ -32,25 +32,6 @@
                 </div>
             </div>
     </section>
-
-<!--<table>
-    <tr>
-        <th>이벤트 번호</th>
-        <th> 이미지</th>
-        <th>이벤트 제목</th>
-        <th>이벤트 내용</th>
-        <th>이벤트 진행 상태</th>
-    </tr>
-    <tr th:each="eventList : ${eventList}">
-        <td th:text="${eventList.eventCode}"></td>
-        <td th:text="${eventList.eventImg}"></td>
-        &lt;!&ndash;<img th:src="${eventList.eventImg}" th:alt="|event no.${eventList.eventCode}|">&ndash;&gt;
-        <td><a th:href="@{ /event/detail/{code} (code=${ eventList.eventCode })}" th:text="${eventList.eventTitle}"></a></td>
-        <td th:text="${eventList.eventContent}"></td>
-        <td th:text="${eventList.eventStatus}"></td>
-    </tr>
-</table>-->
-    </section>
     <div th:replace="~{fragments/footer :: footer}"></div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
