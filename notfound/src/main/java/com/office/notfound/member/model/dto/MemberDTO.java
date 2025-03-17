@@ -24,6 +24,9 @@ public class MemberDTO implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (this.memberAuthorities == null) {
+            this.memberAuthorities = new ArrayList<>(); // memberAuthorities가 null일 경우 빈 리스트로 초기화
+        }
         Collection<GrantedAuthority> authorities = new ArrayList<>();
 
         this.memberAuthorities.forEach(authority ->
