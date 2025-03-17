@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -99,15 +100,37 @@ public class MemberService {
     public MemberDTO findByUsername(String username) {
         MemberDTO foundUser = memberMapper.findByUsername(username);
 
-        if(!Objects.isNull(foundUser)){
-            return foundUser;
-        }else{
-            return null;
+        // memberAuthorities가 null일 경우 빈 리스트로 설정
+        if (foundUser != null && foundUser.getMemberAuthorities() == null) {
+            foundUser.setMemberAuthorities(new ArrayList<>());
         }
+
+        return foundUser; // foundUser가 null이라면 null이 그대로 반환됨
     }
 
     public List<AuthorityDTO> findAllAuthoritiesByMemberCode(int memberCode) {
         return memberMapper.findAllAuthoritiesByMemberCode(memberCode);
+    }
+
+    // 회원 정보 수정
+    @Transactional
+    public void update(MemberDTO updateMember) {
+        // 업데이트 전에 memberAuthorities가 null이면 빈 리스트로 설정
+        if (updateMember.getMemberAuthorities() == null) {
+            updateMember.setMemberAuthorities(new ArrayList<>());
+        }
+
+        memberMapper.updatemember(updateMember);
+    }
+
+    // 관리자가 회원 정보 수정
+    @Transactional
+    public void updateAdmin(MemberDTO updateAdminMember) {
+        if (updateAdminMember.getMemberAuthorities() == null) {
+            updateAdminMember.setMemberAuthorities(new ArrayList<>());
+        }
+
+        memberMapper.updateadmin(updateAdminMember);
     }
 }
 
