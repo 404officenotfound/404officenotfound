@@ -1,10 +1,13 @@
 package com.office.notfound.member.controller;
 
 
+import com.office.notfound.member.model.dto.MemberDTO;
 import com.office.notfound.member.model.dto.SignupDTO;
 import com.office.notfound.member.model.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -31,7 +34,7 @@ public class MemberController {
     @PostMapping("/signup")
     public ModelAndView signup(ModelAndView mv,
                                SignupDTO signupDTO,
-                               RedirectAttributes rAttr){
+                               RedirectAttributes rAttr) {
 
         Integer result = memberService.regist(signupDTO);
 
@@ -42,11 +45,11 @@ public class MemberController {
             message = "이미 해당 아이디 또는 이메일로 가입된 회원이 있습니다.<br> 다시 입력해주세요.";
             System.out.println("message = " + message);
             mv.setViewName("redirect:/member/signup");
-        }else if(result >= 1){
+        } else if (result >= 1) {
             message = "회원 가입이 성공적으로 완료되었습니다.";
             System.out.println("message = " + message);
             mv.setViewName("redirect:/");
-        }else{
+        } else {
             message = "알 수 없는 오류가 발생했습니다. 관리자에게 문의하세요";
             System.out.println("message = " + message);
             mv.setViewName("redirect:/member/signup");
@@ -55,6 +58,7 @@ public class MemberController {
         rAttr.addFlashAttribute("message", message); // 리다이렉트
         return mv;
     }
+
     // 아이디 중복 확인
     @GetMapping("/check-duplicate")
     @ResponseBody //메서드 반환값인 Map<String, Boolean>을 JSON 형식으로 변환하여 클라이언트에게 응답으로 전송함(html파일쪽으로)
@@ -63,5 +67,26 @@ public class MemberController {
         Map<String, Boolean> response = new HashMap<>(); // 객체생성
         response.put("duplicate", isDuplicate); //  duplicate키에 중복여부 저장
         return response;
+    }
+
+    @GetMapping("/mypage")
+    public String mypage(@AuthenticationPrincipal MemberDTO member, Model model) {
+        model.addAttribute("member", member);
+        return "member/mypage"; // 일반 사용자 마이페이지
+    }
+
+    // 관리자 마이페이지
+    @GetMapping("/adminmypage")
+    public String adminMypage(@AuthenticationPrincipal MemberDTO member, Model model) {
+        // 관리자 권한 체크
+        boolean isAdmin = member.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals("ADMIN"));
+
+        if (isAdmin) {
+            model.addAttribute("member", member);
+            return "member/adminmypage"; // 관리자 마이페이지
+        } else {
+            return "redirect:/"; // 권한이 없으면 메인 페이지로 리디렉션
+        }
     }
 }

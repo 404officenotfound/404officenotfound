@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="/css/header.css">
@@ -10,12 +11,25 @@
   <div class="top-header">
     <div th:fragment="top-header">
       <div class="auth-links">
-        <a th:href="@{/login}">로그인</a>
-        <a href="member/signup">회원가입</a>
+        <th:block sec:authorize="isAnonymous()">
+          <a th:href="@{/auth/login}">로그인</a>
+          <a th:href="@{/member/signup}">회원가입</a>
+        </th:block>
+        <th:block sec:authorize="isAuthenticated()">
+          <span th:text="|${ #authentication.principal.memberName } 님 안녕하세요.|"></span>
+          <a th:href="${#authorization.expression('hasAuthority(''ADMIN'')') ? '/member/adminmypage' : '/member/mypage'}">
+            마이페이지
+          </a>
+          <form th:action="@{/auth/logout}" method="post" style="display: inline;">
+            <button type="submit">로그아웃</button>
+          </form>
+        </th:block>
+      </div>
       </div>
     </div>
 
-    <span id="logo-header"><img th:src="@{/img/logo/새로고.JPG}" width="300px" height="150px"></span>
+    <span id="logo-header">
+      <a th:href="@{/}"><img th:src="@{/img/logo/새로고.JPG}" width="300px" height="150px"/></a></span>
     <nav>
       <ul class="nav-menu">
         <li><a th:href="@{/company}">회사소개</a></li>
@@ -29,11 +43,11 @@
         <li class="dropdown">
           <span>게시판</span>
           <ul class="dropdown-menu">
-            <li><a th:href="@{/main/board/faq}">FAQ</a></li>
-            <li><a th:href="@{/board/inquiry}">1:1 문의</a></li>
+            <li><a th:href="@{/faq/list}">FAQ</a></li>
+            <li><a th:href="@{/inquiry/list}">1:1 문의</a></li>
           </ul>
         </li>
-        <li><a th:href="@{/event}">이벤트</a></li>
+        <li><a th:href="@{/event/list}">이벤트</a></li>
       </ul>
     </nav>
 </header>

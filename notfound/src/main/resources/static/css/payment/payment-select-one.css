@@ -1,0 +1,119 @@
+/* 드롭다운 메뉴 보이기 */
+.show {
+    display: block !important; /* show 클래스가 추가되면 display 속성 변경 */
+}
+
+/* 드롭다운 메뉴 숨기기 */
+.dropdown-content {
+    display: none; /* 기본적으로 드롭다운 메뉴는 숨겨짐 */
+    position: absolute;
+    background-color: white;
+    min-width: 200px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+/* 각 검색 필드는 기본적으로 숨김 */
+.search-field {
+    display: none;
+}
+
+/* 선택된 검색 필드만 보이도록 */
+.search-field.active {
+    display: flex;
+    align-items: center;
+    gap: 10px;  /* 각 검색 필드 안의 간격 */
+}
+
+/* 검색 버튼과 전체 조회 버튼을 나란히 배치 */
+.search-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.search-field {
+    display: flex;  /* 버튼을 나란히 배치 */
+    gap: 10px;      /* 버튼 사이 간격 */
+    align-items: center; /* 수평 중앙 정렬 */
+}
+
+/* 드롭다운 버튼 스타일 */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.dropdown-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100px;
+    text-align: center;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 200px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.dropdown-content button {
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.dropdown-content button:hover {
+    background-color: #f1f1f1;
+}
+
+/* 검색 버튼 스타일 */
+.search-button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.search-button:hover {
+    background-color: #218838;
+}
+
+/* 전체 조회 버튼 스타일 (항상 보이도록) */
+.search-field button {
+    display: inline-block;
+    visibility: visible;
+    opacity: 1;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #4CAF50; /* 버튼 배경 색 */
+    color: white;              /* 텍스트 색 */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.search-field button:hover {
+    background-color: #45a049; /* 호버 상태에서 배경 색 */
+}
