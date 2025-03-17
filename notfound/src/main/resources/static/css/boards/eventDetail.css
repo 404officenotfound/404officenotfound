@@ -1,0 +1,70 @@
+main {
+    margin-top: 280px; /* 헤더 높이만큼 여백 추가 */
+    padding: 20px; /* 내부 여백 */
+}
+.event {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #f9f9f9; /* 부드러운 배경색 */
+    border-radius: 10px; /* 모서리 둥글게 처리 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 약간의 그림자 추가 */
+    display: flex;
+    flex-direction: column; /* 리뷰 섹션을 수직 레이아웃으로 정렬 */
+    gap: 20px; /* 리뷰 간 간격 */
+}
+
+.card-body {
+    /*border: 1px solid black;*/
+    margin: 0 auto;
+
+    img {
+        display: block; /* 이미지를 블록 요소로 변경 */
+        margin: 0 auto; /* 수평 가운데 정렬 */
+        text-align: center; /* 컨테이너 내에서 텍스트/이미지 가운데 정렬 */
+
+    }
+}
+
+.text-body-secondary {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.card-text {
+    text-align: center;
+}
+
+.card-body h5 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 30px;
+    text-align: center;
+    a {
+        text-decoration-line: none;
+    }
+}
+
+.card-buttons {
+    border: 1px solid black;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+button {
+    background-color: #000000; /* 검정 배경 */
+    color: #FFFFFF; /* 흰색 텍스트 */
+    border: 1px solid #000000;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    width: 200px;
+}
+
+button:hover {
+    background-color: #FFFFFF; /* 흰색 배경 */
+    color: #000000; /* 검정 텍스트 */
+    border: 1px solid #000000;
+}

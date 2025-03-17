@@ -1,64 +1,50 @@
 package com.office.notfound.reservation.controller;
 
-import com.office.notfound.payment.model.dto.PaymentDTO;
 import com.office.notfound.reservation.model.dto.ReservationDTO;
 import com.office.notfound.reservation.model.service.ReservationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
-@RequestMapping ("/reservation")
-public class ReservationController {
+@RequestMapping("/admin")
+public class AdminController {
 
     private final ReservationService reservationService;
 
-    @Autowired
-    public ReservationController(ReservationService reservationService) {
+    public AdminController(ReservationService reservationService) {
         this.reservationService = reservationService;
     }
 
-    @GetMapping("/search/all")
-    public String search(Model model) {
-        List<ReservationDTO> reservationList = reservationService.findAllReservation();
-        model.addAttribute("reservationList", reservationList);
-        model.addAttribute("searchExecuted", true);
-        if (reservationList.isEmpty()) {
-            model.addAttribute("noResultsMessage", "검색 결과가 없습니다.");
-        }
-        return "reservation/search";
-    }
-
-    @GetMapping("/search")
-    public String searchResevation(
+    @GetMapping("/reservation/search")
+    public String searchReservation(
             @RequestParam(required = false) String reservationCode,
+            @RequestParam(required = false) Integer memberCode,
             @RequestParam(required = false) String reservationDate,
             @RequestParam(required = false) String startDatetime,
             @RequestParam(required = false) String endDatetime,
-            Model model){
+            Model model) {
 
         // 현재 선택된 검색 유형을 판별
         String selectedSearchType = "reservationCode"; // 기본값: 예약번호 검색
-        if (reservationDate != null && !reservationDate.isEmpty()) {
+        if (memberCode != null) {
+            selectedSearchType = "memberCode";
+        } else if (reservationDate != null && !reservationDate.isEmpty()) {
             selectedSearchType = "reservationDate";
         } else if (startDatetime != null && endDatetime != null && !startDatetime.isEmpty() && !endDatetime.isEmpty()) {
             selectedSearchType = "reservationPeriod";
         }
 
-
         // 검색이 실행되지 않은 경우 -> 결과 없이 반환
         if ((reservationCode == null || reservationCode.isEmpty()) &&
+                memberCode == null &&
                 (reservationDate == null || reservationDate.isEmpty()) &&
                 (startDatetime == null || startDatetime.isEmpty()) &&
                 (endDatetime == null || endDatetime.isEmpty())) {
             model.addAttribute("searchExecuted", false);
-            return "reservation/search";
+            return "admin/reservation/search";
         }
 
         // 예약번호 입력값 검증 (숫자가 아닌 경우 예외 처리)
@@ -69,12 +55,13 @@ public class ReservationController {
             } catch (NumberFormatException e) {
                 model.addAttribute("noResultsMessage", "예약번호는 숫자로 입력해주세요.");
                 model.addAttribute("searchExecuted", true);
-                return "reservation/search";
+                return "admin/reservation/search";
             }
         }
 
         // 검색 수행
-        List<ReservationDTO> searchReservation = reservationService.searchReservation(reservationCodeInt, reservationDate, startDatetime, endDatetime);
+        List<ReservationDTO> searchReservation = reservationService.searchAdminReservation(
+                reservationCodeInt, memberCode, reservationDate, startDatetime, endDatetime);
 
         // 검색이 실행되었음을 표시
         model.addAttribute("searchExecuted", true);
@@ -85,17 +72,41 @@ public class ReservationController {
         }
         model.addAttribute("selectedSearchType", selectedSearchType);
         model.addAttribute("searchReservation", searchReservation);
-        return "reservation/search";
+        return "admin/reservation/search";
     }
-    @PostMapping("/cancel-multiple")
+
+    @GetMapping("/reservation/search/all")
+    public String getAllReservations(Model model) {
+        List<ReservationDTO> reservationList = reservationService.findAllReservation();
+        model.addAttribute("reservationList", reservationList);
+        model.addAttribute("searchExecuted", true);
+        if (reservationList.isEmpty()) {
+            model.addAttribute("noResultsMessage", "검색 결과가 없습니다.");
+        }
+        return "admin/reservation/search";
+    }
+
+    @PostMapping("/reservation/cancel")
     public String cancelMultipleReservations(@RequestParam("reservationCodes") List<Integer> reservationCodes) {
         if (reservationCodes != null && !reservationCodes.isEmpty()) {
             for (int reservationCode : reservationCodes) {
                 reservationService.cancelReservation(reservationCode);
             }
         }
-        return "redirect:/reservation/search"; // 예약 목록 페이지로 이동
+        return "redirect:/admin/reservation/search";
     }
 
-}
+    @PostMapping("/reservation/delete-old")
+    public String deleteOldReservations() {
+        int deletedCount = reservationService.deleteOldCanceledReservations();
+        return "redirect:/admin/reservation/search";
+    }
 
+        @PostMapping("/reservation/delete")
+    public String deleteReservations(@RequestParam("reservationCodes") List<Integer> reservationCodes) {
+        if (reservationCodes != null && !reservationCodes.isEmpty()) {
+            reservationService.deleteReservations(reservationCodes);
+        }
+        return "redirect:/admin/reservation/search";
+    }
+} 

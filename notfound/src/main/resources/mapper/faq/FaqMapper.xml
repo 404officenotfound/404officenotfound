@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.office.notfound.faq.model.dao.FaqMapper">
+
+    <!-- tbl_event -->
+    <resultMap id="selectAllFaqListMapper" type="com.office.notfound.faq.model.dto.FaqDTO">
+        <id property="faqCode" column="faq_code"/>
+        <result property="faqTitle" column="faq_title"/>
+        <result property="faqContent" column="faq_content"/>
+    </resultMap>
+
+    <select id="selectAllFaqList" resultMap="selectAllFaqListMapper">
+        SELECT * FROM tbl_faq f
+    </select>
+
+    <select id="selectFaqByCode" parameterType="int" resultMap="selectAllFaqListMapper">
+        SELECT * FROM tbl_faq f
+        WHERE faq_code = #{code}
+    </select>
+</mapper>

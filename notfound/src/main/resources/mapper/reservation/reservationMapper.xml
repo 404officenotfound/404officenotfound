@@ -7,10 +7,10 @@
         <result property="reservationCode" column="reservation_code"/>
         <result property="memberCode" column="member_code"/>
         <result property="storeName" column="storeName"/>
-        <result property="reservationDate" column="reservation_date"/>
         <result property="startDatetime" column="start_datetime"/>
         <result property="endDatetime" column="end_datetime"/>
         <result property="totalPrice" column="total_price"/>
+        <result property="reservationStatus" column="reservation_status"/>
     </resultMap>
 
 
@@ -22,49 +22,113 @@
             r.reservation_code,
             r.member_code,
             CONCAT(s.store_name, '(', o.office_num, ')') AS storeName,
-            r.reservation_date,
             r.start_datetime,
             r.end_datetime,
-            r.total_price
+            r.total_price,
+            r.reservation_status
         FROM
             tbl_reservation r
                 JOIN tbl_office o ON r.office_code = o.office_code
                 JOIN tbl_store s ON o.store_code = s.store_code
         ORDER BY
-            r.reservation_date DESC;
+            r.reservation_code DESC;
     </select>
 
-<!-- 결제 상세 조회 -->
+<!-- 예약 상세 조회 -->
     <select id="searchReservation" resultMap="reservationResultMap">
         SELECT
-            reservation_code,
-            member_code,
-            office_code,
-            resrevation_date,
-            start_datetime,
-            end_datetime,
-            total_price
+            r.reservation_code,
+            r.member_code,
+            CONCAT(s.store_name, '(', o.office_num, ')') AS storeName,
+            r.start_datetime,
+            r.end_datetime,
+            r.total_price,
+            r.reservation_status
         FROM
-            tbl_reservation
+        tbl_reservation r
+            JOIN tbl_office o ON r.office_code = o.office_code
+            JOIN tbl_store s ON o.store_code = s.store_code
         WHERE
         1 = 1
-        <if test="reservationCode != null">
-            AND resercation_code = #{reservationCode}
+        <if test="reservationCodeInt != null">
+            AND reservation_code = #{reservationCodeInt}
         </if>
 
-        <if test="reservationDate != null and paymentDate != ''">
-            AND DATE_FORMAT(reservation_date, '%Y-%m-%d') = #{reservationDate}
+        <if test="reservationDate != null and reservationDate != ''">
+            AND DATE_FORMAT(start_datetime, '%Y-%m-%d') = #{startDatetime}
         </if>
 
-        <if test="startDatetime != null and startDate != ''">
+        <if test="startDatetime != null and startDatetime != ''">
             AND DATE_FORMAT(start_datetime, '%Y-%m-%d') >= #{startDatetime}
         </if>
 
-        <if test="endDatetime != null and endDate != ''">
+        <if test="endDatetime != null and endDatetime != ''">
             AND DATE_FORMAT(end_datetime, '%Y-%m-%d') &lt; #{endDatetime}
         </if>
 
-        ORDER BY payment_date DESC
-
+        ORDER BY
+        r.reservation_code DESC;
     </select>
+
+    <select id="searchAdminReservation" resultMap="reservationResultMap">
+    SELECT
+    r.reservation_code,
+    r.member_code,
+    CONCAT(s.store_name, '(', o.office_num, ')') AS storeName,
+    r.start_datetime,
+    r.end_datetime,
+    r.total_price,
+    r.reservation_status
+    FROM
+    tbl_reservation r
+    JOIN tbl_office o ON r.office_code = o.office_code
+    JOIN tbl_store s ON o.store_code = s.store_code
+    WHERE
+    1 = 1
+    <if test="reservationCodeInt != null">
+        AND reservation_code = #{reservationCodeInt}
+    </if>
+
+      <if test="memberCodeInt != null">
+        AND member_code = #{memberCodeInt}
+    </if>
+
+    <if test="reservationDate != null and reservationDate != ''">
+        AND DATE_FORMAT(start_datetime, '%Y-%m-%d') = #{startDatetime}
+    </if>
+
+    <if test="startDatetime != null and startDatetime != ''">
+        AND DATE_FORMAT(start_datetime, '%Y-%m-%d') >= #{startDatetime}
+    </if>
+
+    <if test="endDatetime != null and endDatetime != ''">
+        AND DATE_FORMAT(end_datetime, '%Y-%m-%d') &lt; #{endDatetime}
+    </if>
+
+    ORDER BY
+        r.reservation_code DESC;
+</select>
+
+    <update id="updateReservationStatus">
+        UPDATE tbl_reservation
+        SET reservation_status = #{status}
+        WHERE reservation_code = #{reservationCode}
+    </update>
+
+    <delete id="deleteOldCanceledReservations">
+        DELETE FROM tbl_reservation
+        WHERE reservation_status = '예약취소'
+          AND <![CDATA[ DATE_ADD(start_datetime, INTERVAL 30 DAY) < NOW() ]]>;
+    </delete>
+
+    <delete id="deleteReservations">
+        DELETE FROM tbl_reservation 
+        WHERE reservation_code IN
+        <foreach item="code" collection="reservationCodes" open="(" separator="," close=")">
+            #{code}
+        </foreach>
+        AND reservation_status = '예약취소'
+    </delete> 
+
+
 </mapper>
