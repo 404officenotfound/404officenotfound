@@ -1,5 +1,9 @@
 package com.office.notfound.review.model.dto;
 
+import org.springframework.cglib.core.Local;
+
+import java.time.LocalDate;
+
 public class ReviewDTO {
 
     private int reviewCode;
@@ -8,14 +12,14 @@ public class ReviewDTO {
     private String memberId;
     private String reviewTitle;
     private String reviewContent;
-    private String reviewDate;
+    private LocalDate reviewDate;
     private String reviewRating;
     private String reviewImage;
 
     public ReviewDTO() {
     }
 
-    public ReviewDTO(int reviewCode, int memberCode, int paymentCode, String memberId, String reviewTitle, String reviewContent, String reviewDate, String reviewRating, String reviewImage) {
+    public ReviewDTO(int reviewCode, int memberCode, int paymentCode, String memberId, String reviewTitle, String reviewContent, LocalDate reviewDate, String reviewRating, String reviewImage) {
         this.reviewCode = reviewCode;
         this.memberCode = memberCode;
         this.paymentCode = paymentCode;
@@ -75,11 +79,11 @@ public class ReviewDTO {
         this.reviewContent = reviewContent;
     }
 
-    public String getReviewDate() {
+    public LocalDate getReviewDate() {
         return reviewDate;
     }
 
-    public void setReviewDate(String reviewDate) {
+    public void setReviewDate(LocalDate reviewDate) {
         this.reviewDate = reviewDate;
     }
 
