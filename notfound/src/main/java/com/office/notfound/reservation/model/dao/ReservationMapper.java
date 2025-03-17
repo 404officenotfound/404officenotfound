@@ -10,13 +10,25 @@ import java.util.List;
 
 @Mapper
 public interface ReservationMapper {
+
+    List<ReservationDTO> findAllReservationByMember(@Param("memberCode") Integer memberCode);
+
+    List<ReservationDTO> searchReservationByMember(@Param("memberCode") Integer memberCode,
+                                                   @Param("reservationCodeInt") Integer reservationCodeInt,
+                                                   @Param("reservationDate") String reservationDate,
+                                                   @Param("startDatetime") String startDatetime,
+                                                   @Param("endDatetime") String endDatetime);
+
+    void cancelReservationsByMember(@Param("memberCode") Integer memberCode,
+                                    @Param("reservationCodes") List<Integer> reservationCodes);
+
     List<ReservationDTO> findAllReservation();
 
     List<ReservationDTO> searchReservation(Integer reservationCodeInt, String reservationDate, String startDatetime, String endDatetime);
+    void updateReservationStatus(String status, int reservationCode);
 
     int deleteOldCanceledReservations();
 
-    void updateReservationStatus(String status, int reservationCode);
 
     List<ReservationDTO> searchAdminReservation(Integer reservationCodeInt, Integer memberCodeInt, String reservationDate, String startDatetime, String endDatetime);
 

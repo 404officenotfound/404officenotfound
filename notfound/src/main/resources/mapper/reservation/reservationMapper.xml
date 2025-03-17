@@ -128,7 +128,50 @@
             #{code}
         </foreach>
         AND reservation_status = '예약취소'
-    </delete> 
+    </delete>
+
+    <!-- 로그인한 사용자의 예약 전체 조회 -->
+    <select id="findAllReservationByMember" resultMap="reservationResultMap">
+        SELECT
+            r.reservation_code,
+            r.member_code,
+            CONCAT(s.store_name, '(', o.office_num, ')') AS storeName,
+            r.start_datetime,
+            r.end_datetime,
+            r.total_price,
+            r.reservation_status
+        FROM
+            tbl_reservation r
+                JOIN tbl_office o ON r.office_code = o.office_code
+                JOIN tbl_store s ON o.store_code = s.store_code
+        WHERE
+            r.member_code = #{memberCode}
+        ORDER BY
+            r.reservation_code DESC;
+    </select>
+
+    <!-- 로그인한 사용자의 예약 검색 -->
+    <select id="searchReservationByMember" resultMap="reservationResultMap">
+        SELECT * FROM tbl_reservation
+        WHERE member_code = #{memberCode}
+        <if test="reservationCodeInt != null">
+            AND reservation_code = #{reservationCodeInt}
+        </if>
+        <if test="reservationDate != null and reservationDate != ''">
+            AND DATE(start_datetime) = #{reservationDate}
+        </if>
+    </select>
+
+    <!-- 로그인한 사용자의 예약 취소 -->
+    <delete id="cancelReservationsByMember">
+        DELETE FROM tbl_reservation
+        WHERE reservation_code IN
+        <foreach item="code" collection="reservationCodes" open="(" separator="," close=")">
+            #{code}
+        </foreach>
+        AND member_code = #{memberCode};
+    </delete>
+
 
 
 </mapper>

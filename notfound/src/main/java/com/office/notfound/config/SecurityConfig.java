@@ -1,6 +1,7 @@
 package com.office.notfound.config;
 
 import com.office.notfound.exception.AuthFailHandler;
+import com.office.notfound.security.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -17,11 +18,15 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfig {
     private final AuthFailHandler authFailHandler;
+    private final CustomUserDetailsService customUserDetailsService;
 
     @Autowired
-    public SecurityConfig(AuthFailHandler authFailHandler) {
+    public SecurityConfig(AuthFailHandler authFailHandler, CustomUserDetailsService customUserDetailsService) {
         this.authFailHandler = authFailHandler;
+        this.customUserDetailsService = customUserDetailsService;
     }
+
+
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -47,6 +52,10 @@ public class SecurityConfig {
 //            auth.requestMatchers("/admin/*").hasAnyAuthority("ADMIN");
             // '/user/*' 엔드포인트는 USER 권한을 가진 사용자만 접근 허용
 //            auth.requestMatchers("/user/*").hasAnyAuthority("USER");
+
+            // 예약 관련 API는 로그인한 사용자만 접근 가능
+            auth.requestMatchers("/reservation/**").hasAuthority("USER");
+
             // 이외의 나머지 요청은 모두 인증된 사용자만 접근 가능
 //            auth.anyRequest().authenticated();
             /* 설명. 프로젝트 초기에 인증/인가 기능이 아직 미구현 상태일 때 Security 기능을 약화시켜
