@@ -10,8 +10,13 @@
       <tr>
           <th>리뷰번호</th>
           <!--            <th>권한번호</th>-->
+          <th>멤버코드</th>
+          <th>결제코드</th>
+          <th>멤버아이디</th>
           <th>리뷰 제목</th>
           <th>리뷰 내용</th>
+          <th>등록날짜</th>
+          <th>평점</th>
           <th> 이미지</th>
       </tr>
       <tr th:each="review : ${reviewList}">
@@ -26,7 +31,7 @@
           <td th:text="${review.reviewImage}"></td>
       </tr>
   </table>
-    <h1> 리뷰가 등록된 사무실 전체 조회 ㄱ  </h1>
+  <a href="/review/regist">리뷰 등록 페이지로 이동</a>
   <br>
 <!--    <a th:href="@{/review/list/detail/{code}}" >사무실 코드 1번</a>-->
   <a href="/review/officelist">리뷰가 등록된 사무실 전체 조회</a>

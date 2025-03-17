@@ -14,4 +14,6 @@ public interface ReviewMapper {
     List<OfficeReviewDTO> selectOfficeReviewList();
 
     List<OfficeReviewDTO> findOfficeReview(int storeCode);
+
+    void registNewReview(ReviewDTO newReview);
 }

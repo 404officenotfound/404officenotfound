@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="create-form">
+    <h2>지점 새 등록</h2>
+    <form th:action="@{/store/admin/storecreate}" method="post" encType="multipart/form-data">
+        <fieldset>
+            <legend>필수 입력</legend>
+            <label for="storeName">지점명 : </label><input type="text" id="storeName" name="storeName" required><br>
+            <label for="storeCity">시/도 : </label><input type="text" id="storeCity" name="storeCity" required><br>
+            <label for="storeGu">시/군/구 : </label><input type="text" id="storeGu" name="storeGu" required><br>
+            <label for="storeAddress">상세주소 : </label><input type="text" id="storeAddress" name="storeAddress" required><br>
+            <label for="description">지점설명 : </label><input type="text" id="description" name="description" required><br>
+            <label for="storeThumbnail">썸네일 : </label><input type="file" id="storeThumbnail" name="storeThumbnail" required><br>
+        </fieldset>
+        <fieldset>
+            <legend>선택 입력</legend>
+            <label for="storeImg1">상세사진1 : </label><input type="file" id="storeImg1" name="storeImg1"><br>
+            <label for="storeImg2">상세사진2 : </label><input type="file" id="storeImg2" name="storeImg2"><br>
+            <label for="storeImg3">상세사진3 : </label><input type="file" id="storeImg3" name="storeImg3"><br>
+        </fieldset>
+        <input type="submit" value="작성완료">
+    </form>
+
+    <div th:if="${message}" th:text="${message}"
+         th:class="${'message ' + (messageType ?: 'info')}">
+
+    </div>
+
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>
