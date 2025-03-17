@@ -70,6 +70,45 @@
         r.reservation_code DESC;
     </select>
 
+    <select id="searchAdminReservation" resultMap="reservationResultMap">
+    SELECT
+    r.reservation_code,
+    r.member_code,
+    CONCAT(s.store_name, '(', o.office_num, ')') AS storeName,
+    r.start_datetime,
+    r.end_datetime,
+    r.total_price,
+    r.reservation_status
+    FROM
+    tbl_reservation r
+    JOIN tbl_office o ON r.office_code = o.office_code
+    JOIN tbl_store s ON o.store_code = s.store_code
+    WHERE
+    1 = 1
+    <if test="reservationCodeInt != null">
+        AND reservation_code = #{reservationCodeInt}
+    </if>
+
+      <if test="memberCodeInt != null">
+        AND member_code = #{memberCodeInt}
+    </if>
+
+    <if test="reservationDate != null and reservationDate != ''">
+        AND DATE_FORMAT(start_datetime, '%Y-%m-%d') = #{startDatetime}
+    </if>
+
+    <if test="startDatetime != null and startDatetime != ''">
+        AND DATE_FORMAT(start_datetime, '%Y-%m-%d') >= #{startDatetime}
+    </if>
+
+    <if test="endDatetime != null and endDatetime != ''">
+        AND DATE_FORMAT(end_datetime, '%Y-%m-%d') &lt; #{endDatetime}
+    </if>
+
+    ORDER BY
+        r.reservation_code DESC;
+</select>
+
     <update id="updateReservationStatus">
         UPDATE tbl_reservation
         SET reservation_status = #{status}
@@ -81,6 +120,15 @@
         WHERE reservation_status = '예약취소'
           AND <![CDATA[ DATE_ADD(start_datetime, INTERVAL 30 DAY) < NOW() ]]>;
     </delete>
+
+    <delete id="deleteReservations">
+        DELETE FROM tbl_reservation 
+        WHERE reservation_code IN
+        <foreach item="code" collection="reservationCodes" open="(" separator="," close=")">
+            #{code}
+        </foreach>
+        AND reservation_status = '예약취소'
+    </delete> 
 
 
 </mapper>

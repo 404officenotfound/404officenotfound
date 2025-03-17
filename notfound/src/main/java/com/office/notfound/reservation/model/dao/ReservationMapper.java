@@ -12,10 +12,14 @@ import java.util.List;
 public interface ReservationMapper {
     List<ReservationDTO> findAllReservation();
 
-    List<PaymentDTO> searchReservation(Integer reservationCodeInt, String reservationDate, String startDatetime, String endDatetime);
+    List<ReservationDTO> searchReservation(Integer reservationCodeInt, String reservationDate, String startDatetime, String endDatetime);
 
     int deleteOldCanceledReservations();
 
     void updateReservationStatus(String status, int reservationCode);
+
+    List<ReservationDTO> searchAdminReservation(Integer reservationCodeInt, Integer memberCodeInt, String reservationDate, String startDatetime, String endDatetime);
+
+    void deleteReservations(@Param("reservationCodes") List<Integer> reservationCodes);
 }
 

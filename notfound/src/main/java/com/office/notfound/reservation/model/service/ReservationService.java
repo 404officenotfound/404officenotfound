@@ -22,7 +22,7 @@ public class ReservationService {
         return reservationMapper.findAllReservation();  // 메서드명 불일치
     }
 
-    public List<PaymentDTO> searchReservation(Integer reservationCodeInt, String reservationDate, String startDatetime, String endDatetime) {
+    public List<ReservationDTO> searchReservation(Integer reservationCodeInt, String reservationDate, String startDatetime, String endDatetime) {
     return reservationMapper.searchReservation(reservationCodeInt,reservationDate,startDatetime,endDatetime);
 
 
@@ -35,5 +35,15 @@ public class ReservationService {
 
     public int deleteOldCanceledReservations() {
         return reservationMapper.deleteOldCanceledReservations();
+    }
+
+    public List<ReservationDTO> searchAdminReservation(Integer reservationCodeInt, Integer memberCodeInt, String reservationDate, String startDatetime, String endDatetime) {
+    return reservationMapper.searchAdminReservation(reservationCodeInt,memberCodeInt,reservationDate,startDatetime,endDatetime);
+    }
+
+    public void deleteReservations(List<Integer> reservationCodes) {
+        if (reservationCodes != null && !reservationCodes.isEmpty()) {
+            reservationMapper.deleteReservations(reservationCodes);
+        }
     }
 }
