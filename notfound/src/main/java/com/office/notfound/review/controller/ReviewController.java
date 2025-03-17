@@ -63,15 +63,6 @@ public class ReviewController {
     @GetMapping("regist")
     public void registPage() {}
 
-/*    // 평점 컨트롤러 이걸로 사용하나?
-    @GetMapping(value="category", produces = "application/json; charset=UTF-8")
-    @ResponseBody
-    public List<CategoryDTO> findCategoryList() {
-
-        System.out.println("JavaScript 내장 함수인 fetch 비동기 함수 도착!");
-        return menuService.findAllCategory();
-    }*/
-
     @PostMapping("regist")
     public String registReview(@ModelAttribute ReviewDTO newReview,
                                @AuthenticationPrincipal MemberDTO member,
