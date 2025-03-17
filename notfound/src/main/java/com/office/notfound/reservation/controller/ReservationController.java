@@ -3,21 +3,33 @@ package com.office.notfound.reservation.controller;
 import com.office.notfound.member.model.dto.MemberDTO;
 import com.office.notfound.reservation.model.dto.ReservationDTO;
 import com.office.notfound.reservation.model.service.ReservationService;
+import com.office.notfound.store.model.dto.StoreDTO;
+import com.office.notfound.samusil.model.dto.OfficeDTO;
+import com.office.notfound.store.model.service.StoreService;
+import com.office.notfound.samusil.model.service.OfficeService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 @Controller
 @RequestMapping("/reservation")
 public class ReservationController {
 
     private final ReservationService reservationService;
+    private final StoreService storeService;
+    private final OfficeService officeService;
 
-    public ReservationController(ReservationService reservationService) {
+    public ReservationController(ReservationService reservationService, StoreService storeService, OfficeService officeService) {
         this.reservationService = reservationService;
+        this.storeService = storeService;
+        this.officeService = officeService;
     }
 
     /**
@@ -123,5 +135,82 @@ public class ReservationController {
         }
 
         return "redirect:/reservation/search";
+    }
+
+    /**
+     * 🔹 예약 등록 페이지 이동
+     */
+    @GetMapping("/register/{officeCode}")
+    public String showRegisterForm(@PathVariable int officeCode, Model model,
+                                   @AuthenticationPrincipal MemberDTO member) {
+        if (member == null) {
+            return "redirect:/auth/login";
+        }
+
+        // 📌 디버깅 로그 추가
+        System.out.println("📌 전달된 officeCode: " + officeCode);
+
+        // officeCode가 0이면 잘못된 요청이므로 예외 발생
+        if (officeCode <= 0) {
+            throw new RuntimeException("📌 유효하지 않은 officeCode: " + officeCode);
+        }
+
+        OfficeDTO office = officeService.findOfficeDetail(officeCode);
+
+        if (office == null) {
+            throw new RuntimeException("📌 office가 null입니다. officeCode: " + officeCode);
+        }
+
+        StoreDTO store = storeService.findStoreByCode(office.getStoreCode());
+
+        model.addAttribute("office", office);
+        model.addAttribute("store", store);
+
+        return "reservation/register";
+    }
+
+
+    /**
+     * 🔹 예약 가능한 시간대 조회
+     */
+    @PostMapping("/api/reservations/available-times")
+    @ResponseBody
+    public ResponseEntity<List<String>> getAvailableTimes(@RequestBody Map<String, Object> request) {
+        int officeCode = (int) request.get("officeCode");
+        String date = (String) request.get("date");
+        
+        List<String> availableTimes = reservationService.getAvailableTimeSlots(officeCode, date);
+        return ResponseEntity.ok(availableTimes);
+    }
+
+    /**
+     * 🔹 예약 등록 처리
+     */
+    @PostMapping("/api/reservations/register")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> registerReservation(
+            @RequestBody ReservationDTO reservation,
+            @AuthenticationPrincipal MemberDTO member) {
+        
+        Map<String, Object> response = new HashMap<>();
+        
+        if (member == null) {
+            response.put("success", false);
+            response.put("message", "로그인이 필요합니다.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+
+        try {
+            reservation.setMemberCode(member.getMemberCode());
+            reservationService.registerReservation(reservation);
+            
+            response.put("success", true);
+            response.put("message", "예약이 완료되었습니다.");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
     }
 }

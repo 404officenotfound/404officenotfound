@@ -6,11 +6,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 @Controller
+@RequestMapping("/store")
 public class OfficeController {
 
     private final OfficeService officeService;
@@ -28,7 +30,7 @@ public class OfficeController {
         model.addAttribute("officeList", officeList);
 
         // 반환할 뷰 aka 보여줄 html파일 작성
-        return "/detailstore";
+        return "/store/detailstore";
     }
 
     @GetMapping("detailoffice/{officeCode}")
@@ -38,6 +40,6 @@ public class OfficeController {
 
         model.addAttribute("office", office);
 
-        return "store/detailoffice";
+        return "/store/detailstore";
     }
 }

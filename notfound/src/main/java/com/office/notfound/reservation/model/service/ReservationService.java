@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -75,5 +76,45 @@ public class ReservationService {
      */
     public int deleteOldCanceledReservations() {
         return reservationMapper.deleteOldCanceledReservations();
+    }
+
+
+    /**
+     * 🔹 예약 가능한 시간대 조회
+     */
+    public List<String> getAvailableTimeSlots(int officeCode, String date) {
+        // 모든 시간대 생성 (0시부터 22시까지, 2시간 간격)
+        List<String> allTimeSlots = new ArrayList<>();
+        for (int i = 0; i < 24; i += 2) {
+            allTimeSlots.add(String.format("%02d:00", i));
+        }
+
+        // 이미 예약된 시간대 조회
+        List<String> bookedTimes = reservationMapper.findBookedTimeSlots(officeCode, date);
+        
+        // 예약 가능한 시간대만 필터링
+        allTimeSlots.removeAll(bookedTimes);
+        
+        return allTimeSlots;
+    }
+
+    /**
+     * 🔹 예약 등록
+     */
+    public void registerReservation(ReservationDTO reservation) {
+        // 예약 시간 중복 체크
+        boolean isTimeSlotAvailable = reservationMapper.checkTimeSlotAvailability(
+            reservation.getOfficeCode(),
+            reservation.getStartDatetime(),
+            reservation.getEndDatetime()
+        );
+
+        if (!isTimeSlotAvailable) {
+            throw new RuntimeException("이미 예약된 시간대입니다.");
+        }
+
+        // 예약 정보 저장
+        reservation.setReservationStatus("예약대기");
+        reservationMapper.insertReservation(reservation);
     }
 }

@@ -21,4 +21,20 @@
         FROM tbl_office
         WHERE store_code = #{storeCode}
     </select>
+
+    <select id="findOfficeDetail" parameterType="int" resultMap="officeResultMap">
+        SELECT
+            office_code,
+            store_code,
+            office_thumbnail,
+            office_num,
+            office_type,
+            office_price
+        FROM
+           tbl_office
+        WHERE
+            office_code = #{officeCode}
+    </select>
+
+
 </mapper>
