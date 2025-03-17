@@ -1,6 +1,6 @@
--- --------------------------------------------------------
--- db 생성 및 유저 권한 할당
--- --------------------------------------------------------
+# -- --------------------------------------------------------
+# -- db 생성 및 유저 권한 할당
+# -- --------------------------------------------------------
 # -- 1) 새로운 officenotfound 계정 만들기
 # create user 'officenotfound'@'%' identified by 'officenotfound';
 # -- 'localhost'대신 '%'(와일드카드 패턴)를 사용하면 외부 IP에서도 접근 가능하다.
@@ -61,6 +61,7 @@ CREATE TABLE IF NOT EXISTS tbl_member (
                                           CONSTRAINT pk_member_code PRIMARY KEY (member_code)
 ) ENGINE=INNODB COMMENT '회원정보';
 
+
 -- 2. 권한 테이블 (tbl_authority)
 CREATE TABLE IF NOT EXISTS tbl_authority
 (
@@ -113,45 +114,48 @@ CREATE TABLE IF NOT EXISTS tbl_office (
 ) ENGINE=INNODB COMMENT '사무실';
 
 -- 6. 예약 테이블 (tbl_reservation)
-CREATE TABLE IF NOT EXISTS tbl_reservation (
-                                               reservation_code INT AUTO_INCREMENT COMMENT '예약식별코드',
-                                               member_code INT NOT NULL COMMENT '회원식별코드',
-                                               office_code INT NOT NULL COMMENT '사무실식별코드',
-                                               reservation_date DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '예약일시',
-                                               start_datetime DATETIME NOT NULL COMMENT '이용시작일시',
-                                               end_datetime DATETIME NOT NULL COMMENT '이용종료일시',
-                                               reservation_status VARCHAR(20) DEFAULT '예약완료' COMMENT '예약상태',
-                                               total_price INT NOT NULL COMMENT '총 결제금액',
-                                               PRIMARY KEY (reservation_code),
-                                               FOREIGN KEY (member_code) REFERENCES tbl_member(member_code),
-                                               INDEX idx_reservation_member_id (member_code),
-                                               INDEX idx_reservation_date (reservation_date)
+CREATE TABLE tbl_reservation (
+                                 reservation_code INT AUTO_INCREMENT PRIMARY KEY COMMENT '예약번호',
+                                 member_code INT NOT NULL COMMENT '회원번호',
+                                 office_code INT NOT NULL COMMENT '사무실 번호',
+                                 start_datetime DATETIME NOT NULL COMMENT '이용 시작 시간',
+                                 end_datetime DATETIME NOT NULL COMMENT '이용 종료 시간',
+                                 reservation_status ENUM('예약완료', '예약취소') DEFAULT '예약완료' COMMENT '예약 상태',
+                                 total_price INT NOT NULL COMMENT '총 결제 금액',
+                                 FOREIGN KEY (member_code) REFERENCES tbl_member(member_code) ON DELETE CASCADE,
+                                 FOREIGN KEY (office_code) REFERENCES tbl_office(office_code) ON DELETE CASCADE,
+                                 INDEX idx_reservation_member_code (member_code),
+                                 INDEX idx_reservation_office_code (office_code),
+                                 INDEX idx_reservation_status (reservation_status)
 ) ENGINE=InnoDB COMMENT '예약';
 
+
 -- 7. 결제 테이블 (tbl_payment)
-CREATE TABLE IF NOT EXISTS tbl_payment (
-                                           payment_code INT AUTO_INCREMENT COMMENT '결제식별코드',
-                                           reservation_code INT NOT NULL COMMENT '예약식별코드',
-                                           member_code INT NOT NULL COMMENT '회원번호',
-                                           payment_date DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '결제일시',
-                                           payment_method VARCHAR(50) NOT NULL COMMENT '결제수단',
-                                           payment_amount INT NOT NULL COMMENT '결제금액',
-                                           payment_status VARCHAR(20) DEFAULT '결제완료' COMMENT '결제상태',
-                                           PRIMARY KEY (payment_code),
-                                           FOREIGN KEY (reservation_code) REFERENCES tbl_reservation(reservation_code),
-                                           FOREIGN KEY (`member_code`) REFERENCES `tbl_member` (`member_code`)
-) ENGINE=InnoDB COMMENT '결제';
+CREATE TABLE tbl_payment (
+                             payment_code INT AUTO_INCREMENT PRIMARY KEY COMMENT '결제번호',
+                             member_code INT NOT NULL COMMENT '회원번호',
+                             payment_date DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '결제일시',
+                             payment_method VARCHAR(50) NOT NULL COMMENT '결제수단',
+                             payment_amount INT NOT NULL COMMENT '실제 결제 금액',
+                             payment_status ENUM('결제완료', '결제취소') DEFAULT '결제완료' COMMENT '결제 상태',
+                             imp_uid VARCHAR(30) NOT NULL COMMENT 'API 결제번호',
+                             merchant_uid VARCHAR(50) NOT NULL COMMENT '가맹점 주문번호',
+                             api_parm TEXT NOT NULL COMMENT 'API 응답 데이터',
+                             FOREIGN KEY (member_code) REFERENCES tbl_member(member_code) ON DELETE CASCADE,
+                             INDEX idx_payment_member_code (member_code),
+                             INDEX idx_payment_status (payment_status)
+) ENGINE=InnoDB COMMENT '결제 테이블';
+
 
 -- 8. 예약별 결제 테이블 (tbl_reservation_payment)
-CREATE TABLE IF NOT EXISTS tbl_reservation_payment (
-                                                       reservation_payment_code INT AUTO_INCREMENT COMMENT '예약-결제 연결 코드',
-                                                       payment_code INT NOT NULL COMMENT '결제식별코드',
-                                                       reservation_code INT NOT NULL COMMENT '예약식별코드',
-                                                       PRIMARY KEY (reservation_payment_code),
-                                                       FOREIGN KEY (payment_code) REFERENCES tbl_payment(payment_code),
-                                                       FOREIGN KEY (reservation_code) REFERENCES tbl_reservation(reservation_code),
-                                                       INDEX idx_reservation_payment_payment_code (payment_code)
-) ENGINE=InnoDB COMMENT '결제와 예약 연결 테이블';
+
+CREATE TABLE tbl_reservation_payment (
+                                         reservation_code INT NOT NULL COMMENT '예약번호',
+                                         payment_code INT NOT NULL COMMENT '결제번호',
+                                         PRIMARY KEY (reservation_code, payment_code),
+                                         FOREIGN KEY (reservation_code) REFERENCES tbl_reservation(reservation_code) ON DELETE CASCADE,
+                                         FOREIGN KEY (payment_code) REFERENCES tbl_payment(payment_code) ON DELETE CASCADE
+) ENGINE=InnoDB COMMENT '예약-결제 관계 테이블';
 
 -- 9. 이벤트 테이블 (tbl_event)
 CREATE TABLE tbl_event (

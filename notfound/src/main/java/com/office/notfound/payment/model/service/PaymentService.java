@@ -17,6 +17,9 @@ public class PaymentService {
 
     public List<PaymentDTO> findAllPayment() { return paymentMapper.findAllPayment();}
 
+    public List<PaymentDTO> searchPayment(Integer paymentCodeInt, String paymentDate, String startDate, String endDate) {
+        return paymentMapper.searchPayment(paymentCodeInt, paymentDate, startDate, endDate);
+    }
 }
 
 

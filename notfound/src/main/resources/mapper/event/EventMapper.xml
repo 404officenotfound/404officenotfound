@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.office.notfound.event.model.dao.EventMapper">
+
+    <!-- tbl_event -->
+    <resultMap id="selectAllEventListMapper" type="com.office.notfound.event.model.dto.EventDTO">
+        <id property="eventCode" column="event_code"/>
+        <!-- 권한 테이블과 1:1 관계 이므로 association 활용...????-->
+        <!--        <association property="AuthorityDTO" column="authority_code" javaType="com.office.notfound.model.dto.AuthorityDTO">-->
+        <!--            <result property="authorityCode" column="authority_code"/>-->
+        <!--        </association>-->
+        <result property="eventTitle" column="event_title"/>
+        <result property="eventContent" column="event_content"/>
+        <result property="eventImg" column="event_img"/>
+        <result property="eventStatus" column="event_status"/>
+    </resultMap>
+
+    <select id="selectAllEventList" resultMap="selectAllEventListMapper">
+        SELECT * FROM tbl_event
+    </select>
+
+    <select id="selectEventByCode" parameterType="int" resultMap="selectAllEventListMapper">
+        SELECT * FROM tbl_event
+        WHERE event_code = #{code}
+    </select>
+</mapper>
