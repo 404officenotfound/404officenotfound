@@ -1,0 +1,32 @@
+main {
+    margin-top: 280px; /* 헤더 높이만큼 여백 추가 */
+    padding: 20px; /* 내부 여백 */
+}
+
+.faq-container {
+    font-family: Arial, sans-serif;
+}
+
+.faq-title {
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.faq-content {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.5;
+}
+
+.toggle-btn {
+    font-size: 1.2rem;
+    border: none;
+    background: none;
+    color: #007bff;
+    outline: none;
+    cursor: pointer;
+}
+
+.toggle-btn:hover {
+    text-decoration: underline;
+}
