@@ -52,7 +52,7 @@
         FROM tbl_store
         ORDER BY store_city
     </select>
-    <select id="findGuByCity" resultMap="storeResultMap">
+    <select id="findGuByCity" resultType="string">
         SELECT DISTINCT
             store_gu
         FROM

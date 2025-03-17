@@ -56,11 +56,6 @@ public class StoreService {
         storeMapper.insertStore(store);
     }
 
-
-//    public List<StoreDTO> selectRegions() {
-//        return storeMapper.selectRegions();
-//    }
-
     public List<String> getDistinctCities() {
 
         return storeMapper.findDistinctCities();

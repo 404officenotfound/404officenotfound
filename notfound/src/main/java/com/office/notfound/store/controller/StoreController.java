@@ -60,10 +60,6 @@ public class StoreController {
         model.addAttribute("officeList", officeList);
         model.addAttribute("FindOfficeReview", FindOfficeReview);
 
-
-//        System.out.println("officeList = " + officeList);
-//        System.out.println("FindOfficeReview = " + FindOfficeReview);
-
         return "store/detailstore";
     }
 
@@ -100,6 +96,13 @@ public class StoreController {
             rttr.addFlashAttribute("message", "새 지점 등록에 실패했습니다: " + e.getMessage());
             return "redirect:/store/admin/storecreate";
         }
+    }
+
+
+    // 지역별 지점 조회 페이지
+    @GetMapping("/store/storeregion")
+    public String storeRegionPage() {
+        return "store/storeregion";
     }
 
     // 시(city) 정보 조회
