@@ -5,8 +5,9 @@ INSERT INTO tbl_member
 VALUES
     ('정상협', 'user01', '$2a$10$cYuXuzmhojpxD2AV7CoZX.dq1qVXnWUlmdvx1Y3P5xezD5z968nNu', 'user01@gmail.com', '010-1234-5678', NULL, 'N'),
     ('일반사용자','user02', '$2a$10$A.i2AkaE/4qhjwo45MHofeShPXOLsD0HanK7Ce..npQj7GKslsJR.', 'user02@gmail.com', '010-1234-5678', NULL, 'N' ),
-    ('이영희', 'user03', '$2a$10$kF6MZTsmD8B78zEUPPTq8ufFgXfGZrzb9s9EHG2uILGeObAaFYb9W', 'user03@gmail.com', '010-9876-4321', NULL, 'N'),
-    ('박민수', 'user04', '$2a$10$uYFZbnG/dKvXzU9EwlYXxOlXzBd.OOXpBzO/LH9KhNJ8Io9kWzJ2.', 'user04@gmail.com', '010-3456-7890', NULL, 'N');
+    ('일반사용자2','user03', '$2a$10$bxvD9ctVmDoZjQAXv4nfVOQx6zyOR9hc2ELFKxK21wjRaHf/O3CQm', 'user03@gmail.com', '010-1234-5678', NULL, 'N' ),
+    ('일반사용자3','user04', '$2a$10$fWGThR11/nx7oDngNCTpiOq14g6tpjwf61TskCEZ1yFIIdI1CHTQu', 'user04@gmail.com', '010-1234-5678', NULL, 'N' );
+
 
 
 INSERT INTO tbl_authority
@@ -23,6 +24,7 @@ VALUES
     (2, 2),
     (3, 2),
     (4, 2);
+
 
 
 
