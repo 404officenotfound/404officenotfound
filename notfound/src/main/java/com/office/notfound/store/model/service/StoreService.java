@@ -39,6 +39,8 @@ public class StoreService {
     public StoreDTO findStoreByCode(int storeCode) {
         StoreDTO store = storeMapper.findStoreByCode(storeCode);
 
+//        return storeMapper.findStoreByCode(storeCode);
+
         return store;
     }
 
@@ -77,4 +79,14 @@ public class StoreService {
         return storeMapper.findStoresByCityAndGu(city, gu);
     }
 
+    @Transactional
+    public void updateStore(StoreDTO store) {
+        // 오류 발생시 자동 롤백
+        storeMapper.updateStore(store);
+    }
+
+    @Transactional
+    public void deleteStore(int storeCode) {
+        storeMapper.deleteStore(storeCode);
+    }
 }
