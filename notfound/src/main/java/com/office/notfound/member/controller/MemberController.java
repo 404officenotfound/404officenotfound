@@ -6,6 +6,7 @@ import com.office.notfound.member.model.dto.SignupDTO;
 import com.office.notfound.member.model.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -145,6 +146,74 @@ public class MemberController {
             return "redirect:/member/adminmypage";
         }
     }
+
+    // 비밀번호 확인
+    @PostMapping("/check-password")
+    public ResponseEntity<Map<String, Boolean>> checkPassword(@AuthenticationPrincipal MemberDTO member, @RequestBody Map<String, String> request) {
+        Map<String, Boolean> response = new HashMap<>();
+
+        if (member == null || request.get("password") == null) {
+            response.put("success", false);
+            return ResponseEntity.ok(response);
+        }
+
+        boolean isMatch = memberService.checkPassword(member.getMemberCode(), request.get("password"));
+        response.put("success", isMatch);
+        return ResponseEntity.ok(response);
+    }
+
+    // 회원 탈퇴 처리
+    @PostMapping("/withdrawal")
+    public ResponseEntity<Map<String, Object>> withdraw(@RequestBody MemberDTO memberDTO) {
+        Map<String, Object> result = new HashMap<>();
+
+        // 로그 추가
+        System.out.println("Received MemberDTO: " + memberDTO);
+
+        // memberCode 확인
+        if (memberDTO.getMemberCode() == 0) {
+            result.put("success", false);
+            result.put("message", "회원 코드가 올바르게 전달되지 않았습니다.");
+            return ResponseEntity.badRequest().body(result);
+        }
+
+        // 서비스 레이어 호출
+        boolean isDeleted = memberService.withdraw(memberDTO.getMemberCode());
+        if (isDeleted) {
+            result.put("success", true);
+            result.put("message", "회원 탈퇴가 완료되었습니다.");
+            return ResponseEntity.ok(result);
+        }
+
+        result.put("success", false);
+        result.put("message", "회원 탈퇴에 실패하였습니다.");
+        return ResponseEntity.status(500).body(result);
+    }
+
+    // 회원 이름과 이메일로 아이디 조회
+    @GetMapping("/find-id")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> findId(@RequestParam String memberName,
+                                                      @RequestParam String memberEmail) {
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            String memberId = memberService.findMemberIdByNameAndEmail(memberName, memberEmail);
+            if (memberId != null) {
+                response.put("success", true);
+                response.put("memberId", memberId);
+            } else {
+                response.put("success", false);
+                response.put("message", "해당하는 아이디가 존재하지 않습니다.");
+            }
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "오류가 발생했습니다: " + e.getMessage());
+        }
+
+        return ResponseEntity.ok(response);
+    }
+
 
 
 }
