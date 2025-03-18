@@ -5,14 +5,25 @@
     <title>Title</title>
   <link rel="stylesheet" href="/css/header.css">
   <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/mypage.css">
+    <link rel="stylesheet" href="/css/boards/my-reviews.css">
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
 <main>
-  <section>
+    <div class="mypage-container">
+    <div class="side-menu">
+        <ul>
+            <li><a href="/member/mypage">개인정보변경</a></li>
+            <li><a href="/member/reservation">예약관리</a></li>
+            <li><a href="/member/inquiry">문의내역</a></li>
+            <li><a href="/review/my-reviews">리뷰관리</a></li>
+        </ul>
+    </div>
+    <section class="my-reviews-container">
       <h3>리뷰 등록</h3>
-      <form action="/review/regist" method="post">
-          <label>제목 : </label><input type="text" name="reviewTitle"><br>
+      <form th:action="@{/review/regist}" method="post" enctype="multipart/form-data">
+          <label>제목 : </label><input type="text" name="reviewTitle" id="reviewTitle"><br>
           <label>평점 : </label>
           <select name="reviewRating" id="reviewRating">
               <option value="5">5점</option>
@@ -24,12 +35,35 @@
           <br>
           <label>내용 : </label><input type="text" name="reviewContent"><br>
           <label>이미지 업로드</label>
+
+          <span>파일 : <input type="file" name="reviewThumbnail" id="reviewThumbnail" accept="image/*" onchange="previewImage(this)"><br></span>
+          <img id="preview" class="preview-image">
+
           <button type="submit">등록하기</button>
-          <button onclick="location.href='/member/mypage'">이전으로</button><br>
-      </form>
-  </section>
+            </form>
+          <button onclick="location.href='/review/my-reviews'">이전으로</button>
+    </section>
+    </div>
+
+    <script>
+        /* 업로드할 이미지 미리보기 */
+        function previewImage(input) {
+            const preview = document.getElementById('preview');
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                preview.style.display = 'none';
+            }
+        }
+    </script>
+
   <div th:replace="~{fragments/footer :: footer}"></div>
 </main>
-
 </body>
 </html>

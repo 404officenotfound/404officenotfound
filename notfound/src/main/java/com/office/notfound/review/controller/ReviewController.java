@@ -12,6 +12,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
@@ -25,13 +26,11 @@ public class ReviewController {
     private static final Logger logger = LogManager.getLogger(ReviewController.class);
 
     private final ReviewService reviewService;
-    private final MessageSource messageSource;
 
     @Autowired
     public ReviewController(ReviewService reviewService, MessageSource messageSource) {
 
         this.reviewService = reviewService;
-        this.messageSource = messageSource;
     }
 
     // 리뷰 전체 조회
@@ -53,9 +52,29 @@ public class ReviewController {
         List<OfficeReviewDTO> officeReviewList = reviewService.selectOfficeReviewList();
 
         model.addAttribute("officeReview", officeReviewList);
-        System.out.println("officeReviewList--------------> " + officeReviewList);
+//        System.out.println("officeReviewList--------------> " + officeReviewList);
 
         return "review/officeReview";
+    }
+
+    // 나의 리뷰 조회
+    @GetMapping("/my-reviews")
+    public String selectMyReviews(@AuthenticationPrincipal MemberDTO member
+            , Model model) {
+
+//        System.out.println("member확인-------------------> " + member);
+
+        // 현재 로그인한 사용자의 ID 확인
+        System.out.println("로그인한 회원 ID: " + member.getMemberId());
+
+        // 로그인한 회원 ID로 리뷰 조회
+        List<ReviewDTO> myReviews = reviewService.selectReviewsByMemberId(member.getMemberId());
+
+        model.addAttribute("member", member);
+        model.addAttribute("reviewList", myReviews);
+//        System.out.println("myReviews--------------------> = " + myReviews);
+
+        return "review/my-reviews";
     }
 
 
@@ -63,9 +82,11 @@ public class ReviewController {
     @GetMapping("regist")
     public void registPage() {}
 
+    // 리뷰 등록
     @PostMapping("regist")
     public String registReview(@ModelAttribute ReviewDTO newReview,
                                @AuthenticationPrincipal MemberDTO member,
+                               @RequestParam("reviewThumbnail") MultipartFile reviewThumbnail,
                                RedirectAttributes rAttr,
                                Locale locale) {
         try {
@@ -74,24 +95,29 @@ public class ReviewController {
             // 로그인한 회원번호 찾아서 새 리뷰 객체에 넣기
             newReview.setMemberCode(member.getMemberCode());
             // 리뷰 등록 전 현재 날짜로 reviewRegistDate 설정
-            newReview.setReviewDate(LocalDate.now());
+//            newReview.setReviewDate(LocalDate.now());
 
-            System.out.println("newReview11111-------------------> = " + newReview);
-            System.out.println("member------------> = " + member);
+            newReview.setPaymentCode(1);        // payment_code를 1로 설정
 
-            reviewService.registNewReview(newReview);
+            System.out.println("newReview.getReviewDate() = " + newReview.getReviewDate());
+
+            reviewService.registNewReview(newReview, reviewThumbnail);
 
             logger.info("Locale : {}", locale);
 
-            rAttr.addFlashAttribute("successMessage", messageSource.getMessage("registReview", null, locale));
-//            System.out.println("newReview222222222------------> " + newReview);
+            rAttr.addFlashAttribute("message", "새 리뷰 등록을 성공하였습니다.");
+            System.out.println("newReview222222222------------> " + newReview);
 
-            return "redirect:/review/list";     // 리뷰 목록으로 리다이렉트
+            return "redirect:/review/my-reviews";     // 리뷰 목록으로 리다이렉트
 
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
+            rAttr.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/review/regist";
+        }   catch (Exception e) {
+            e.printStackTrace();
             rAttr.addFlashAttribute("errorMessage", "등록 실패: " + e.getMessage());
+            return "redirect:/review/regist";
         }
 
-        return "redirect:/review/regist";
     }
 }
