@@ -76,4 +76,5 @@ public class StoreService {
 
         return storeMapper.findStoresByCityAndGu(city, gu);
     }
+
 }

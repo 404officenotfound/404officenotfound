@@ -3,21 +3,33 @@ package com.office.notfound.reservation.controller;
 import com.office.notfound.member.model.dto.MemberDTO;
 import com.office.notfound.reservation.model.dto.ReservationDTO;
 import com.office.notfound.reservation.model.service.ReservationService;
+import com.office.notfound.store.model.dto.StoreDTO;
+import com.office.notfound.samusil.model.dto.OfficeDTO;
+import com.office.notfound.store.model.service.StoreService;
+import com.office.notfound.samusil.model.service.OfficeService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 @Controller
 @RequestMapping("/reservation")
 public class ReservationController {
 
     private final ReservationService reservationService;
+    private final StoreService storeService;
+    private final OfficeService officeService;
 
-    public ReservationController(ReservationService reservationService) {
+    public ReservationController(ReservationService reservationService, StoreService storeService, OfficeService officeService) {
         this.reservationService = reservationService;
+        this.storeService = storeService;
+        this.officeService = officeService;
     }
 
     /**
@@ -124,4 +136,35 @@ public class ReservationController {
 
         return "redirect:/reservation/search";
     }
+
+    /**
+     * 🔹 예약 등록 페이지 이동
+     */
+    @GetMapping("/register")
+    public String showRegisterForm(@RequestParam int storeCode,
+                                 @RequestParam int officeCode,
+                                 Model model,
+                                 @AuthenticationPrincipal MemberDTO member) {
+        if (member == null) {
+            return "redirect:/auth/login";
+        }
+
+        // 매장 정보 조회
+        StoreDTO store = storeService.findStoreByCode(storeCode);
+        
+        // 사무실 정보 조회
+        OfficeDTO office = officeService.findOfficeDetail(officeCode);
+
+        if (office == null) {
+            System.out.println("❌ Office 객체가 null입니다. officeCode: " + officeCode);
+            model.addAttribute("errorMessage", "해당 사무실 정보를 찾을 수 없습니다.");
+            return "error-page";
+        }
+
+        model.addAttribute("store", store);
+        model.addAttribute("office", office);
+        
+        return "reservation/register";
+    }
+
 }

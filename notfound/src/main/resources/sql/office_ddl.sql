@@ -120,7 +120,7 @@ CREATE TABLE tbl_reservation (
                                  office_code INT NOT NULL COMMENT '사무실 번호',
                                  start_datetime DATETIME NOT NULL COMMENT '이용 시작 시간',
                                  end_datetime DATETIME NOT NULL COMMENT '이용 종료 시간',
-                                 reservation_status ENUM('예약완료', '예약취소') DEFAULT '예약완료' COMMENT '예약 상태',
+                                 reservation_status ENUM('예약완료','예약대기','예약취소') DEFAULT '예약완료' COMMENT '예약 상태',
                                  total_price INT NOT NULL COMMENT '총 결제 금액',
                                  FOREIGN KEY (member_code) REFERENCES tbl_member(member_code) ON DELETE CASCADE,
                                  FOREIGN KEY (office_code) REFERENCES tbl_office(office_code) ON DELETE CASCADE,

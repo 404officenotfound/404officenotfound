@@ -99,5 +99,47 @@ function confirmCancelBatch(event) {
         event.preventDefault(); // 취소 선택 시 폼 제출 막기
         return false;
     }
+    document.addEventListener("DOMContentLoaded", function () {
+        const payButton = document.getElementById("payButton");
+
+        payButton.addEventListener("click", function () {
+            // 선택된 체크박스 가져오기
+            const selectedReservations = document.querySelectorAll(".reservationCheckbox:checked");
+
+            if (selectedReservations.length === 0) {
+                alert("결제할 예약을 선택해주세요.");
+                return;
+            }
+
+            // 선택한 예약 정보를 JSON으로 변환
+            const reservationData = Array.from(selectedReservations).map(reservation => ({
+                reservationCode: reservation.value
+            }));
+
+            console.log("결제 요청 데이터:", reservationData);
+
+            // AJAX 요청으로 결제 정보 전송
+            fetch("/payment/process", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ reservations: reservationData })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("결제가 완료되었습니다!");
+                        window.location.reload();  // 페이지 새로고침
+                    } else {
+                        alert("결제 실패: " + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error("결제 요청 오류:", error);
+                    alert("결제 요청 중 오류가 발생했습니다.");
+                });
+        });
+    });
 
 }

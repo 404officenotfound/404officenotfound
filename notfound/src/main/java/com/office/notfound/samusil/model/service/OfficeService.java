@@ -24,7 +24,8 @@ public class OfficeService {
     }
 
     public OfficeDTO findOfficeDetail(int officeCode) {
+        OfficeDTO office = officeMapper.findOfficeDetail(officeCode);
 
-        return officeMapper.findOfficeDetail(officeCode);
+        return office;
     }
 }
