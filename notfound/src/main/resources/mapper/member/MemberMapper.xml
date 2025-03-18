@@ -138,5 +138,37 @@
     WHERE
         member_code=#{memberCode}
     </update>
+    <!--  회원코드로 조회  -->
+    <select id="findMemberByCode" resultType="com.office.notfound.member.model.dto.MemberDTO">
+        SELECT
+            *
+        FROM
+            tbl_member
+        WHERE
+            member_code = #{memberCode}
+    </select>
+    <!-- 탈퇴처리   -->
+    <update id="withdrawMember">
+        UPDATE
+            tbl_member
+        SET
+            member_endstatus = 'Y',
+            member_enddate = NOW()
+        WHERE
+            member_code = #{memberCode}
+    </update>
+
+    <select id="findMemberIdByNameAndEmail" parameterType="map" resultType="string">
+        SELECT
+            member_id
+        FROM
+            tbl_member
+        WHERE
+            member_name = #{memberName}
+        AND member_email = #{memberEmail}
+    </select>
+
+
+
 </mapper>
 

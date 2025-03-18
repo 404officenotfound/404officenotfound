@@ -26,7 +26,7 @@ public class MemberService {
     public MemberService(MemberMapper memberMapper, PasswordEncoder passwordEncoder) {
         this.memberMapper = memberMapper;
         this.passwordEncoder = passwordEncoder;
-    }    
+    }
 
     @Transactional
     public Integer regist(SignupDTO signupDTO) {
@@ -65,12 +65,12 @@ public class MemberService {
         /* tbl_user_role 테이블에 신규 등록된 사용자의 PK와 일반사용자 권한 2(user)를 조합하여 삽입*/
         Integer result2 = null;
 
-        try{
+        try {
             result2 = memberMapper.registMemberAuthority(new MemberAuthorityDTO(maxMemberCode, 2));
-        } catch(DuplicateKeyException e){
+        } catch (DuplicateKeyException e) {
             result2 = 0;
             e.printStackTrace();
-        } catch(BadSqlGrammarException e){
+        } catch (BadSqlGrammarException e) {
             result2 = 0;
             e.printStackTrace();
         }
@@ -79,17 +79,18 @@ public class MemberService {
         /* 위 세가지 트랜잭션이 모두 성공해야 '회원가입'이라는 비즈니스 로직이 성공했다고 판단.*/
         Integer finalResult = null;
 
-        if(result1 == null || result2 == null){
+        if (result1 == null || result2 == null) {
             finalResult = null;
-        }else if(result1 == 1 && result2 == 1){
+        } else if (result1 == 1 && result2 == 1) {
             finalResult = 1;
-        }else{
+        } else {
             finalResult = 0;
         }
         /* 작업 결과 반환 */
         return finalResult;
 
     }
+
     /* Ajax 방식으로 서버에 요청하고, 서버에서 응답으로 JSON 데이터를 반환받아 처리 */
     // 아이디 중복 체크
     public boolean memberIdDuplicate(String memberId) {
@@ -132,6 +133,40 @@ public class MemberService {
 
         memberMapper.updateadmin(updateAdminMember);
     }
+
+    //비밀번호 검증
+    public boolean checkPassword(int memberCode, String inputPassword) {
+        MemberDTO member = memberMapper.findMemberByCode(memberCode);
+
+        // 로그 추가
+        System.out.println("Found Member: " + member);
+
+        if (member == null) return false;
+
+        // 비밀번호 검증 결과 로그
+        boolean isPasswordCorrect = passwordEncoder.matches(inputPassword, member.getMemberPassword());
+        System.out.println("비밀번호 검증 결과: " + isPasswordCorrect);
+
+        return isPasswordCorrect;
+    }
+
+
+    // 회원 탈퇴
+    @Transactional
+    public boolean withdraw(int memberCode) {
+        int result = memberMapper.withdrawMember(memberCode);
+
+        // 로그 추가
+        System.out.println("회원 탈퇴 결과: " + result);
+
+        return result > 0; // 업데이트된 행이 1 이상이어야 성공
+    }
+    // ID찾기
+    public String findMemberIdByNameAndEmail(String memberName, String memberEmail) {
+        return memberMapper.findMemberIdByNameAndEmail(memberName, memberEmail);
+    }
+
+
 }
 
 
