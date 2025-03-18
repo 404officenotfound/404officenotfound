@@ -13,6 +13,23 @@
             width: 500px;
             height: 500px;
         }
+        .pic{
+            display: flex;
+            justify-content: center;  /* 가로 중앙 정렬 */
+            align-items: center;      /* 세로 중앙 정렬 */
+        }
+        .lounge1{
+            width: 400px;
+            height: 300px;
+        }
+        .lounge2{
+            width: 400px;
+            height: 300px;
+        }
+        .lounge3{
+            width: 400px;
+            height: 300px;
+        }
         .offices {
             display: flex;
             flex-wrap: wrap; /* 줄바꿈 허용 */
@@ -73,7 +90,7 @@
             <table>
                 <tr>
                     <td>
-                        <img th:src="${store.storeThumbnail}" th:alt="${store.storeName}" class="store-thumbnail">
+                        <img th:src="${store.storeThumbnailUrl}" th:alt="${store.storeName}" class="store-thumbnail">
                     </td>
                     <td>
                         <h1 class="store-name"><strong th:text="${store.storeName}"></strong></h1>
@@ -85,9 +102,9 @@
         </article>
         <article class="share">
             <div class="pic">
-                <img th:src="${store.storeImg1}" th:alt="|${store.storeName}의 공용공간 입니다.|" class="lounge1">
-                <img th:src="${store.storeImg2}" th:alt="|${store.storeName}의 공용공간 입니다.|" class="lounge2">
-                <img th:src="${store.storeImg3}" th:alt="|${store.storeName}의 공용공간 입니다.|" class="lounge3">
+                <img th:src="${store.storeImg1Url}" th:alt="|${store.storeName}의 공용공간 입니다.|" class="lounge1">
+                <img th:src="${store.storeImg2Url}" th:alt="|${store.storeName}의 공용공간 입니다.|" class="lounge2">
+                <img th:src="${store.storeImg3Url}" th:alt="|${store.storeName}의 공용공간 입니다.|" class="lounge3">
             </div>
         </article>
     </section>
@@ -97,9 +114,8 @@
     <section class="offices">
         사무실리스트입니다.
         <div th:each="office : ${officeList}" class="office-card">
-            <!-- 디버깅용 출력 -->
-
             <img th:src="${office.officeThumbnail}" th:alt="|${store.storeName}의 ${office.officeNum}호실 이미지|" />
+            <img th:src="${office.officeThumbnailUrl}" th:alt="|${store.storeName}의 ${office.officeNum}호실 이미지|" />
             <div class="details">
                 <h3 th:text="|${office.officeNum}호실|"></h3>
                 <p th:text="|타입: ${office.officeType}|"></p>
@@ -120,38 +136,7 @@
     <hr class="separator">
 
     <section class="review">
-        <div th:if="${not #lists.isEmpty(FindOfficeReview)}">
 
-                <!--<th>이미지 파일 경로</th>-->
-            <div class="card mb-3" th:each="officeReview : ${FindOfficeReview}">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <img th:src="${officeReview.reviewImage}" class="img-fluid rounded-start" th:alt="|${officeReview.officeNum}호의 리뷰 이미지|">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <p class="card-text">아이디</p>
-                            <small class="text-body-secondary" th:text="${officeReview.memberId}"></small>
-                            <p class="card-text">등록일자</p>
-                            <small class="text-body-secondary" th:text="${officeReview.reviewDate}"></small>
-                            <p class="card-text">사무실 유형</p>
-                            <small class="text-body-secondary" th:text="${officeReview.officeType}"></small>
-                            <p class="card-text">사무실 호실</p>
-                            <small class="text-body-secondary" th:text="${officeReview.officeNum}"></small>
-                            <p class="card-text">평점</p>
-                            <small class="text-body-secondary" th:text="|${officeReview.reviewRating}점|"></small>
-                            <h5 class="card-title">제목</h5>
-                            <p class="card-text" th:text="${officeReview.reviewTitle}">제목에 들어갈거</p>
-                            <h5 class="card-title">내용</h5>
-                            <p class="card-text" th:text="${officeReview.reviewContent}">내용에 들어갈거</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div th:if="${#lists.isEmpty(FindOfficeReview)}">
-            <p> 등록된 리뷰가 없습니다. </p>
-        </div>
     </section>
 
     <hr class="separator">
