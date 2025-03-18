@@ -1,7 +1,9 @@
 package com.office.notfound.member.model.service;
 
 import com.office.notfound.member.model.dao.MemberMapper;
+import com.office.notfound.member.model.dto.AuthorityDTO;
 import com.office.notfound.member.model.dto.MemberAuthorityDTO;
+import com.office.notfound.member.model.dto.MemberDTO;
 import com.office.notfound.member.model.dto.SignupDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -9,6 +11,10 @@ import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Service
 public class MemberService {
@@ -20,7 +26,7 @@ public class MemberService {
     public MemberService(MemberMapper memberMapper, PasswordEncoder passwordEncoder) {
         this.memberMapper = memberMapper;
         this.passwordEncoder = passwordEncoder;
-    }
+    }    
 
     @Transactional
     public Integer regist(SignupDTO signupDTO) {
@@ -54,8 +60,6 @@ public class MemberService {
         /*  tbl_member_role 테이블에 사용자 별 권한 삽입 */
         /*  사용자 db에 등록된 member_code 최대 pk값 조회 */
         int maxMemberCode = memberMapper.findMaxMemberCode();
-        System.out.println("maxMemberCode = " + maxMemberCode);
-                
 
 
         /* tbl_user_role 테이블에 신규 등록된 사용자의 PK와 일반사용자 권한 2(user)를 조합하여 삽입*/
@@ -91,6 +95,42 @@ public class MemberService {
     public boolean memberIdDuplicate(String memberId) {
         Integer count = memberMapper.countMemberById(memberId);
         return count != null && count > 0;
+    }
+
+    public MemberDTO findByUsername(String username) {
+        MemberDTO foundUser = memberMapper.findByUsername(username);
+
+        // memberAuthorities가 null일 경우 빈 리스트로 설정
+        if (foundUser != null && foundUser.getMemberAuthorities() == null) {
+            foundUser.setMemberAuthorities(new ArrayList<>());
+        }
+
+        return foundUser; // foundUser가 null이라면 null이 그대로 반환됨
+    }
+
+    public List<AuthorityDTO> findAllAuthoritiesByMemberCode(int memberCode) {
+        return memberMapper.findAllAuthoritiesByMemberCode(memberCode);
+    }
+
+    // 회원 정보 수정
+    @Transactional
+    public void update(MemberDTO updateMember) {
+        // 업데이트 전에 memberAuthorities가 null이면 빈 리스트로 설정
+        if (updateMember.getMemberAuthorities() == null) {
+            updateMember.setMemberAuthorities(new ArrayList<>());
+        }
+
+        memberMapper.updatemember(updateMember);
+    }
+
+    // 관리자가 회원 정보 수정
+    @Transactional
+    public void updateAdmin(MemberDTO updateAdminMember) {
+        if (updateAdminMember.getMemberAuthorities() == null) {
+            updateAdminMember.setMemberAuthorities(new ArrayList<>());
+        }
+
+        memberMapper.updateadmin(updateAdminMember);
     }
 }
 

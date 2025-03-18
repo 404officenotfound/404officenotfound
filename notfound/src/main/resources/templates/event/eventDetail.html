@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/boards/eventDetail.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+<main>
+  <section class="event">
+    <div class="card-body">
+
+      <img th:src="@{/img/logo/새로고.JPG}" class="img-fluid rounded-start" th:alt="|event no.${event.eventCode}|">
+      <h5 class="card-title"th:text="${event.eventTitle}"/>
+      <span class="text-body-secondary" th:text="${event.eventStatus}"></span>
+      <p class="card-text" th:text="${event.eventContent}"></p>
+
+      <div class="card-buttons">
+        <!-- 수정 버튼(thymeleaf 사용) -->
+        <a th:href="@{/event/edit/{code}(code=${event.eventCode})}">수정하기(Thymeleaf)</a>
+
+        <!-- 수정 버튼(JavaScript 사용) -->
+        <button id="editButton">수정하기(JavaScript)</button>
+
+        <!-- 삭제 버튼 -->
+        <form th:action="@{/event/delete/{code}(code=${event.eventCode})}" method="post">
+          <button type="submit">삭제하기</button>
+        </form>
+
+        <!-- 목록으로 돌아가는 버튼 -->
+        <button onclick="location.href='/event/list'">목록으로</button><br>
+      </div>
+    </div>
+  </section>
+
+  <div th:replace="~{fragments/footer :: footer}"></div>
+  <script>
+    /* 설명. JavaScript를 사용해 수정 버튼 동작시키기 */
+    document.getElementById('editButton').addEventListener('click', function() {
+      window.location.href = '/event/edit/' + [[${ event.eventCode }]];
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+  </script>
+</main>
+</body>
+</html>

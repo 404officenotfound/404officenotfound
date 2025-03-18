@@ -38,5 +38,5 @@ mybatis:
 image:
   add-resource-locations: classpath:/static/
   add-resource-handler: /**
-  image-dir: build/resources/main/static/image/product
-  image-url: /image/product/
+  image-dir: build/resources/main/static/img/store
+  image-url: /img/store

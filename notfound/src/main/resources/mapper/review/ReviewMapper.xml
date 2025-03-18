@@ -39,18 +39,6 @@
         <result property="reviewImage" column="review_image"/>
     </resultMap>
 
-
-
- <!--   <sql id="reviewColumns">
-        r.review_title,
-        r.review_content,
-        r.review_rating,
-        r.review_created_at,
-        r.review_image
-    </sql>-->
-
-
-
     <!--<select id="selectAllReviewList" resultMap="selectAllReviewListMapper">-->
     <select id="selectAllReviewList" resultType="com.office.notfound.review.model.dto.ReviewDTO">
         SELECT * FROM  tbl_review r
@@ -59,13 +47,56 @@
     <!-- 사무실(tbl_office) + 리뷰 이름, 내용, 날짜, 별점, 이미지 -->
     <!--    <select id="selectOfficeReviewList" resultType="com.office.notfound.review.model.dto.OfficeReviewDTO">-->
     <select id="selectOfficeReviewList" resultMap="officeReviewResultMap">
-        SELECT p.payment_code, r2.member_id, o.office_code, o.store_code, o.office_type, o.office_num, o.office_price,
-                r2.review_title, r2.review_content, r2.review_rating, r2.review_created_at,
-               r2.review_image
-    <!-- <include refid="reviewColumns"/> -->
-        FROM tbl_office o
-                 JOIN tbl_reservation r ON o.office_code = r.office_code
-                 JOIN tbl_payment p ON r.reservation_code = p.reservation_code
-                 JOIN tbl_review r2 ON p.payment_code = r2.payment_code
+        SELECT
+            o.office_code, o.store_code, o.office_type, o.office_num, o.office_price, p.payment_code,
+            r2.review_code, r2.member_id, r2.review_title,
+            r2.review_content, r2.review_rating, r2.review_created_at, r2.review_image
+        FROM tbl_review r2
+                 JOIN tbl_payment p ON r2.payment_code = p.payment_code  -- ✅ 리뷰와 결제 연결
+                 JOIN tbl_reservation_payment t on t.payment_code = p.payment_code
+                 JOIN tbl_reservation r ON r.reservation_code  = t.reservation_code  -- ✅ 결제한 회원이 예약한 내역 가져오기
+                 JOIN tbl_office o ON o.office_code  = r.office_code
     </select>
+
+
+    <!-- 사무실 상세 리스트 내 리뷰 조회용 -->
+    <select id="findOfficeReview" resultMap="officeReviewResultMap">
+        SELECT
+            r2.review_code, r2.member_id, r2.review_title,
+            r2.review_content, r2.review_rating, r2.review_created_at, r2.review_image
+        FROM tbl_review r2
+                 JOIN tbl_payment p ON r2.payment_code = p.payment_code  -- ✅ 리뷰와 결제 연결
+                 JOIN tbl_reservation_payment t on t.payment_code = p.payment_code
+                 JOIN tbl_reservation r ON r.reservation_code  = t.reservation_code  -- ✅ 결제한 회원이 예약한 내역 가져오기
+                 JOIN tbl_office o ON o.office_code  = r.office_code
+        WHERE r.office_code = #{officeCode};
+    </select>
+
+    <!-- 리뷰 등록 -->
+    <insert id="registNewReview" parameterType="com.office.notfound.review.model.dto.ReviewDTO"
+            useGeneratedKeys="true" keyProperty="code">
+        INSERT INTO
+            tbl_review
+        (
+            member_code,
+            payment_code,
+            member_id,
+            review_title,
+            review_content,
+            review_created_at,
+            review_rating,
+            review_image
+        )
+        VALUES
+            (
+                #{memberCode},
+                #{paymentCode},
+                #{memberId},
+                #{reviewTitle},
+                #{reviewContent},
+                DATE_FORMAT(now(), '%Y-%m-%d %H:%i:%s'),
+                #{reviewRating},
+                #{reviewImage}
+            )
+    </insert>
 </mapper>
