@@ -210,10 +210,27 @@ public class MemberController {
             response.put("success", false);
             response.put("message", "오류가 발생했습니다: " + e.getMessage());
         }
-
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/update-password")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> updatePassword(
+            @AuthenticationPrincipal MemberDTO member,
+            @RequestBody Map<String, String> passwords) {
+        Map<String, Object> response = new HashMap<>();
+        String currentPassword = passwords.get("currentPassword");
+        String newPassword = passwords.get("newPassword");
 
+        if (!memberService.checkPassword(member.getMemberCode(), currentPassword)) {
+            response.put("success", false);
+            response.put("message", "현재 비밀번호가 일치하지 않습니다.");
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        memberService.updatePassword(member.getMemberCode(), newPassword);
+        response.put("success", true);
+        return ResponseEntity.ok(response);
+    }
 
 }

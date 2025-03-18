@@ -42,5 +42,6 @@ public interface MemberMapper {
     String findMemberIdByNameAndEmail(@Param("memberName") String memberName,
                                       @Param("memberEmail") String memberEmail);
 
+    int updatePassword(@Param("memberCode") int memberCode, @Param("memberPassword") String memberPassword);
 
 }

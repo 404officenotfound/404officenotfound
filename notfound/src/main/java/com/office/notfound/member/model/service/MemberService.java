@@ -166,7 +166,11 @@ public class MemberService {
         return memberMapper.findMemberIdByNameAndEmail(memberName, memberEmail);
     }
 
-
+    @Transactional
+    public void updatePassword(int memberCode, String newPassword) {
+        String encryptedPassword = passwordEncoder.encode(newPassword);
+        memberMapper.updatePassword(memberCode, encryptedPassword);
+    }
 }
 
 
