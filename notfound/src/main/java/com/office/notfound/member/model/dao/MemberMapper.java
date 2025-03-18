@@ -11,6 +11,7 @@ import java.util.List;
 
 @Mapper
 public interface MemberMapper {
+
     // 회원 정보 등록
     Integer regist(SignupDTO signupDTO);
     // 회원 코드 최대값 조회
@@ -27,4 +28,9 @@ public interface MemberMapper {
     MemberDTO findByUsername(String username);
     // 사용자 권한 조회
     List<AuthorityDTO> findAllAuthoritiesByMemberCode(int memberCode);
+
+
+    int updatemember(MemberDTO updateMember);
+
+    int updateadmin(MemberDTO updateAdminMember);
 }

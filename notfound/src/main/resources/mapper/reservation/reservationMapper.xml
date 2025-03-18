@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.office.notfound.reservation.model.dao.ReservationMapper">
+
     <resultMap id="reservationResultMap" type="com.office.notfound.reservation.model.dto.ReservationDTO">
         <result property="reservationCode" column="reservation_code"/>
         <result property="memberCode" column="member_code"/>
@@ -13,11 +14,60 @@
         <result property="reservationStatus" column="reservation_status"/>
     </resultMap>
 
+    <!-- 🔹 로그인한 사용자의 예약 전체 조회 -->
+    <select id="findAllReservationByMember" resultMap="reservationResultMap">
+        SELECT
+            r.reservation_code,
+            r.member_code,
+            CONCAT(s.store_name, '(', o.office_num, ')') AS storeName,
+            r.start_datetime,
+            r.end_datetime,
+            r.total_price,
+            r.reservation_status
+        FROM
+            tbl_reservation r
+                JOIN tbl_office o ON r.office_code = o.office_code
+                JOIN tbl_store s ON o.store_code = s.store_code
+        WHERE
+            r.member_code = #{memberCode}
+        ORDER BY
+            r.reservation_code DESC;
+    </select>
 
+    <!-- 🔹 로그인한 사용자의 특정 예약 검색 -->
+    <select id="searchReservationByMember" resultMap="reservationResultMap">
+        SELECT
+        r.reservation_code,
+        r.member_code,
+        CONCAT(s.store_name, '(', o.office_num, ')') AS storeName,
+        r.start_datetime,
+        r.end_datetime,
+        r.total_price,
+        r.reservation_status
+        FROM
+        tbl_reservation r
+        JOIN tbl_office o ON r.office_code = o.office_code
+        JOIN tbl_store s ON o.store_code = s.store_code
+        WHERE
+        r.member_code = #{memberCode}
+        <if test="reservationCode != null">
+            AND reservation_code = #{reservationCode}
+        </if>
+        <if test="reservationDate != null and reservationDate != ''">
+            AND DATE_FORMAT(start_datetime, '%Y-%m-%d') = #{reservationDate}
+        </if>
+        <if test="startDatetime != null and startDatetime != ''">
+            AND start_datetime >= #{startDatetime}
+        </if>
+        <if test="endDatetime != null and endDatetime != ''">
+            <![CDATA[ AND DATE_FORMAT(end_datetime, '%Y-%m-%d') < #{endDatetime} ]]>
+        </if>
+        ORDER BY
+        r.reservation_code DESC;
+    </select>
 
-
-<!-- 예약 전체 조회 -->
-    <select id="findAllReservation" resultMap="reservationResultMap">
+    <!-- 🔹 관리자: 모든 예약 조회 -->
+    <select id="adminFindAllReservation" resultMap="reservationResultMap">
         SELECT
             r.reservation_code,
             r.member_code,
@@ -34,101 +84,77 @@
             r.reservation_code DESC;
     </select>
 
-<!-- 예약 상세 조회 -->
-    <select id="searchReservation" resultMap="reservationResultMap">
+    <!-- 🔹 관리자: 특정 조건으로 예약 검색 -->
+    <select id="searchAdminReservation" resultMap="reservationResultMap">
         SELECT
-            r.reservation_code,
-            r.member_code,
-            CONCAT(s.store_name, '(', o.office_num, ')') AS storeName,
-            r.start_datetime,
-            r.end_datetime,
-            r.total_price,
-            r.reservation_status
+        r.reservation_code,
+        r.member_code,
+        CONCAT(s.store_name, '(', o.office_num, ')') AS storeName,
+        r.start_datetime,
+        r.end_datetime,
+        r.total_price,
+        r.reservation_status
         FROM
         tbl_reservation r
-            JOIN tbl_office o ON r.office_code = o.office_code
-            JOIN tbl_store s ON o.store_code = s.store_code
+        JOIN tbl_office o ON r.office_code = o.office_code
+        JOIN tbl_store s ON o.store_code = s.store_code
         WHERE
         1 = 1
-        <if test="reservationCodeInt != null">
-            AND reservation_code = #{reservationCodeInt}
+        <if test="reservationCode != null">
+            AND reservation_code = #{reservationCode}
         </if>
-
+        <if test="memberCode != null">
+            AND member_code = #{memberCode}
+        </if>
         <if test="reservationDate != null and reservationDate != ''">
-            AND DATE_FORMAT(start_datetime, '%Y-%m-%d') = #{startDatetime}
+            AND DATE_FORMAT(start_datetime, '%Y-%m-%d') = #{reservationDate}
         </if>
-
         <if test="startDatetime != null and startDatetime != ''">
-            AND DATE_FORMAT(start_datetime, '%Y-%m-%d') >= #{startDatetime}
+            AND start_datetime >= #{startDatetime}
         </if>
-
         <if test="endDatetime != null and endDatetime != ''">
-            AND DATE_FORMAT(end_datetime, '%Y-%m-%d') &lt; #{endDatetime}
+            <![CDATA[ AND DATE_FORMAT(end_datetime, '%Y-%m-%d') < #{endDatetime} ]]>
         </if>
-
         ORDER BY
         r.reservation_code DESC;
     </select>
 
-    <select id="searchAdminReservation" resultMap="reservationResultMap">
-    SELECT
-    r.reservation_code,
-    r.member_code,
-    CONCAT(s.store_name, '(', o.office_num, ')') AS storeName,
-    r.start_datetime,
-    r.end_datetime,
-    r.total_price,
-    r.reservation_status
-    FROM
-    tbl_reservation r
-    JOIN tbl_office o ON r.office_code = o.office_code
-    JOIN tbl_store s ON o.store_code = s.store_code
-    WHERE
-    1 = 1
-    <if test="reservationCodeInt != null">
-        AND reservation_code = #{reservationCodeInt}
-    </if>
-
-      <if test="memberCodeInt != null">
-        AND member_code = #{memberCodeInt}
-    </if>
-
-    <if test="reservationDate != null and reservationDate != ''">
-        AND DATE_FORMAT(start_datetime, '%Y-%m-%d') = #{startDatetime}
-    </if>
-
-    <if test="startDatetime != null and startDatetime != ''">
-        AND DATE_FORMAT(start_datetime, '%Y-%m-%d') >= #{startDatetime}
-    </if>
-
-    <if test="endDatetime != null and endDatetime != ''">
-        AND DATE_FORMAT(end_datetime, '%Y-%m-%d') &lt; #{endDatetime}
-    </if>
-
-    ORDER BY
-        r.reservation_code DESC;
-</select>
-
-    <update id="updateReservationStatus">
+    <!-- 🔹 회원 예약 취소 -->
+    <update id="cancelReservationsByMember">
         UPDATE tbl_reservation
-        SET reservation_status = #{status}
-        WHERE reservation_code = #{reservationCode}
+        SET reservation_status = '예약취소'
+        WHERE reservation_code IN
+        <foreach item="code" collection="reservationCodes" open="(" separator="," close=")">
+            #{code}
+        </foreach>
+        AND member_code = #{memberCode};
     </update>
 
+    <!-- 🔹 관리자: 특정 예약 취소 -->
+    <update id="cancelReservationsByAdmin">
+        UPDATE tbl_reservation
+        SET reservation_status = '예약취소'
+        WHERE reservation_code IN
+        <foreach item="code" collection="reservationCodes" open="(" separator="," close=")">
+            #{code}
+        </foreach>;
+    </update>
+
+    <!-- 🔹 일정 기간 지난 '예약취소' 상태의 예약 자동 삭제 -->
     <delete id="deleteOldCanceledReservations">
         DELETE FROM tbl_reservation
         WHERE reservation_status = '예약취소'
           AND <![CDATA[ DATE_ADD(start_datetime, INTERVAL 30 DAY) < NOW() ]]>;
     </delete>
 
+    <!-- 🔹 관리자: '예약취소' 상태인 예약을 삭제 -->
     <delete id="deleteReservations">
-        DELETE FROM tbl_reservation 
+        DELETE FROM tbl_reservation
         WHERE reservation_code IN
         <foreach item="code" collection="reservationCodes" open="(" separator="," close=")">
             #{code}
         </foreach>
-        AND reservation_status = '예약취소'
-    </delete> 
-
+        AND reservation_status = '예약취소';
+    </delete>
 
 </mapper>

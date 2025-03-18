@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<img src="/img/logo/새로고.JPG" alt="로고" onclick="window.location.href='/';" style="cursor: pointer;" width="400px" height="100px">
+<img src="/img/logo/새로고.JPG" alt="로고" onclick="window.location.href='/';" style="cursor: pointer;" width="400px" height="80px">
 <!-- 회원가입 폼 -->
 <div>
     <div>
@@ -42,7 +42,7 @@
             <!-- 경고 메시지를 표시할 영역 -->
             <div id="warningMessage">
             <!-- 중복 아이디 또는 이메일로 실패했을 때 메시지 표시 -->
-            <p th:if="${message}" th:utext="${message}" style="font-weight: bold; font-size: 18px;"></p>
+            <p th:if="${message}" th:utext="${message}" style="font-weight: bold; color: red; font-size: 15px;"></p>
             </div><br>
 
 
