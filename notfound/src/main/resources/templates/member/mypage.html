@@ -75,21 +75,26 @@
         </div>
     </div>
 
-    <!-- 회원탈퇴 모달 -->
+    <!-- mypage.html (수정된 회원탈퇴 모달) -->
     <div id="withdrawalModal" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close-modal">&times;</span>
             <h2>회원탈퇴</h2>
-            <p>정말로 탈퇴하시겠습니까?</p>
-            <p>탈퇴 시 모든 정보가 삭제되며 복구할 수 없습니다.</p>
-            <div class="modal-buttons">
-                <button class="modal-cancel">취소</button>
-                <button class="modal-confirm">탈퇴하기</button>
+            <p>탈퇴하려면 비밀번호를 입력하세요.</p>
+            <input type="password" id="withdrawalPassword" placeholder="비밀번호 입력">
+            <button id="verifyPassword">확인</button>
+            <div id="passwordError" style="color: red; display: none;">비밀번호가 일치하지 않습니다.</div>
+
+            <div id="confirmSection" style="display: none;">
+                <p>정말로 탈퇴하시겠습니까?</p>
+                <p>탈퇴 시 모든 정보가 삭제되며 복구할 수 없습니다.</p>
+                <div class="modal-buttons">
+                    <button class="modal-cancel">취소</button>
+                    <button class="modal-confirm">탈퇴하기</button>
+                </div>
             </div>
         </div>
     </div>
-
-    <div th:replace="~{fragments/footer :: footer}"></div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -98,37 +103,54 @@
             const closeBtn = modal.querySelector(".close-modal");
             const cancelBtn = modal.querySelector(".modal-cancel");
             const confirmBtn = modal.querySelector(".modal-confirm");
+            const verifyBtn = document.getElementById("verifyPassword");
+            const passwordInput = document.getElementById("withdrawalPassword");
+            const passwordError = document.getElementById("passwordError");
+            const confirmSection = document.getElementById("confirmSection");
 
-            // 모달 기본 숨김 처리
-            modal.classList.remove("show");
-
-            // 회원탈퇴 버튼 클릭 시 모달 열기
             withdrawalBtn.addEventListener("click", function () {
-                modal.classList.add("show");
+                modal.style.display = "block";
             });
 
-            // 모달 닫기 함수
-            function closeModal() {
-                modal.classList.remove("show");
-            }
+            closeBtn.addEventListener("click", function () {
+                modal.style.display = "none";
+            });
 
-            // 닫기 버튼 및 취소 버튼 클릭 시 모달 닫기
-            closeBtn.addEventListener("click", closeModal);
-            cancelBtn.addEventListener("click", closeModal);
+            cancelBtn.addEventListener("click", function () {
+                modal.style.display = "none";
+            });
 
-            // 탈퇴 확인 버튼 클릭 시 처리
+            verifyBtn.addEventListener("click", function () {
+                const password = passwordInput.value;
+
+                fetch("/member/check-password", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ password })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            passwordError.style.display = "none";
+                            confirmSection.style.display = "block";
+                        } else {
+                            passwordError.style.display = "block";
+                        }
+                    });
+            });
+
             confirmBtn.addEventListener("click", function () {
-                if (confirm("정말로 탈퇴하시겠습니까? 이 작업은 되돌릴 수 없습니다.")) {
-                    alert("회원탈퇴가 완료되었습니다.");
-                    window.location.href = "/";
-                }
-            });
-
-            // 모달 바깥 영역 클릭 시 닫기
-            window.addEventListener("click", function (event) {
-                if (event.target === modal) {
-                    closeModal();
-                }
+                fetch("/member/withdrawal", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert("회원탈퇴가 완료되었습니다.");
+                            window.location.href = "/";
+                        }
+                    });
             });
         });
     </script>
