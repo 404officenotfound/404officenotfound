@@ -40,3 +40,7 @@ image:
   add-resource-handler: /**
   image-dir: build/resources/main/static/img/store
   image-url: /img/store
+
+portone:
+  api-key: 8266201362865180
+  api-secret: CO2ouD8rGkcOcUc99QTznben0b7fKBJAuJAIvoLUv8OkW0Yz0284Wg8bLnaDdBMLzSNKfju3JI2K05lF

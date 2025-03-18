@@ -5,24 +5,28 @@ import java.time.LocalDateTime;
 public class PaymentDTO {
 
     private int paymentCode;
-    private int reservationCode;
+    private int memberCode;
     private LocalDateTime paymentDate;
     private String paymentMethod;
-    private int paymentAmount;
+    private int PaymentAmount;
     private String paymentStatus;
-    private int memberCode;
+    private String impUid;
+    private String merchantUid;
+    private String apiParm;
 
     public PaymentDTO() {
     }
 
-    public PaymentDTO(int paymentCode, int reservationCode, LocalDateTime paymentDate, String paymentMethod, int paymentAmount, String paymentStatus, int memberCode) {
+    public PaymentDTO(int paymentCode, int memberCode, LocalDateTime paymentDate, String paymentMethod, int paymentAmount, String paymentStatus, String impUid, String merchantUid, String apiParm) {
         this.paymentCode = paymentCode;
-        this.reservationCode = reservationCode;
+        this.memberCode = memberCode;
         this.paymentDate = paymentDate;
         this.paymentMethod = paymentMethod;
-        this.paymentAmount = paymentAmount;
+        PaymentAmount = paymentAmount;
         this.paymentStatus = paymentStatus;
-        this.memberCode = memberCode;
+        this.impUid = impUid;
+        this.merchantUid = merchantUid;
+        this.apiParm = apiParm;
     }
 
     public int getPaymentCode() {
@@ -33,12 +37,12 @@ public class PaymentDTO {
         this.paymentCode = paymentCode;
     }
 
-    public int getReservationCode() {
-        return reservationCode;
+    public int getMemberCode() {
+        return memberCode;
     }
 
-    public void setReservationCode(int reservationCode) {
-        this.reservationCode = reservationCode;
+    public void setMemberCode(int memberCode) {
+        this.memberCode = memberCode;
     }
 
     public LocalDateTime getPaymentDate() {
@@ -58,11 +62,11 @@ public class PaymentDTO {
     }
 
     public int getPaymentAmount() {
-        return paymentAmount;
+        return PaymentAmount;
     }
 
     public void setPaymentAmount(int paymentAmount) {
-        this.paymentAmount = paymentAmount;
+        PaymentAmount = paymentAmount;
     }
 
     public String getPaymentStatus() {
@@ -73,24 +77,42 @@ public class PaymentDTO {
         this.paymentStatus = paymentStatus;
     }
 
-    public int getMemberCode() {
-        return memberCode;
+    public String getImpUid() {
+        return impUid;
     }
 
-    public void setMemberCode(int memberCode) {
-        this.memberCode = memberCode;
+    public void setImpUid(String impUid) {
+        this.impUid = impUid;
+    }
+
+    public String getMerchantUid() {
+        return merchantUid;
+    }
+
+    public void setMerchantUid(String merchantUid) {
+        this.merchantUid = merchantUid;
+    }
+
+    public String getApiParm() {
+        return apiParm;
+    }
+
+    public void setApiParm(String apiParm) {
+        this.apiParm = apiParm;
     }
 
     @Override
     public String toString() {
         return "PaymentDTO{" +
                 "paymentCode=" + paymentCode +
-                ", reservationCode=" + reservationCode +
-                ", reservationTime=" + paymentDate +
-                ", paymentMethod='" + paymentMethod + '\'' +
-                ", paymentAmount=" + paymentAmount +
-                ", paymentStatus='" + paymentStatus + '\'' +
                 ", memberCode=" + memberCode +
+                ", paymentDate=" + paymentDate +
+                ", paymentMethod='" + paymentMethod + '\'' +
+                ", PaymentAmount=" + PaymentAmount +
+                ", paymentStatus='" + paymentStatus + '\'' +
+                ", impUid='" + impUid + '\'' +
+                ", merchantUid='" + merchantUid + '\'' +
+                ", apiParm='" + apiParm + '\'' +
                 '}';
     }
 }

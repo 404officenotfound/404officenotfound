@@ -1,90 +1,117 @@
 package com.office.notfound.payment.controller;
 
+import com.office.notfound.member.model.dto.MemberDTO;
 import com.office.notfound.payment.model.dto.PaymentDTO;
 import com.office.notfound.payment.model.service.PaymentService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping("/payment")
 public class PaymentController {
 
     private final PaymentService paymentService;
 
-    @Autowired
     public PaymentController(PaymentService paymentService) {
         this.paymentService = paymentService;
     }
 
+    /**
+     * 🔹 로그인한 회원의 전체 결제 내역 조회
+     */
     @GetMapping("/search/all")
-    public String allSearchPayments(Model model) {
-        // 전체 결제 내역을 가져옴
-        List<PaymentDTO> paymentList = paymentService.findAllPayment();
-        model.addAttribute("paymentList", paymentList);  // 결과를 paymentList로 전달
-        // 검색 결과가 없으면 메시지 표시
-        if (paymentList.isEmpty()) {
-            model.addAttribute("noResultsMessage", "검색 결과가 없습니다.");
+    public ResponseEntity<Map<String, Object>> getAllPayments(@AuthenticationPrincipal MemberDTO member) {
+        Map<String, Object> response = new HashMap<>();
+
+        if (member == null) {
+            response.put("success", false);
+            response.put("message", "로그인이 필요합니다.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
-        model.addAttribute("searchExecuted", true);  // 검색 실행 표시
-        return "payment/search";  // 검색 페이지에 전체 결제 내역을 표시
+
+        List<PaymentDTO> paymentList = paymentService.findAllPayments(member.getMemberCode());
+
+        if (paymentList.isEmpty()) {
+            response.put("success", false);
+            response.put("message", "검색 결과가 없습니다.");
+            return ResponseEntity.ok(response);
+        }
+
+        response.put("success", true);
+        response.put("payments", paymentList);
+        return ResponseEntity.ok(response);
     }
+
+    /**
+     * 🔹 로그인한 회원의 특정 조건 결제 내역 검색
+     */
     @GetMapping("/search")
-    public String searchPayment(
-            @RequestParam(required = false) String paymentCode,
+    public ResponseEntity<Map<String, Object>> searchPayments(
+            @AuthenticationPrincipal MemberDTO member,
             @RequestParam(required = false) String paymentDate,
             @RequestParam(required = false) String startDate,
-            @RequestParam(required = false) String endDate,
-            Model model) {
+            @RequestParam(required = false) String endDate) {
 
-        // 현재 선택된 검색 유형을 판별
-        String selectedSearchType = "paymentCode"; // 기본값: 결제번호 검색
-        if (paymentDate != null && !paymentDate.isEmpty()) {
-            selectedSearchType = "paymentDate";
-        } else if (startDate != null && endDate != null && !startDate.isEmpty() && !endDate.isEmpty()) {
-            selectedSearchType = "paymentPeriod";
+        Map<String, Object> response = new HashMap<>();
+
+        if (member == null) {
+            response.put("success", false);
+            response.put("message", "로그인이 필요합니다.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
 
+        List<PaymentDTO> searchPayment = paymentService.searchPayment(member.getMemberCode(), paymentDate, startDate, endDate);
 
-        // 검색이 실행되지 않은 경우 -> 결과 없이 반환
-        if ((paymentCode == null || paymentCode.isEmpty()) &&
-                (paymentDate == null || paymentDate.isEmpty()) &&
-                (startDate == null || startDate.isEmpty()) &&
-                (endDate == null || endDate.isEmpty())) {
-            model.addAttribute("searchExecuted", false);
-            return "payment/search";
-        }
-
-        // 결제번호 입력값 검증 (숫자가 아닌 경우 예외 처리)
-        Integer paymentCodeInt = null;
-        if (paymentCode != null && !paymentCode.isEmpty()) {
-            try {
-                paymentCodeInt = Integer.parseInt(paymentCode);
-            } catch (NumberFormatException e) {
-                model.addAttribute("noResultsMessage", "결제번호는 숫자로 입력해주세요.");
-                model.addAttribute("searchExecuted", true);
-                return "payment/search";
-            }
-        }
-
-        // 검색 수행
-        List<PaymentDTO> searchPayment = paymentService.searchPayment(paymentCodeInt, paymentDate, startDate, endDate);
-
-        // 검색이 실행되었음을 표시
-        model.addAttribute("searchExecuted", true);
-
-        // 검색 결과가 없을 경우 메시지 추가
         if (searchPayment.isEmpty()) {
-            model.addAttribute("noResultsMessage", "검색 결과가 없습니다.");
+            response.put("success", false);
+            response.put("message", "검색 결과가 없습니다.");
+            return ResponseEntity.ok(response);
         }
-        model.addAttribute("selectedSearchType", selectedSearchType);
-        model.addAttribute("searchPayment", searchPayment);
-        return "payment/search";
+
+        response.put("success", true);
+        response.put("payments", searchPayment);
+        return ResponseEntity.ok(response);
+    }
+    @PostMapping("/process")
+    public ResponseEntity<Map<String, Object>> processPayment(@RequestBody List<Map<String, Object>> reservations) {
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            paymentService.processPayment(reservations);
+            response.put("success", true);
+            response.put("message", "결제가 완료되었습니다.");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "결제 처리 중 오류가 발생했습니다: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
     }
 
+    @PostMapping("/cancel/{paymentCode}")
+    public ResponseEntity<Map<String, Object>> cancelPayment(@PathVariable int paymentCode) {
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            boolean isCanceled = paymentService.cancelPayment(paymentCode);
+            if (!isCanceled) {
+                response.put("success", false);
+                response.put("message", "결제 취소 실패: 이미 취소된 결제입니다.");
+                return ResponseEntity.ok(response);
+            }
+            response.put("success", true);
+            response.put("message", "결제가 취소되었습니다.");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "결제 취소 중 오류가 발생했습니다: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
 }
