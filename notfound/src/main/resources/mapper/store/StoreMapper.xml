@@ -126,8 +126,8 @@
             store_img3_url = #{storeImg3Url}
         WHERE store_code = #{storeCode}
     </update>
-    <delete id="deleteStore" parameterType="com.office.notfound.store.model.dto.StoreDTO">
+    <delete id="deleteStore" parameterType="int">
         DELETE FROM tbl_store
-        WHERE store_code = #{storeCode};
+        WHERE store_code = #{storeCode}
     </delete>
 </mapper>

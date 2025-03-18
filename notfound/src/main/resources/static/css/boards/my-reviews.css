@@ -1,0 +1,26 @@
+/* my-reviews.css */
+
+/* my-reviews-container 설정 */
+.my-reviews-container {
+    display: flex;
+    flex-direction: column; /* 가로 정렬 */
+    align-items: center;
+    justify-content: space-between; /* 가로로 여유 공간 배분 */
+    gap: 20px; /* 요소 간의 간격 설정 */
+}
+
+/* 테이블, 텍스트, 버튼의 스타일링 (띄워두고 싶다면 추가 스타일링 가능) */
+.my-reviews-container table {
+    flex: 3; /* 테이블이 더 많은 공간을 차지하도록 설정 */
+    margin-right: 20px; /* 주변 여백 */
+}
+
+.my-reviews-container p {
+    flex: 1; /* 텍스트들을 일정 크기로 설정 */
+    text-align: center;
+}
+
+.my-reviews-container button {
+    flex: 1;
+    text-align: center;
+}

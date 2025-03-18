@@ -206,8 +206,7 @@ public class StoreController {
 
     // 지점 삭제하기
     @PostMapping("/store/admin/storemanage/{storeCode}")
-    public String adminStoreDelete(@PathVariable("storeCode") int storeCode,
-                                   RedirectAttributes rttr) {
+    public String adminStoreDelete(@PathVariable("storeCode") int storeCode, RedirectAttributes rttr) {
 
         try {
             storeService.deleteStore(storeCode);

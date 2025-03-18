@@ -82,7 +82,7 @@ public class StoreService {
 
     @Transactional
     public void updateStore(StoreDTO store) {
-
+        // 오류 발생시 자동 롤백
         storeMapper.updateStore(store);
     }
 

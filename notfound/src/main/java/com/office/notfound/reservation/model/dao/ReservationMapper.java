@@ -4,10 +4,11 @@ import com.office.notfound.reservation.model.dto.ReservationDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
- @Mapper
- public interface ReservationMapper {
+@Mapper
+public interface ReservationMapper {
 
   // 🔹 로그인한 사용자의 모든 예약 조회
   List<ReservationDTO> findAllReservationByMember(@Param("memberCode") Integer memberCode);
@@ -38,4 +39,16 @@ import java.util.List;
 
   // 🔹 일정 기간 지난 '예약취소' 상태의 예약 자동 삭제
   int deleteOldCanceledReservations();
- }
+
+  void updateReservationStatus(@Param("reservationCode") int reservationCode, 
+                             @Param("status") String status);
+
+  List<String> findBookedTimeSlots(@Param("officeCode") int officeCode, 
+                                  @Param("date") String date);
+
+  boolean checkTimeSlotAvailability(@Param("officeCode") int officeCode,
+                                  @Param("startDatetime") LocalDateTime startDatetime,
+                                  @Param("endDatetime") LocalDateTime endDatetime);
+
+  void insertReservation(ReservationDTO reservation);
+}

@@ -3,9 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/mypage.css">
 </head>
 <body>
-  <h1> 리뷰 테이블 데이터베이스 전체 조회 </h1>
+<div th:replace="~{fragments/header :: header}"></div>
+<div class="mypage-container">
+<div class="side-menu">
+    <ul>
+        <li><a href="/member/mypage">개인정보변경</a></li>
+        <li><a href="/member/reservation">예약관리</a></li>
+        <li><a href="/member/inquiry">문의내역</a></li>
+        <li><a href="/review/my-reviews">리뷰관리</a></li>
+    </ul>
+</div>
+   <h1>전체 리뷰 조회만 함</h1>
+
   <table>
       <tr>
           <th>리뷰번호</th>
@@ -31,9 +45,8 @@
           <td th:text="${review.reviewImage}"></td>
       </tr>
   </table>
-  <a href="/review/regist">리뷰 등록 페이지로 이동</a>
-  <br>
-<!--    <a th:href="@{/review/list/detail/{code}}" >사무실 코드 1번</a>-->
-  <a href="/review/officelist">리뷰가 등록된 사무실 전체 조회</a>
+    <button onclick="location.href='review/regist'">리뷰등록</button>
+</div>
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

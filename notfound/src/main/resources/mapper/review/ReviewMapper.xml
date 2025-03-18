@@ -69,12 +69,18 @@
                  JOIN tbl_reservation_payment t on t.payment_code = p.payment_code
                  JOIN tbl_reservation r ON r.reservation_code  = t.reservation_code  -- ✅ 결제한 회원이 예약한 내역 가져오기
                  JOIN tbl_office o ON o.office_code  = r.office_code
-        WHERE r.office_code = #{officeCode};
+        WHERE r.office_code = #{officeCode}
     </select>
 
+
+    <!-- 로그인 유저의 리뷰 조회 -->
+    <select id="selectReviewsByMemberId" resultType="com.office.notfound.review.model.dto.ReviewDTO" parameterType="String">
+        SELECT * FROM tbl_review WHERE member_id = #{memberId}
+    </select>
+
+
     <!-- 리뷰 등록 -->
-    <insert id="registNewReview" parameterType="com.office.notfound.review.model.dto.ReviewDTO"
-            useGeneratedKeys="true" keyProperty="code">
+    <insert id="registNewReview" parameterType="com.office.notfound.review.model.dto.ReviewDTO">
         INSERT INTO
             tbl_review
         (

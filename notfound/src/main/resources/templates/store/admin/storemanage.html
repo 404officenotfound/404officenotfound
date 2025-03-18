@@ -43,21 +43,3 @@
 </script>
 </body>
 </html>
-
-
-삭제할부분
-<main>
-    <section class="store-list">
-        <div class="content">
-            <div th:each="store, iterStat : ${storeList}" class="store-container">
-                <div class="store-item">
-                    <!-- 이동할 브라우저 경로 주소다. -->
-                    <a th:href="@{'/store/editstore/' + ${store.storeCode}}">
-                        <p th:text="${store.storeName}">storeName</p>
-                        <p th:text="${store.storeCode}">storeCode</p>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-</main>
