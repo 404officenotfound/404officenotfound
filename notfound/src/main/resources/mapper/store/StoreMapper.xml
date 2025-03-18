@@ -40,7 +40,10 @@
             store_gu,
             store_address,
             description,
-            store_thumbnail
+            store_thumbnail,
+            store_img1,
+            store_img2,
+            store_img3
         FROM
             tbl_store
         WHERE
@@ -60,6 +63,21 @@
         WHERE
             store_city = #{city}
         ORDER BY store_gu
+    </select>
+    <select id="findStoresByCityAndGu" resultMap="storeResultMap">
+        SELECT
+            store_code,
+            store_name,
+            store_city,
+            store_gu,
+            store_address,
+            store_thumbnail
+        FROM
+            tbl_store
+        WHERE
+            store_city = #{city} AND store_gu = #{gu}
+        ORDER BY
+            store_name;
     </select>
     <insert id="insertStore" parameterType="com.office.notfound.store.model.dto.StoreDTO">
         INSERT INTO tbl_store
