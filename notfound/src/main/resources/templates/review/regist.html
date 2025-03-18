@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/footer.css">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<main>
+  <section>
+      <h3>리뷰 등록</h3>
+      <form action="/review/regist" method="post">
+          <label>제목 : </label><input type="text" name="reviewTitle"><br>
+          <label>평점 : </label>
+          <select name="reviewRating" id="reviewRating">
+              <option value="5">5점</option>
+              <option value="4">4점</option>
+              <option value="3">3점</option>
+              <option value="2">2점</option>
+              <option value="1">1점</option>
+          </select>
+          <br>
+          <label>내용 : </label><input type="text" name="reviewContent"><br>
+          <label>이미지 업로드</label>
+          <button type="submit">등록하기</button>
+          <button onclick="location.href='/member/mypage'">이전으로</button><br>
+      </form>
+  </section>
+  <div th:replace="~{fragments/footer :: footer}"></div>
+</main>
+
+</body>
+</html>

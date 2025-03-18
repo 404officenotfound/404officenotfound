@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>지역별 지점 조회</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/storeregion.css">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<section>
+    <span class="region-select">
+        <label for="city-select">시 선택 : </label>
+        <select id="city-select" name="storeCity" required>
+            <option value="" th:text="선택하세요" selected></option>
+            <option th:each="city : ${cityList}" th:value="${city}" th:text="${city}"></option>
+        </select>
+        <label for="gu-select">시/군/구 선택 : </label>
+        <select id="gu-select" name="storeGu" required disabled>
+            <option value="" th:text="선택하세요" disabled selected></option>
+            <option th:each="gu : ${guList}" th:value="${gu}" th:text="${gu}"></option>
+        </select>
+    </span>
+    <span>
+        <div class="content">
+            <div th:each="store : ${storeRegionPage}" class="store-container">
+                <div class="store-grid">
+                    <img th:src="${store.storeThumbnail}" th:alt="${store.storeName}" class="store-thumbnail">
+                    <div class="store-item">
+                        <!-- 상세지점으로 갈 때 브라우저에 표시될 경로 주소다. -->
+                        <a th:href="@{'/store/detailstore/' + ${store.storeCode}}">
+                            <strong th:text="${store.storeName}"></strong>
+                            <p th:text="${store.storeAddress}">상세주소</p>
+                            <p th:text="${store.storeCode}">storeCode</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </span>
+</section>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const citySelect = document.getElementById("city-select");
+        const guSelect = document.getElementById("gu-select");
+        const contentDiv = document.querySelector(".content"); // 결과를 업데이트할 영역
+
+        // 시 데이터를 가져오는 Ajax 호출
+        fetch('/store/storeregion/cities')
+            .then(response => response.json())
+            .then(cities => {
+                cities.forEach(city => {
+                    const option = document.createElement("option");
+                    option.value = city;
+                    option.textContent = city;
+                    citySelect.appendChild(option);
+                });
+            });
+
+        // 시 선택 시 구/군 데이터를 가져오는 Ajax 호출
+        citySelect.addEventListener("change", function () {
+            const city = citySelect.value;
+            guSelect.innerHTML = '<option value="">선택하세요</option>';
+            guSelect.disabled = !city;
+
+            if (city) {
+                fetch(`/store/storeregion/gu?city=${city}`)
+                    .then(response => response.json())
+                    .then(guList => {
+                        guList.forEach(gu => {
+                            const option = document.createElement("option");
+                            option.value = gu;
+                            option.textContent = gu;
+                            guSelect.appendChild(option);
+                        });
+                        guSelect.disabled = false; // 선택 가능하도록 변경
+                    })
+            .catch(error => console.error('Error fetching data:', error));
+            }
+        });
+
+        // 시/군/구 선택 후 매장 조회
+        guSelect.addEventListener("change", function () {
+            const city = citySelect.value;
+            const gu = guSelect.value;
+
+            if (city && gu) {
+                fetch(`/store/storeregion/search?city=${city}&gu=${gu}`)
+                    .then(response => response.json())
+                    .then(stores => {
+                        contentDiv.innerHTML = ''; // 기존 매장 목록 초기화
+
+                        if (stores.length === 0) {
+                            contentDiv.innerHTML = '<p>해당 지역에 매장이 없습니다.</p>';
+                            return;
+                        }
+
+                        stores.forEach(store => {
+                            const storeContainer = document.createElement("div");
+                            storeContainer.classList.add("store-container");
+
+                            storeContainer.innerHTML = `
+                                <div class="store-grid">
+                                    <img src="${store.storeThumbnail}" alt="${store.storeName}" class="store-thumbnail">
+                                    <div class="store-item">
+                                        <a href="/store/detailstore/${store.storeCode}">
+                                            <strong>${store.storeName}</strong>
+                                            <p>${store.storeAddress}</p>
+                                            <p>${store.storeCode}</p>
+                                        </a>
+                                    </div>
+                                </div>
+                            `;
+                            contentDiv.appendChild(storeContainer);
+                        });
+                    });
+            }
+        });
+    });
+</script>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

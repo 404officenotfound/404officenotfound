@@ -3,7 +3,6 @@
 INSERT INTO tbl_member
 (member_name, member_id, member_password, member_email, member_phone, member_enddate, member_endstatus)
 VALUES
-
     ('정상협', 'user01', '$2a$10$cYuXuzmhojpxD2AV7CoZX.dq1qVXnWUlmdvx1Y3P5xezD5z968nNu', 'user01@gmail.com', '010-1234-5678', NULL, 'N'),
     ('일반사용자','user02', '$2a$10$A.i2AkaE/4qhjwo45MHofeShPXOLsD0HanK7Ce..npQj7GKslsJR.', 'user02@gmail.com', '010-1234-5678', NULL, 'N' ),
     ('이영희', 'user03', '$2a$10$kF6MZTsmD8B78zEUPPTq8ufFgXfGZrzb9s9EHG2uILGeObAaFYb9W', 'user03@gmail.com', '010-9876-4321', NULL, 'N'),
@@ -24,7 +23,6 @@ VALUES
     (2, 2),
     (3, 2),
     (4, 2);
-
 
 
 INSERT INTO tbl_store (store_name, store_city, store_gu, store_address, latitude, longitude, description, store_thumbnail_url, store_img1_url, store_img2_url, store_img3_url)

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자 - 예약 관리</title>
+    <link rel="stylesheet" href="/css/payment/payment-select-one.css">
+    <script src="/js/admin/reservation-management.js" defer></script>
+</head>
+<body>
+    <h2>예약 관리</h2>
+
+    <!-- 검색 폼 -->
+    <div class="search-container">
+        <select id="searchType" onchange="toggleSearchFields()">
+            <option value="reservationCode">예약번호로 검색</option>
+            <option value="memberCode">회원번호로 검색</option>
+            <option value="reservationDate">예약일자로 검색</option>
+            <option value="reservationPeriod">기간으로 검색</option>
+        </select>
+
+        <form action="/admin/reservation/search" method="get" onsubmit="return validateForm()">
+            <div id="reservationCodeSearch">
+                <input type="text" name="reservationCode" placeholder="예약번호를 입력하세요">
+            </div>
+
+            <div id="memberCodeSearch" style="display: none;">
+                <input type="text" name="memberCode" placeholder="회원번호를 입력하세요">
+            </div>
+
+            <div id="reservationDateSearch" style="display: none;">
+                <input type="date" name="reservationDate">
+            </div>
+
+            <div id="reservationPeriodSearch" style="display: none;">
+                <input type="date" name="startDatetime" id="startDateInput">
+                <span>~</span>
+                <input type="date" name="endDatetime" id="endDateInput">
+            </div>
+
+            <button type="submit" class="search-button">검색</button>
+        </form>
+
+        <form action="/admin/reservation/search/all" method="get" style="display: inline;">
+            <button type="submit" class="search-button">전체 조회</button>
+        </form>
+    </div>
+
+    <!-- 검색 결과 메시지 -->
+    <p th:if="${noResultsMessage}" th:text="${noResultsMessage}" class="message"></p>
+
+    <!-- 예약 목록 테이블 -->
+    <form id="reservationForm" method="post">
+        <table th:if="${searchExecuted and (not #lists.isEmpty(searchReservation) or not #lists.isEmpty(reservationList))}">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" id="selectAll" onclick="toggleAllCheckboxes()"></th>
+                    <th>예약번호</th>
+                    <th>회원번호</th>
+                    <th>사무실</th>
+                    <th>예약날짜</th>
+                    <th>시작시간</th>
+                    <th>종료시간</th>
+                    <th>가격</th>
+                    <th>상태</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 검색 결과 목록 -->
+                <tr th:each="reservation : ${searchReservation}">
+                    <td>
+                        <input type="checkbox" name="reservationCodes" 
+                               th:value="${reservation.reservationCode}"
+                               class="reservation-checkbox">
+                    </td>
+                    <td th:text="${reservation.reservationCode}"></td>
+                    <td th:text="${reservation.memberCode}"></td>
+                    <td th:text="${reservation.storeName}"></td>
+                    <td th:text="${#temporals.format(reservation.startDatetime, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${#temporals.format(reservation.startDatetime, 'HH:mm')}"></td>
+                    <td th:text="${#temporals.format(reservation.endDatetime, 'HH:mm')}"></td>
+                    <td th:text="${#numbers.formatInteger(reservation.totalPrice, 3, 'COMMA') + '원'}"></td>
+                    <td th:text="${reservation.reservationStatus}"
+                        th:class="${reservation.reservationStatus == '예약취소' ? 'canceled' : ''}"></td>
+                </tr>
+                
+                <!-- 전체 조회 결과 목록 -->
+                <tr th:each="reservation : ${reservationList}">
+                    <td>
+                        <input type="checkbox" name="reservationCodes" 
+                               th:value="${reservation.reservationCode}"
+                               class="reservation-checkbox">
+                    </td>
+                    <td th:text="${reservation.reservationCode}"></td>
+                    <td th:text="${reservation.memberCode}"></td>
+                    <td th:text="${reservation.storeName}"></td>
+                    <td th:text="${#temporals.format(reservation.startDatetime, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${#temporals.format(reservation.startDatetime, 'HH:mm')}"></td>
+                    <td th:text="${#temporals.format(reservation.endDatetime, 'HH:mm')}"></td>
+                    <td th:text="${#numbers.formatInteger(reservation.totalPrice, 3, 'COMMA') + '원'}"></td>
+                    <td th:text="${reservation.reservationStatus}"
+                        th:class="${reservation.reservationStatus == '예약취소' ? 'canceled' : ''}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- 작업 버튼들 -->
+        <div class="action-buttons" th:if="${searchExecuted and (not #lists.isEmpty(searchReservation) or not #lists.isEmpty(reservationList))}">
+            <button type="submit" formaction="/admin/reservation/cancel" 
+                    onclick="return handleCancel()" class="cancel-button">
+                예약 취소
+            </button>
+            <button type="submit" formaction="/admin/reservation/delete" 
+                    onclick="return handleDelete()" class="delete-button">
+                취소된 예약 삭제
+            </button>
+        </div>
+    </form>
+</body>
+</html> 

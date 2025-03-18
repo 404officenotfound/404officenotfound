@@ -1,0 +1,83 @@
+img{
+    width: 100px;
+    height: 100px;
+}
+.store-container {
+    display: flex;
+    justify-content: space-between;  /* 썸네일과 텍스트를 양옆으로 배치 */
+    align-items: center;
+    margin-bottom: 20px;
+    max-width: 100%;  /* 최대 가로폭을 600px로 설정 */
+    margin: 0 auto;  /* 중앙 정렬 */
+    background-color: #56AEA8;
+}
+
+.store-grid {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 600px;  /* 고정된 가로폭 600px */
+    margin: 0 auto; /* 가로 중앙 정렬 */
+    background-color: bisque;
+}
+
+.store-thumbnail {
+    width: 100px;  /* 썸네일 크기를 줄여서 화면에 더 잘 맞게 */
+    height: 100px;
+    margin-right: 20px;  /* 썸네일과 텍스트 사이에 간격을 둠 */
+}
+
+.store-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.store-item a {
+    text-decoration: none;
+    color: #333;
+}
+
+.store-item strong {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.store-item p {
+    font-size: 14px;
+    color: #555;
+    margin: 0;
+}
+section {
+    display: flex;
+    flex-direction: column;  /* 내부 요소들을 세로로 정렬 */
+    justify-content: flex-start; /* 세로 상단 정렬 */
+    align-items: center;     /* 가로 중앙 정렬 */
+    height: 100vh;           /* 화면 전체 높이를 차지 */
+    padding: 20px;           /* 여백 추가 */
+    box-sizing: border-box;  /* padding을 포함한 크기 계산 */
+}
+
+.region-select {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100%;  /* section의 가로 크기 전체 사용 */
+}
+
+.region-select label {
+    margin-right: 10px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;  /* 세로로 정렬 */
+    justify-content: flex-start; /* 세로 상단 정렬 */
+    align-items: center;     /* 가로 중앙 정렬 */
+    width: 100%;  /* content가 section 전체 가로폭을 차지 */
+    max-width: 1200px;  /* 가로폭 최대 1200px로 설정 */
+    margin: 0 auto; /* 중앙 정렬 */
+}

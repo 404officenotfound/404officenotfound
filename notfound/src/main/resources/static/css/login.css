@@ -1,0 +1,148 @@
+/* 기본 스타일 */
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.login-title {
+    font-size: 24px;
+    color: #333;
+    text-align: center;  /* 중앙 정렬 */
+    margin-bottom: 30px;
+    font-weight: 600;
+    margin-left: 50px;  /* 오른쪽으로 이동 */
+}
+
+/* 폼 컨테이너 스타일 */
+form {
+    width: 100%;
+    max-width: 400px;
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 입력 필드 스타일 */
+input[type="text"],
+input[type="password"],
+input[type="tel"] {
+    width: 100%;  /* 크기 동일화 */
+    padding: 12px 15px;
+    margin: 8px 0 20px;
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="tel"]:focus {
+    border-color: #666;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+}
+
+/* 라벨 스타일 */
+label {
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* 로그인 버튼 스타일 */
+.form-container button {
+    width: 100%;  /* 크기 동일화 */
+    padding: 14px;
+    background-color: #4CAF50;  /* 초록색 버튼 */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.form-container button:hover {
+    background-color: #45a049;  /* 초록색 hover */
+    transform: translateY(-2px);
+}
+
+/* 추가 버튼 영역 */
+.extra-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-left: 50px;  /* 오른쪽으로 이동 */
+}
+
+.extra-buttons button {
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 5px;
+    transition: color 0.3s ease;
+}
+
+.extra-buttons button:hover {
+    color: #333;
+}
+
+/* 구분선 */
+.divider {
+    margin: 20px 0;
+    text-align: center;
+    position: relative;
+}
+
+.divider::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    background: #e1e1e1;
+    z-index: 1;
+}
+
+.divider span {
+    background: white;
+    padding: 0 15px;
+    color: #666;
+    font-size: 14px;
+    position: relative;
+    z-index: 2;
+}
+
+/* 비밀번호 찾기 모달 */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mod

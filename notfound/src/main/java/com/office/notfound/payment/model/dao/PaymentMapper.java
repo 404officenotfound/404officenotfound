@@ -9,4 +9,6 @@ import java.util.List;
 public interface PaymentMapper {
     List<PaymentDTO> findAllPayment();
 
+    List<PaymentDTO> searchPayment(Integer paymentCodeInt, String paymentDate, String startDate, String endDate);
+
 }

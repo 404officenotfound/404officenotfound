@@ -3,9 +3,9 @@
 # -- --------------------------------------------------------
 # -- 1) 새로운 officenotfound 계정 만들기
 # create user 'officenotfound'@'%' identified by 'officenotfound';
-# -- 'localhost'대신 '%'(와일드카드 패턴)를 사용하면 외부 IP에서도 접근 가능하다.
-#
-# -- 현재 존재하는 데이터베이스 확인
+-- 'localhost'대신 '%'(와일드카드 패턴)를 사용하면 외부 IP에서도 접근 가능하다.
+
+-- 현재 존재하는 데이터베이스 확인
 # show databases;
 #
 # -- mysql 데이터베이스로 이동.
