@@ -64,7 +64,24 @@
         ORDER BY payment_date DESC
     </select>
 
+    <insert id="insertPayment" parameterType="com.office.notfound.payment.model.dto.PaymentDTO">
+        INSERT INTO
+            tbl_payment (reservation_code, payment_date, payment_method, payment_amount, payment_status, merchant_uid, api_parm)
+        VALUES
+            (#{reservationCode}, #{paymentDate}, #{paymentMethod}, #{paymentAmount}, #{paymentStatus}, #{merchantUid}, #{apiParm})
+    </insert>
 
+    <insert id="insertReservationPayment">
+        INSERT INTO
+            tbl_reservation_payment (reservation_code, payment_code)
+        VALUES
+            (#{reservationCode}, #{paymentCode})
+    </insert>
 
+    <select id="getReservationCodeByPayment" resultType="int">
+        SELECT reservation_code 
+        FROM tbl_reservation_payment 
+        WHERE payment_code = #{paymentCode}
+    </select>
 
 </mapper>

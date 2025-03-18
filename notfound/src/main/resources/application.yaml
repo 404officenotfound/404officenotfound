@@ -16,7 +16,8 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
-
+      location: upload-dir
+      enabled: true
 ## mybatis config
 mybatis:
   mapper-locations: mapper/**/*.xml
@@ -38,5 +39,9 @@ mybatis:
 image:
   add-resource-locations: classpath:/static/
   add-resource-handler: /**
-  image-dir: build/resources/main/static/image/product
-  image-url: /image/product/
+  image-dir: build/resources/main/static/img/store
+  image-url: /img/store
+
+portone:
+  api-key: 8266201362865180
+  api-secret: CO2ouD8rGkcOcUc99QTznben0b7fKBJAuJAIvoLUv8OkW0Yz0284Wg8bLnaDdBMLzSNKfju3JI2K05lF

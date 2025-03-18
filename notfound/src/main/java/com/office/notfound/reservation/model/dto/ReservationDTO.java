@@ -11,13 +11,13 @@ public class ReservationDTO {
   private  LocalDateTime reservationDate;
   private  LocalDateTime startDatetime;
   private  LocalDateTime endDatetime;
-  private  String reservationStatus;
+  private  ReservationStatus reservationStatus;
   private  int totalPrice;
 
   public ReservationDTO() {
   }
 
-  public ReservationDTO(int reservationCode, int memberCode, int officeCode, String storeName, LocalDateTime reservationDate, LocalDateTime startDatetime, LocalDateTime endDatetime, String reservationStatus, int totalPrice) {
+  public ReservationDTO(int reservationCode, int memberCode, int officeCode, String storeName, LocalDateTime reservationDate, LocalDateTime startDatetime, LocalDateTime endDatetime, ReservationStatus reservationStatus, int totalPrice) {
     this.reservationCode = reservationCode;
     this.memberCode = memberCode;
     this.officeCode = officeCode;
@@ -85,11 +85,11 @@ public class ReservationDTO {
     this.endDatetime = endDatetime;
   }
 
-  public String getReservationStatus() {
+  public ReservationStatus getReservationStatus() {
     return reservationStatus;
   }
 
-  public void setReservationStatus(String reservationStatus) {
+  public void setReservationStatus(ReservationStatus reservationStatus) {
     this.reservationStatus = reservationStatus;
   }
 
@@ -111,7 +111,7 @@ public class ReservationDTO {
             ", reservationDate=" + reservationDate +
             ", startDatetime=" + startDatetime +
             ", endDatetime=" + endDatetime +
-            ", reservationStatus='" + reservationStatus + '\'' +
+            ", reservationStatus=" + reservationStatus +
             ", totalPrice=" + totalPrice +
             '}';
   }

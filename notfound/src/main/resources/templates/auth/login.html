@@ -44,13 +44,20 @@
 <!-- 아이디 찾기 모달 -->
 <div id="findIdModal" class="modal" style="display:none;">
   <div class="modal-content">
+    <button type="button" class="closeModal">×</button>
     <h2>아이디 찾기</h2>
-    <button type="button" class="closeModal">&times;</button>
-    <label for="findIdEmail">이메일</label>
-    <input type="text" id="findIdEmail" name="findIdEmail" placeholder="가입시 등록한 이메일을 입력하세요">
-    <button type="button" id="findIdSubmit">찾기</button>
+    <p>가입 시 입력한 이름과 이메일을 입력해주세요.</p>
+    <div class="modal-form">
+      <label for="findName">이름</label>
+      <input type="text" id="findName" placeholder="이름을 입력하세요">
+      <label for="findEmail">이메일</label>
+      <input type="email" id="findEmail" placeholder="이메일을 입력하세요">
+      <button type="button" id="findIdSubmit" class="submit-btn">아이디 찾기</button>
+    </div>
+    <p id="findIdResult" class="modal-result"></p>
   </div>
 </div>
+
 
 <!-- 비밀번호 찾기 모달 -->
 <div id="findPwModal" class="modal" style="display:none;">
@@ -64,38 +71,64 @@
 </div>
 
 <script>
-  // 모달 관련 JavaScript 코드
-  var findIdModal = document.getElementById("findIdModal");
-  var findPwModal = document.getElementById("findPwModal");
-  var findIdBtn = document.getElementById("findIdBtn");
-  var findPwBtn = document.getElementById("findPwBtn");
-  var closeButtons = document.querySelectorAll(".closeModal");
+  // 모달 관련 변수
+  const findIdModal = document.getElementById("findIdModal");
+  const findIdBtn = document.getElementById("findIdBtn");
+  const closeModalBtns = document.querySelectorAll(".closeModal");
+  const findIdSubmit = document.getElementById("findIdSubmit");
 
-  // 아이디 찾기 버튼 클릭 시 모달 열기
-  findIdBtn.onclick = function() {
-    findIdModal.style.display = "block";
-  }
-
-  // 비밀번호 찾기 버튼 클릭 시 모달 열기
-  findPwBtn.onclick = function() {
-    findPwModal.style.display = "block";
-  }
-
-  // 모달 닫기 버튼 클릭 시 모달 닫기
-  closeButtons.forEach(btn => btn.onclick = function() {
-    findIdModal.style.display = "none";
-    findPwModal.style.display = "none";
+  // 모달 열기
+  findIdBtn.addEventListener("click", () => {
+    findIdModal.style.display = "flex";
   });
 
+  // 모달 닫기
+  closeModalBtns.forEach(btn =>
+          btn.addEventListener("click", () => {
+            findIdModal.style.display = "none";
+          })
+  );
+
   // 모달 외부 클릭 시 닫기
-  window.onclick = function(event) {
-    if (event.target == findIdModal) {
+  window.addEventListener("click", event => {
+    if (event.target === findIdModal) {
       findIdModal.style.display = "none";
     }
-    if (event.target == findPwModal) {
-      findPwModal.style.display = "none";
+  });
+
+  // 아이디 찾기 서버 요청
+  findIdSubmit.addEventListener("click", () => {
+    const name = document.getElementById("findName").value.trim();
+    const email = document.getElementById("findEmail").value.trim();
+    const resultElement = document.getElementById("findIdResult");
+
+    // 입력값 검증
+    if (!name || !email) {
+      resultElement.innerText = "이름과 이메일을 모두 입력해주세요.";
+      resultElement.className = "modal-result error";
+      return;
     }
-  }
+
+    // Fetch API로 서버 요청
+    fetch(`/member/find-id?memberName=${encodeURIComponent(name)}&memberEmail=${encodeURIComponent(email)}`)
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                resultElement.innerText = `아이디는 "${data.memberId}" 입니다.`;
+                resultElement.className = "modal-result success";
+              } else {
+                resultElement.innerText = data.message || "아이디를 찾을 수 없습니다.";
+                resultElement.className = "modal-result error";
+              }
+            })
+            .catch(error => {
+              console.error("오류 발생:", error);
+              resultElement.innerText = "요청 중 오류가 발생했습니다. 나중에 다시 시도해주세요.";
+              resultElement.className = "modal-result error";
+            });
+  });
+
+
 </script>
 </body>
 </html>

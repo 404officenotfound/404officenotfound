@@ -3,38 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <style>
+        .preview-image{
+            width: 300px;
+            height: 300px;
+        }
+        .info{
+            display: flex;
+            align-items: center; /* 요소를 세로 중앙 정렬 */
+            gap: 10px; /* 간격 조절 */
+        }
+        fieldset{
+            width: 700px;
+            padding: 20px;
+            border-radius: 10px; /* 모서리 둥글게 */
+        }
+        .create-form{
+            display: flex;
+            justify-content: center;  /* 가로 중앙 정렬 */
+            align-items: center;  /* 세로 중앙 정렬 */
+            height: 100vh;  /* 화면 전체 높이 */
+        }
+        .title{
+            display: flex;
+            justify-content: center;  /* 가로 중앙 정렬 */
+
+        }
+    </style>
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
+<section>
+    <h2 class="title">지점 새 등록</h2><br>
+    <div class="create-form">
+        <form th:action="@{/store/admin/storecreate}" method="post" encType="multipart/form-data">
+            <fieldset>
+                <legend>필수 입력</legend>
+                <label for="storeName">지점명 : </label><input type="text" id="storeName" name="storeName" required><br><br>
+                <label for="storeCity">시/도 : </label><input type="text" id="storeCity" name="storeCity" required><br><br>
+                <label for="storeGu">시/군/구 : </label><input type="text" id="storeGu" name="storeGu" required><br><br>
+                <label for="storeAddress">상세주소 : </label><input type="text" id="storeAddress" name="storeAddress" required><br><br>
+                <label for="latitude">위도 : </label><input type="text" id="latitude" name="latitude" required><br><br>
+                <label for="longitude">경도 : </label><input type="text" id="longitude" name="longitude" required><br><br>
+                <label for="description">지점설명 : </label><input type="text" id="description" name="description" required><br><br>
+                <div class="info">
+                    <label for="storeThumbnail">썸네일 : </label>
+                    <input type="file" id="storeThumbnail" name="storeThumbnail" accept="img/*" onchange="previewImg(this)" required><br>
+                    <img id="preview" class="preview-image">
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>선택 입력</legend>
+                <label for="storeImg1">상세사진1 : </label><input type="file" id="storeImg1" name="storeImg1"><br>
+                <label for="storeImg2">상세사진2 : </label><input type="file" id="storeImg2" name="storeImg2"><br>
+                <label for="storeImg3">상세사진3 : </label><input type="file" id="storeImg3" name="storeImg3"><br>
+            </fieldset>
+            <input type="submit" value="작성완료">
+        </form>
 
-<div class="create-form">
-    <h2>지점 새 등록</h2>
-    <form th:action="@{/store/admin/storecreate}" method="post" encType="multipart/form-data">
-        <fieldset>
-            <legend>필수 입력</legend>
-            <label for="storeName">지점명 : </label><input type="text" id="storeName" name="storeName" required><br>
-            <label for="storeCity">시/도 : </label><input type="text" id="storeCity" name="storeCity" required><br>
-            <label for="storeGu">시/군/구 : </label><input type="text" id="storeGu" name="storeGu" required><br>
-            <label for="storeAddress">상세주소 : </label><input type="text" id="storeAddress" name="storeAddress" required><br>
-            <label for="description">지점설명 : </label><input type="text" id="description" name="description" required><br>
-            <label for="storeThumbnail">썸네일 : </label><input type="file" id="storeThumbnail" name="storeThumbnail" required><br>
-        </fieldset>
-        <fieldset>
-            <legend>선택 입력</legend>
-            <label for="storeImg1">상세사진1 : </label><input type="file" id="storeImg1" name="storeImg1"><br>
-            <label for="storeImg2">상세사진2 : </label><input type="file" id="storeImg2" name="storeImg2"><br>
-            <label for="storeImg3">상세사진3 : </label><input type="file" id="storeImg3" name="storeImg3"><br>
-        </fieldset>
-        <input type="submit" value="작성완료">
-    </form>
-
-    <div th:if="${message}" th:text="${message}"
-         th:class="${'message ' + (messageType ?: 'info')}">
-
+        <div th:if="${message}" th:text="${message}"
+             th:class="${'message ' + (messageType ?: 'info')}">
+        </div>
     </div>
-
-</div>
-
+</section>
 <div th:replace="~{fragments/footer :: footer}"></div>
+<script>
+    /* 업로드할 이미지 미리보기 */
+    function previewImg(input) {
+        const preview = document.getElementById('preview');
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            }
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.style.display = 'none';
+        }
+    }
+</script>
 </body>
 </html>
