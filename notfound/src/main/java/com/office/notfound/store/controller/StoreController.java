@@ -165,4 +165,53 @@ public class StoreController {
         return storeService.findStoresByCityAndGu(city, gu);
     }
 
+    // 지점 수정 페이지 넘어가기
+    @GetMapping("/store/admin/storeedit/{storeCode}")
+    public String adminStoreEditPage(@PathVariable("storeCode") int storeCode, Model model) {
+
+        StoreDTO store = storeService.findStoreByCode(storeCode);
+
+        if (store == null) {
+            throw new IllegalArgumentException("해당 StoreCode에 해당하는 지점 정보가 없습니다."); // 데이터 없을 경우 예외 처리
+        }
+
+        model.addAttribute("store", store);
+
+        return "store/admin/storeedit";
+    }
+
+    // 수정된 지점 정보 저장하기
+    @PostMapping("/store/admin/storeedit/{storeCode}")
+    public String adminStoreEdit(@PathVariable("storeCode") int storeCode,
+                                 @ModelAttribute StoreDTO store,
+                                 RedirectAttributes rttr) {
+
+        store.setStoreCode(storeCode);
+        storeService.updateStore(store);
+
+        try {
+            rttr.addFlashAttribute("message", "지점 정보 수정을 성공하였습니다.");
+            // 지점 수정 성공 후 이동하는 페이지는 디폴트
+            return "redirect:/store/admin/storemanage";
+        } catch (Exception e) {
+            rttr.addFlashAttribute("message", "지점 정보 수정에 실패했습니다: " + e.getMessage());
+            return "redirect:/store/admin/storeedit";
+        }
+    }
+
+    // 지점 삭제하기
+    @PostMapping("/store/admin/storemanage/{storeCode}")
+    public String adminStoreDelete(@PathVariable("storeCode") int storeCode,
+                                 RedirectAttributes rttr) {
+
+        try {
+            storeService.deleteStore(storeCode);
+            rttr.addFlashAttribute("message", "선택한 지점이 삭제되었습니다.");
+            return "redirect:/store/admin/storemanage";
+        } catch (Exception e) {
+            rttr.addFlashAttribute("message", "선택 지점 삭제에 실패했습니다: " + e.getMessage());
+            return "redirect:/store/admin/storemanage";
+        }
+    }
+
 }
