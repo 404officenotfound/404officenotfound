@@ -13,6 +13,23 @@
             width: 500px;
             height: 500px;
         }
+        .pic{
+            display: flex;
+            justify-content: center;  /* 가로 중앙 정렬 */
+            align-items: center;      /* 세로 중앙 정렬 */
+        }
+        .lounge1{
+            width: 400px;
+            height: 300px;
+        }
+        .lounge2{
+            width: 400px;
+            height: 300px;
+        }
+        .lounge3{
+            width: 400px;
+            height: 300px;
+        }
         .offices {
             display: flex;
             flex-wrap: wrap; /* 줄바꿈 허용 */
@@ -73,7 +90,7 @@
             <table>
                 <tr>
                     <td>
-                        <img th:src="${store.storeThumbnail}" th:alt="${store.storeName}" class="store-thumbnail">
+                        <img th:src="${store.storeThumbnailUrl}" th:alt="${store.storeName}" class="store-thumbnail">
                     </td>
                     <td>
                         <h1 class="store-name"><strong th:text="${store.storeName}"></strong></h1>
@@ -85,11 +102,65 @@
         </article>
         <article class="share">
             <div class="pic">
-                <img th:src="${store.storeImg1}" th:alt="|${store.storeName}의 공용공간 입니다.|" class="lounge1">
-                <img th:src="${store.storeImg2}" th:alt="|${store.storeName}의 공용공간 입니다.|" class="lounge2">
-                <img th:src="${store.storeImg3}" th:alt="|${store.storeName}의 공용공간 입니다.|" class="lounge3">
+                <img th:src="${store.storeImg1Url}" th:alt="|${store.storeName}의 공용공간 입니다.|" class="lounge1">
+                <img th:src="${store.storeImg2Url}" th:alt="|${store.storeName}의 공용공간 입니다.|" class="lounge2">
+                <img th:src="${store.storeImg3Url}" th:alt="|${store.storeName}의 공용공간 입니다.|" class="lounge3">
             </div>
         </article>
+    </section>
+
+    <hr class="separator">
+
+    <section class="map-area">
+        <div id="storeMap">
+            <div id="map" style="width:1300px; height:500px; display: flex; margin: 0 auto; "></div>
+
+            <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=65a5c45f0f71eab8b6e0448937121045"></script>
+            <script th:inline="javascript">
+                var latitude = [[${store.latitude}]];
+                var longitude = [[${store.longitude}]];
+                var storeName = [[${store.storeName}]];
+
+                var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+                    mapOption = {
+                        center: new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
+                        level: 3 // 지도의 확대 레벨
+                    };
+
+                // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+                var map = new kakao.maps.Map(mapContainer, mapOption);
+
+                // 마커가 표시될 위치입니다
+                var markerPosition  = new kakao.maps.LatLng(latitude, longitude);
+
+                // 마커를 생성합니다
+                var marker = new kakao.maps.Marker({
+                    position: markerPosition
+                });
+
+                // 마커가 지도 위에 표시되도록 설정합니다
+                marker.setMap(map);
+
+                // 아래 코드는 지도 위의 마커를 제거하는 코드입니다
+                // marker.setMap(null);
+
+                // 인포윈도우 표시
+                var infowindow = new kakao.maps.InfoWindow({
+                    content: '<div style="padding:5px;font-size:12px;">' + storeName + '</div>' // html 형태로 메시지 표시
+                });
+                infowindow.open(map, marker);
+            </script>
+        </div>
+        <script>
+            function myFunction() {
+                var x = document.getElementById("storeMap");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                } else {
+                    x.style.display = "none";
+                }
+            }
+        </script>
     </section>
 
     <hr class="separator">
@@ -97,18 +168,21 @@
     <section class="offices">
         사무실리스트입니다.
         <div th:each="office : ${officeList}" class="office-card">
-            사무실 언제생김
-            <img th:src="${office.officeThumbnail}" th:alt="|${store.storeName}의 ${office.officeNum}호실 이미지|" />
+            <img th:src="${office.officeThumbnailUrl}" th:alt="|${store.storeName}의 ${office.officeNum}호실 이미지|" />
             <div class="details">
                 <h3 th:text="|${office.officeNum}호실|"></h3>
                 <p th:text="|타입: ${office.officeType}|"></p>
                 <p th:text="|2시간당: ${office.officePrice}원|"></p>
             </div>
-            <div class="reservation-btn">
-                <button type="submit" class="reservation">
-                    <a th:href="@{'/reservation//' + ${}}">예약하기</a>
-                </button>
-            </div>
+
+            <!-- 기존 <a> 태그 제거하고, 버튼으로 변경 -->
+            <button type="button"
+                    class="btn btn-primary"
+                    th:data-store-code="${store.storeCode}"
+                    th:data-office-code="${office.officeCode}"
+                    onclick="goToReservation(this)">
+                예약하기
+            </button>
         </div>
     </section>
 
@@ -159,7 +233,20 @@
 </aside>
 <div th:replace="~{fragments/footer :: footer}"></div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-
 </script>
+<script>
+    function goToReservation(button) {
+        const storeCode = button.getAttribute("data-store-code");
+        const officeCode = button.getAttribute("data-office-code");
+
+        if (!storeCode || !officeCode || officeCode === "0" || officeCode === "-1") {
+            alert("예약할 수 없는 사무실입니다.");
+            return;
+        }
+
+        location.href = `/store/detailoffice/${storeCode}/${officeCode}`;
+    }
+</script>
+
 </body>
 </html>
