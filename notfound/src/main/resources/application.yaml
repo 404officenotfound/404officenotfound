@@ -16,7 +16,8 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
-
+      location: upload-dir
+      enabled: true
 ## mybatis config
 mybatis:
   mapper-locations: mapper/**/*.xml

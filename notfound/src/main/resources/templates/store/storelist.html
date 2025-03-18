@@ -31,7 +31,7 @@
 <main>
     <div class="content">
         <div th:each="store, iterStat : ${storeList}" class="store-container">
-            <img th:src="${store.storeThumbnail}" th:alt="${store.storeName}" class="store-thumbnail">
+            <img th:src="${store.storeThumbnailUrl}" th:alt="${store.storeName}" class="store-thumbnail">
             <div class="store-grid">
                 <div class="store-item">
                     <!-- 브라우저에 표시될 경로 주소다. -->
