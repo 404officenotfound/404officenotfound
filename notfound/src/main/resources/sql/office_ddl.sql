@@ -1,7 +1,7 @@
 # -- --------------------------------------------------------
 # -- db 생성 및 유저 권한 할당
 # -- --------------------------------------------------------
--- 1) 새로운 officenotfound 계정 만들기
+# -- 1) 새로운 officenotfound 계정 만들기
 # create user 'officenotfound'@'%' identified by 'officenotfound';
 -- 'localhost'대신 '%'(와일드카드 패턴)를 사용하면 외부 IP에서도 접근 가능하다.
 
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS tbl_authority
     authority_name VARCHAR(20) NOT NULL COMMENT '권한이름',
     -- TABLE LEVEL CONSTRAINTS
     CONSTRAINT pk_authority_code PRIMARY KEY (authority_code)
-    ) ENGINE=INNODB COMMENT '권한';
+) ENGINE=INNODB COMMENT '권한';
 
 -- 3. 회원별권한 테이블 (tbl_member_role)
 CREATE TABLE IF NOT EXISTS tbl_member_role
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS tbl_member_role
     CONSTRAINT pk_member_role PRIMARY KEY (member_code, authority_code),
     CONSTRAINT fk_member_code FOREIGN KEY (member_code) REFERENCES tbl_member (member_code),
     CONSTRAINT fk_authority_code FOREIGN KEY (authority_code) REFERENCES tbl_authority (authority_code)
-    ) ENGINE=INNODB COMMENT '회원별권한';
+) ENGINE=INNODB COMMENT '회원별권한';
 
 -- 4. 지점 테이블 (tbl_store)
 CREATE TABLE IF NOT EXISTS tbl_store (
@@ -94,10 +94,10 @@ CREATE TABLE IF NOT EXISTS tbl_store (
                                          latitude DOUBLE NOT NULL COMMENT '지점 위도',
                                          longitude DOUBLE NOT NULL COMMENT '지도 경도',
                                          description VARCHAR(255) NOT NULL COMMENT '지점 소개',
-                                         store_thumbnail VARCHAR(255) NOT NULL COMMENT '지점썸네일 URL',
-                                         store_img1 VARCHAR(255) NULL COMMENT '공용공간1사진 URL',
-                                         store_img2 VARCHAR(255) NULL COMMENT '공용공간2사진 URL',
-                                         store_img3 VARCHAR(255) NULL COMMENT '공용공간3사진 URL',
+                                         store_thumbnail_url VARCHAR(255) NOT NULL COMMENT '지점썸네일 URL',
+                                         store_img1_url VARCHAR(255) NULL COMMENT '공용공간1사진 URL',
+                                         store_img2_url VARCHAR(255) NULL COMMENT '공용공간2사진 URL',
+                                         store_img3_url VARCHAR(255) NULL COMMENT '공용공간3사진 URL',
                                          CONSTRAINT pk_store_code PRIMARY KEY (store_code)
 ) ENGINE=INNODB COMMENT '지점';
 
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS tbl_office (
                                           office_type VARCHAR(30) NOT NULL COMMENT '사무실 유형',
                                           office_num INT NOT NULL COMMENT '사무실 호실',
                                           office_price INT NOT NULL COMMENT '사무실 가격(2시간)',
-                                          office_thumbnail VARCHAR(255) NOT NULL COMMENT '사무실 사진 URL',
+                                          office_thumbnail_url VARCHAR(255) NOT NULL COMMENT '사무실 사진 URL',
                                           CONSTRAINT pk_office_code PRIMARY KEY (office_code),
                                           CONSTRAINT fk_store_code FOREIGN KEY (store_code) REFERENCES tbl_store (store_code)
 ) ENGINE=INNODB COMMENT '사무실';
@@ -200,3 +200,5 @@ CREATE TABLE tbl_review (
                             FOREIGN KEY (member_code) REFERENCES tbl_member(member_code) ON DELETE CASCADE,
                             FOREIGN KEY (payment_code) REFERENCES tbl_payment(payment_code) ON DELETE CASCADE
 );
+
+COMMIT;

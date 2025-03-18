@@ -17,8 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
 import java.util.List;
-
 
 @Controller
 public class StoreController {
@@ -86,10 +86,42 @@ public class StoreController {
     // 관리자용 상품 등록 처리
     @PostMapping("store/admin/storecreate")
     public String adminStoreCreate(@ModelAttribute StoreDTO store,
-                                   @RequestParam("storeImage") MultipartFile storeImage,
+                                   @RequestParam("storeThumbnail") MultipartFile storeThumbnail,
+                                   @RequestParam("storeImg1") MultipartFile storeImg1,
+                                   @RequestParam("storeImg2") MultipartFile storeImg2,
+                                   @RequestParam("storeImg3") MultipartFile storeImg3,
                                    RedirectAttributes rttr) {
+
+//        try {
+//            // 파일 저장 로직 (예: 로컬 디렉토리 저장)
+//            String uploadDir = "C:\\MyWs\\404officesemi\\notfound\\src\\main\\resources\\static\\img\\store";
+//
+//            if (!storeThumbnail.isEmpty()) {
+//                String thumbnailPath = uploadDir + storeThumbnail.getOriginalFilename();
+//                storeThumbnail.transferTo(new File(thumbnailPath));
+//                storeDTO.setStoreThumbnail(thumbnailPath);
+//            }
+//
+//            if (!storeImg1.isEmpty()) {
+//                String img1Path = uploadDir + storeImg1.getOriginalFilename();
+//                storeImg1.transferTo(new File(img1Path));
+//                storeDTO.setStoreImg1(img1Path);
+//            }
+//
+//            if (!storeImg2.isEmpty()) {
+//                String img2Path = uploadDir + storeImg2.getOriginalFilename();
+//                storeImg2.transferTo(new File(img2Path));
+//                storeDTO.setStoreImg2(img2Path);
+//            }
+//
+//            if (!storeImg3.isEmpty()) {
+//                String img3Path = uploadDir + storeImg3.getOriginalFilename();
+//                storeImg3.transferTo(new File(img3Path));
+//                storeDTO.setStoreImg3(img3Path);
+//            }
+
         try {
-            storeService.createStore(store, storeImage);
+            storeService.createStore(store, storeThumbnail, storeImg1, storeImg2, storeImg3);
             rttr.addFlashAttribute("message", "새 지점 등록을 성공하였습니다.");
             // 지점 등록 성공 후 이동하는 페이지는 디폴트
             return "redirect:/store/admin/storemanage";

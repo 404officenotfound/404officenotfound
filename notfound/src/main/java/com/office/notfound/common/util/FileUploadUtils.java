@@ -10,7 +10,8 @@ import java.nio.file.Paths;
 
 public class FileUploadUtils {
 
-    public static String saveFile(String imageDir, String imageName, MultipartFile storeThumbnail)
+
+    public static String saveFile(String imageDir, String imageName, MultipartFile storeThumbnail, MultipartFile storeImg1, MultipartFile storeImg2, MultipartFile storeImg3)
             throws IOException {
 
         /* 프로젝트 루트 디렉토리의 절대 경로를 가져옴 */
@@ -27,6 +28,9 @@ public class FileUploadUtils {
 
         /* 원본 파일 이름 가져오기 */
         String originFileName = storeThumbnail.getOriginalFilename();
+        String fileName1 = storeImg1.getOriginalFilename();
+        String fileName2 = storeImg2.getOriginalFilename();
+        String fileName3 = storeImg3.getOriginalFilename();
 
         /* 확장자 추출 */
         String ext = originFileName.substring(originFileName.lastIndexOf("."));
@@ -39,25 +43,15 @@ public class FileUploadUtils {
 
         /* 파일 저장 */
         storeThumbnail.transferTo(target);
+        storeImg1.transferTo(target);
+        storeImg2.transferTo(target);
+        storeImg3.transferTo(target);
+
 
         /* 저장된 파일 이름 반환 */
         return savedFileName;
     }
 
-    //    /* 이미지 삭제 기능은 SpringBoot 파일 업로드 기능을 복습하며 직접 구현해보세요~ */
-//    public static void deleteFile(String filePath) {
-//
-//        File file = new File(filePath);
-//        if (file.exists()) {
-//            if(!file.delete()) {
-//                throw new IOException("파일 삭제에 실패했습니다: " + filePath);
-//            }
-//        } else {
-//            throw new IOException("삭제할 파일을 찾을 수 없습니다: " + filePath);
-//        }
-//
-//        return ;
-//    }
     public static boolean deleteFile(String fileDir, String fileName) {
         System.out.println("--- 이미지 삭제 시작 ---");
         System.out.println("fileDir = " + fileDir);
