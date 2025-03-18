@@ -12,10 +12,10 @@
         <result property="latitude" column="latitude"/>
         <result property="longitude" column="longitude"/>
         <result property="description" column="description"/>
-        <result property="storeThumbnail" column="store_thumbnail"/>
-        <result property="storeImg1" column="store_img1"/>
-        <result property="storeImg2" column="store_img2"/>
-        <result property="storeImg3" column="store_img3"/>
+        <result property="storeThumbnailUrl" column="store_thumbnail_url"/>
+        <result property="storeImg1Url" column="store_img1_url"/>
+        <result property="storeImg2Url" column="store_img2_url"/>
+        <result property="storeImg3Url" column="store_img3_url"/>
     </resultMap>
 
     <select id="findAllStores" parameterType="com.office.notfound.store.model.dto.StoreDTO">
@@ -26,7 +26,7 @@
             store_gu,
             store_address,
             description,
-            store_thumbnail
+            store_thumbnail_url
         FROM
             tbl_store
         ORDER BY
@@ -40,7 +40,10 @@
             store_gu,
             store_address,
             description,
-            store_thumbnail
+            store_thumbnail_url,
+            store_img1_url,
+            store_img2_url,
+            store_img3_url
         FROM
             tbl_store
         WHERE
@@ -52,7 +55,7 @@
         FROM tbl_store
         ORDER BY store_city
     </select>
-    <select id="findGuByCity" resultMap="storeResultMap">
+    <select id="findGuByCity" resultType="string">
         SELECT DISTINCT
             store_gu
         FROM
@@ -61,6 +64,21 @@
             store_city = #{city}
         ORDER BY store_gu
     </select>
+    <select id="findStoresByCityAndGu" resultMap="storeResultMap">
+        SELECT
+            store_code,
+            store_name,
+            store_city,
+            store_gu,
+            store_address,
+            store_thumbnail_url
+        FROM
+            tbl_store
+        WHERE
+            store_city = #{city} AND store_gu = #{gu}
+        ORDER BY
+            store_name;
+    </select>
     <insert id="insertStore" parameterType="com.office.notfound.store.model.dto.StoreDTO">
         INSERT INTO tbl_store
         (
@@ -68,22 +86,26 @@
             store_city,
             store_gu,
             store_address,
+            latitude,
+            longitude,
             description,
-            store_thumbnail,
-            store_img1,
-            store_img2,
-            store_img3
+            store_thumbnail_url,
+            store_img1_url,
+            store_img2_url,
+            store_img3_url
         )
         VALUES (
                    #{storeName},
                    #{storeCity},
                    #{storeGu},
                    #{storeAddress},
+                   #{latitude},
+                   #{longitude},
                    #{description},
-                   #{storeThumbnail},
-                   #{storeImg1},
-                   #{storeImg2},
-                   #{storeImg3}
+                   #{storeThumbnailUrl},
+                   #{storeImg1Url},
+                   #{storeImg2Url},
+                   #{storeImg3Url}
                );
     </insert>
 
