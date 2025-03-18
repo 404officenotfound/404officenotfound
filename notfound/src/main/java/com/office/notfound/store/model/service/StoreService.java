@@ -43,15 +43,18 @@ public class StoreService {
     }
 
     @Transactional
-    public void createStore(StoreDTO store, MultipartFile storeThumbnail) throws Exception {
+    public void createStore(StoreDTO store, MultipartFile storeThumbnail, MultipartFile storeImg1, MultipartFile storeImg2, MultipartFile storeImg3) throws Exception {
 
         // 이미지 저장
         if (!storeThumbnail.isEmpty()) {
 
             String imageName = UUID.randomUUID().toString().replace("-", "");
-            String replaceFileName = FileUploadUtils.saveFile(IMAGE_DIR, imageName, storeThumbnail);
+            String replaceFileName = FileUploadUtils.saveFile(IMAGE_DIR, imageName, storeThumbnail, storeImg1, storeImg2, storeImg3);
 
-            store.setStoreThumbnail(replaceFileName);
+            store.setStoreThumbnailUrl(replaceFileName);
+            store.setStoreImg1Url(replaceFileName);
+            store.setStoreImg2Url(replaceFileName);
+            store.setStoreImg3Url(replaceFileName);
         }
 
         // 상품 정보 저장
