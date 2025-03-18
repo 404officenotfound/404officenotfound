@@ -1,10 +1,12 @@
 package com.office.notfound.member.model.service;
 
+import com.office.notfound.common.util.MailService;
 import com.office.notfound.member.model.dao.MemberMapper;
 import com.office.notfound.member.model.dto.AuthorityDTO;
 import com.office.notfound.member.model.dto.MemberAuthorityDTO;
 import com.office.notfound.member.model.dto.MemberDTO;
 import com.office.notfound.member.model.dto.SignupDTO;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.BadSqlGrammarException;
@@ -15,18 +17,23 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 @Service
 public class MemberService {
 
     private final MemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
+    private final MailService mailService;
 
     @Autowired
-    public MemberService(MemberMapper memberMapper, PasswordEncoder passwordEncoder) {
+    public MemberService(MemberMapper memberMapper,
+                         PasswordEncoder passwordEncoder, MailService mailService) {
         this.memberMapper = memberMapper;
         this.passwordEncoder = passwordEncoder;
+        this.mailService = mailService;
     }
+
 
     @Transactional
     public Integer regist(SignupDTO signupDTO) {
@@ -124,7 +131,7 @@ public class MemberService {
         memberMapper.updatemember(updateMember);
     }
 
-    // 관리자가 회원 정보 수정
+    // 관리자 회원 정보 수정
     @Transactional
     public void updateAdmin(MemberDTO updateAdminMember) {
         if (updateAdminMember.getMemberAuthorities() == null) {
@@ -165,13 +172,97 @@ public class MemberService {
     public String findMemberIdByNameAndEmail(String memberName, String memberEmail) {
         return memberMapper.findMemberIdByNameAndEmail(memberName, memberEmail);
     }
-
+    // 비밀번호 변경
     @Transactional
     public void updatePassword(int memberCode, String newPassword) {
         String encryptedPassword = passwordEncoder.encode(newPassword);
         memberMapper.updatePassword(memberCode, encryptedPassword);
     }
+
+    // 비밀번호 찾기
+    @Transactional
+    public void findPassword(String memberId, String memberName, String memberEmail) {
+        // 사용자 확인
+        MemberDTO member = memberMapper.findMemberByIdNameEmail(memberId, memberName, memberEmail);
+        if (member == null) {
+            throw new IllegalArgumentException("입력한 정보와 일치하는 회원이 없습니다.");
+        }
+
+        // 인증번호 생성
+        String authCode = generateAuthCode();
+
+        // 인증번호 업데이트
+        memberMapper.updateAuthCode(member.getMemberCode(), authCode);
+
+        // 이메일 발송
+        String subject = "비밀번호 찾기 인증번호";
+        String message = String.format(
+                "<p>안녕하세요, %s님. 비밀번호 찾기 요청에 따라 인증번호를 발송합니다.</p>" +
+                        "<p><strong>인증번호: %s</strong></p>" +
+                        "<p>인증번호는 로그인을 위해 임시 비밀번호로 사용할 수 있습니다.</p>",
+                memberName, authCode
+        );
+        try {
+            mailService.sendEmail(memberEmail, subject, message);
+        } catch (MessagingException e) {
+            throw new RuntimeException("이메일 발송에 실패했습니다.");
+        }
+    }
+
+    // 인증번호 기반 로그인
+    @Transactional
+    public MemberDTO loginWithAuthCode(String authCode) {
+        // 인증번호로 회원 조회
+        MemberDTO member = memberMapper.findMemberByAuthCode(authCode);
+
+        if (member == null) {
+            throw new IllegalArgumentException("유효하지 않은 인증번호입니다.");
+        }
+
+        // 인증번호를 비밀번호로 사용
+        member.setMemberPassword(authCode);
+
+        // 인증번호 사용 후 제거(예: DB의 `auth_code` 컬럼 비우기)
+        memberMapper.updateAuthCode(member.getMemberCode(), null);
+
+        return member;
+    }
+
+
+    // 임시 인증번호 생성
+    private String generateAuthCode() {
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < 6; i++) {
+            sb.append(chars.charAt(random.nextInt(chars.length())));
+        }
+        return sb.toString();
+    }
+
+    @Transactional
+    public void changePassword(int memberCode, String currentPassword, String newPassword) {
+        // 사용자 조회
+        MemberDTO member = memberMapper.findMemberByCode(memberCode);
+        if (member == null) {
+            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
+        }
+
+        // 현재 비밀번호 검증(현재 비밀번호 = 인증번호 확인)
+        if (!Objects.equals(member.getMemberPassword(), currentPassword)) {
+            throw new IllegalArgumentException("현재 비밀번호가 일치하지 않습니다.");
+        }
+
+        // 새 비밀번호 저장 (암호화 후 저장)
+        String encryptedPassword = passwordEncoder.encode(newPassword);
+        memberMapper.updatePassword(memberCode, encryptedPassword);
+    }
+
 }
+
+
+
+
 
 
 

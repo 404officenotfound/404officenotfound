@@ -62,13 +62,22 @@
 <!-- 비밀번호 찾기 모달 -->
 <div id="findPwModal" class="modal" style="display:none;">
   <div class="modal-content">
+    <button type="button" class="closeModal">×</button>
     <h2>비밀번호 찾기</h2>
-    <button type="button" class="closeModal">&times;</button>
-    <label for="findPwId">아이디</label>
-    <input type="text" id="findPwId" name="findPwId" placeholder="아이디를 입력하세요">
-    <button type="button" id="findPwSubmit">찾기</button>
+    <p>가입 시 입력한 아이디, 이름, 이메일을 입력해주세요. 입력한 이메일로 인증번호가 발송됩니다.</p>
+    <div class="modal-form">
+      <label for="findPwMemberId">아이디</label>
+      <input type="text" id="findPwMemberId" placeholder="아이디를 입력하세요">
+      <label for="findPwName">이름</label>
+      <input type="text" id="findPwName" placeholder="이름을 입력하세요">
+      <label for="findPwEmail">이메일</label>
+      <input type="email" id="findPwEmail" placeholder="이메일을 입력하세요">
+      <button type="button" id="findPwSubmit" class="submit-btn">비밀번호 찾기</button>
+    </div>
+    <p id="findPwResult" class="modal-result"></p>
   </div>
 </div>
+
 
 <script>
   // 모달 관련 변수
@@ -127,6 +136,72 @@
               resultElement.className = "modal-result error";
             });
   });
+
+  // 비밀번호 찾기 관련 변수
+  const findPwModal = document.getElementById("findPwModal");
+  const findPwBtn = document.getElementById("findPwBtn"); // 비밀번호 찾기 버튼
+  const findPwSubmit = document.getElementById("findPwSubmit");
+  const findPwResult = document.getElementById("findPwResult");
+
+  // 모달 열기 (비밀번호 찾기)
+  findPwBtn.addEventListener("click", () => {
+    findPwModal.style.display = "flex";
+  });
+
+  // 모달 닫기
+  closeModalBtns.forEach(btn =>
+          btn.addEventListener("click", () => {
+            findPwModal.style.display = "none";
+          })
+  );
+
+  // 모달 외부 클릭 시 닫기
+  window.addEventListener("click", event => {
+    if (event.target === findPwModal) {
+      findPwModal.style.display = "none";
+    }
+  });
+
+  // 서버 비밀번호 찾기 요청
+  findPwSubmit.addEventListener("click", () => {
+    const memberId = document.getElementById("findPwMemberId").value.trim();
+    const name = document.getElementById("findPwName").value.trim();
+    const email = document.getElementById("findPwEmail").value.trim();
+
+    // 결과 필드 초기화
+    findPwResult.innerText = "";
+    findPwResult.className = "modal-result";
+
+    // 입력값 확인
+    if (!memberId || !name || !email) {
+      findPwResult.innerText = "모든 필드를 입력해주세요.";
+      findPwResult.className = "modal-result error";
+      return;
+    }
+
+    // 서버 요청
+    fetch("/member/find-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ memberId: memberId, memberName: name, memberEmail: email }),
+    })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success) {
+                findPwResult.innerText = "인증번호가 이메일로 전송되었습니다.";
+                findPwResult.className = "modal-result success";
+              } else {
+                findPwResult.innerText = data.message || "비밀번호 찾기에 실패했습니다.";
+                findPwResult.className = "modal-result error";
+              }
+            })
+            .catch(() => {
+              findPwResult.innerText = "오류가 발생했습니다. 잠시 후 다시 시도해주세요.";
+              findPwResult.className = "modal-result error";
+            });
+  });
+
+
 
 
 </script>

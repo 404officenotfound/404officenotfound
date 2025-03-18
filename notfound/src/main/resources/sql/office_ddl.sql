@@ -54,8 +54,8 @@ CREATE TABLE IF NOT EXISTS tbl_member (
                                           member_name VARCHAR(20) NOT NULL COMMENT '이름',
                                           member_id VARCHAR(20) NOT NULL COMMENT '아이디',
                                           member_password VARCHAR(255) NOT NULL COMMENT '비밀번호',
-                                          member_email VARCHAR(20) NOT NULL COMMENT '이메일',
-                                          member_phone VARCHAR(20) NOT NULL COMMENT '전화번호',
+                                          member_email VARCHAR(30) NOT NULL COMMENT '이메일',
+                                          member_phone VARCHAR(100) NOT NULL COMMENT '전화번호',
                                           member_enddate DATETIME NULL COMMENT '탈퇴날짜',
                                           member_endstatus VARCHAR(20) NOT NULL DEFAULT 'N' COMMENT '탈퇴여부',
                                           CONSTRAINT pk_member_code PRIMARY KEY (member_code)

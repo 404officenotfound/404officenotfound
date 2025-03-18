@@ -44,4 +44,19 @@ public interface MemberMapper {
 
     int updatePassword(@Param("memberCode") int memberCode, @Param("memberPassword") String memberPassword);
 
+    // 사용자 조회
+    MemberDTO findMemberByIdNameEmail(@Param("memberId") String memberId,
+                                   @Param("memberName") String memberName,
+                                   @Param("memberEmail") String memberEmail);
+
+    // 인증번호 업데이트
+    int updateAuthCode(@Param("memberCode") int memberCode,
+                       @Param("authCode") String authCode);
+
+    // 인증번호로 사용자 조회
+    MemberDTO findMemberByAuthCode(@Param("authCode") String authCode);
 }
+
+
+
+

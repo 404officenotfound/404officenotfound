@@ -182,7 +182,34 @@
             member_code = #{memberCode}
     </update>
 
+    <!-- 이름, 아이디, 이메일로 회원 정보 조회 -->
+    <select id="findMemberByIdNameEmail" parameterType="map" resultType="com.office.notfound.member.model.dto.MemberDTO">
+        SELECT
+            member_code AS memberCode,
+            member_name AS memberName,
+            member_id AS memberId,
+            member_email AS memberEmail
+        FROM
+            tbl_member
+        WHERE
+            member_id = #{memberId}
+          AND member_name = #{memberName}
+          AND member_email = #{memberEmail}
+    </select>
 
+    <!-- 사용자 정보를 인증번호로 조회 -->
+    <select id="findMemberByAuthCode" parameterType="string" resultMap="authenticated">
+        SELECT *
+        FROM tbl_member
+        WHERE auth_code = #{authCode};
+    </select>
+
+    <!-- 사용자 인증번호 업데이트 -->
+    <update id="updateAuthCode" parameterType="map">
+        UPDATE tbl_member
+        SET auth_code = #{authCode}
+        WHERE member_code = #{memberCode};
+    </update>
 
 </mapper>
 
