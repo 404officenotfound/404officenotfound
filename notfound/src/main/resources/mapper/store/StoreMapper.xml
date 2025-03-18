@@ -120,7 +120,7 @@
             latitude = #{latitude},
             longitude = #{longitude},
             description = #{description},
-            store_thumbnail_url = #{storeThumbnailUrl},
+            store_thumbnail_url = CASE WHEN #{storeThumbnailUrl} IS NOT NULL THEN #{storeThumbnailUrl} ELSE store_thumbnail_url END,
             store_img1_url = #{storeImg1Url},
             store_img2_url = #{storeImg2Url},
             store_img3_url = #{storeImg3Url}

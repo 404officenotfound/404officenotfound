@@ -55,9 +55,10 @@ public class StoreController {
         // 사무실 상세 리스트 내 리뷰 조회용
         List<OfficeReviewDTO> FindOfficeReview = reviewService.findOfficeReview(storeCode);
 
-
         // 모델에 해당 매장 정보를 담아 상세 페이지를 반환
         model.addAttribute("store", store);
+        model.addAttribute("latitude", store.getLatitude());
+        model.addAttribute("longitude", store.getLongitude());
         model.addAttribute("officeList", officeList);
         model.addAttribute("FindOfficeReview", FindOfficeReview);
 
@@ -186,23 +187,26 @@ public class StoreController {
                                  @ModelAttribute StoreDTO store,
                                  RedirectAttributes rttr) {
 
-        store.setStoreCode(storeCode);
-        storeService.updateStore(store);
-
         try {
+            if (store.getStoreName() == null || store.getStoreAddress() == null) {
+                throw new IllegalArgumentException("필수 입력 데이터가 누락되었습니다.");
+            }
+
+            store.setStoreCode(storeCode);
+            storeService.updateStore(store);
             rttr.addFlashAttribute("message", "지점 정보 수정을 성공하였습니다.");
             // 지점 수정 성공 후 이동하는 페이지는 디폴트
             return "redirect:/store/admin/storemanage";
         } catch (Exception e) {
+            e.printStackTrace();
             rttr.addFlashAttribute("message", "지점 정보 수정에 실패했습니다: " + e.getMessage());
-            return "redirect:/store/admin/storeedit";
+            return "redirect:/store/admin/storeedit/" + storeCode;
         }
     }
 
     // 지점 삭제하기
     @PostMapping("/store/admin/storemanage/{storeCode}")
-    public String adminStoreDelete(@PathVariable("storeCode") int storeCode,
-                                 RedirectAttributes rttr) {
+    public String adminStoreDelete(@PathVariable("storeCode") int storeCode, RedirectAttributes rttr) {
 
         try {
             storeService.deleteStore(storeCode);
@@ -213,5 +217,4 @@ public class StoreController {
             return "redirect:/store/admin/storemanage";
         }
     }
-
 }
