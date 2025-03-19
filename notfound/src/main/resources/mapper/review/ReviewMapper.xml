@@ -110,4 +110,33 @@
     <select id="findMyReviewByCode" resultType="com.office.notfound.review.model.dto.ReviewDTO" parameterType="_int">
         SELECT * FROM tbl_review WHERE review_code = #{reviewCode}
     </select>
+
+
+    <!-- 리뷰 수정 -->
+    <update id="updateReview" parameterType="com.office.notfound.review.model.dto.ReviewDTO">
+        UPDATE
+        tbl_review
+        SET
+        member_code = #{memberCode},
+        payment_code = #{paymentCode},
+        member_id = #{memberId},
+        review_title = #{reviewTitle},
+        review_content = #{reviewContent},
+        review_created_at = DATE_FORMAT(now(), '%Y-%m-%d %H:%i:%s'),
+        review_rating = #{reviewRating},
+        <if test="reviewImage != null and reviewImage != ''">
+         review_image = #{reviewImage}
+        </if>
+        WHERE
+        review_code = #{reviewCode}
+    </update>
+
+
+    <!-- 리뷰 삭제 -->
+    <delete id="deleteReview" parameterType="int">
+        DELETE FROM
+            tbl_review
+        WHERE
+            review_code = #{reviewCode}
+    </delete>
 </mapper>

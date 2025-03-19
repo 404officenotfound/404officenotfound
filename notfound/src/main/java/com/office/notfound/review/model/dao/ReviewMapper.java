@@ -22,4 +22,6 @@ public interface ReviewMapper {
     ReviewDTO findMyReviewByCode(int reviewCode);
 
     void updateReview(ReviewDTO myReview);
+
+    void deleteReview(int reviewCode);
 }

@@ -131,18 +131,23 @@ public class FileUploadUtils {
 //
 //        return ;
 //    }
+/*
     public static boolean deleteReviewFile(String fileDir, String fileName) {
         System.out.println("--- 이미지 삭제 시작 ---");
         System.out.println("fileDir = " + fileDir);
         System.out.println("fileName = " + fileName);
 
-        /* build 디렉토리 경로를 기반으로 삭제할 파일 경로 생성 */
+        */
+/* build 디렉토리 경로를 기반으로 삭제할 파일 경로 생성 *//*
+
         String projectPath = System.getProperty("user.dir") + "/notfound";;
         String buildPath = projectPath + "/build/resources/main/static/img/review";
         Path filePath = Paths.get(buildPath, fileName);
 
         try {
-            /* 파일 존재 여부 확인 후 삭제 */
+            */
+/* 파일 존재 여부 확인 후 삭제 *//*
+
             if (Files.exists(filePath)) {
                 Files.delete(filePath);
                 System.out.println("이미지 삭제 성공: " + filePath.toString());
@@ -154,6 +159,12 @@ public class FileUploadUtils {
             System.out.println("이미지 삭제 중 오류 발생: " + e.getMessage());
         }
 
+        return false;
+    }
+*/
+    public static boolean deleteReviewFile() {
+
+        System.out.println("--- 이미지 삭제는 직접 구현해보세요~ ---");
         return false;
     }
 

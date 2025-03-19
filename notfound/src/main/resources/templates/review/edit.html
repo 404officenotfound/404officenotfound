@@ -44,7 +44,7 @@
             </ul>
         </div>
         <section class="my-reviews-container">
-            <h3>리뷰 등록</h3>
+            <h3>리뷰 수정</h3>
             <form th:action="@{'/review/edit/' + ${reviewCode}}" method="post" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="reviewTitle" class="form-label">제목 : </label>
@@ -69,21 +69,25 @@
 
                 <div class="mb-3">
                     <label for="reviewThumbnail" class="form-label">이미지 업로드</label>
-                    <input class="form-control" type="file" name="reviewThumbnail" id="reviewThumbnail" accept="image/*" onchange="previewImage(this)">
-
+                    <input class="form-control" type="file" name="reviewThumbnail" id="reviewThumbnail" accept="image/*"
+                           onchange="previewNewImage(this)">
+                    <div class="mb-3">
                     <label for="reviewThumbnail" class="form-label">현재 이미지</label>
+                        <br>
+                    <img th:src="${myReview.reviewImage}" class="current-image">
+                    </div>
                     <div th:if="${myReview.reviewImage != null}">
-                        <img id="preview" class="preview-image" th:src="${myReview.reviewImage}" />
+                        <img id="newImagePreview" class="preview-image" />
                     </div>
                     <div th:if="${myReview.reviewImage == null}">
                         <span>이미지가 없습니다.</span>
                     </div>
                 </div>
                 <div class="mb-3">
-                        <label for="productImage">이미지 변경 (선택사항)</label>
+                        <!--<label for="productImage">이미지 변경 (선택사항)</label>
                         <input type="file" id="productImage" name="productImage"
                                accept="image/*" onchange="previewNewImage(this)">
-                        <img id="newImagePreview" class="preview-image">
+                        <img id="newImagePreview" class="preview-image">-->
                 </div>
 
                 <button type="submit">수정하기</button>

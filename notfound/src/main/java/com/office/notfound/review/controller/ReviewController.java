@@ -46,14 +46,13 @@ public class ReviewController {
     }
 
 
-    // 리뷰가 등록된 사무실 리스트 전체 조회용 컨트롤러
+    // 리뷰가 등록된 사무실 리스트 전체 조회용 핸들러
     @GetMapping("/officelist")
     public String selectOfficeReviewList( Model model) {
 
         List<OfficeReviewDTO> officeReviewList = reviewService.selectOfficeReviewList();
 
         model.addAttribute("officeReview", officeReviewList);
-//        System.out.println("officeReviewList--------------> " + officeReviewList);
 
         return "review/officeReview";
     }
@@ -73,7 +72,6 @@ public class ReviewController {
 
         model.addAttribute("member", member);
         model.addAttribute("reviewList", myReviews);
-//        System.out.println("myReviews--------------------> = " + myReviews);
 
         return "review/my-reviews";
     }
@@ -96,7 +94,7 @@ public class ReviewController {
             // 로그인한 회원번호 찾아서 새 리뷰 객체에 넣기
             newReview.setMemberCode(member.getMemberCode());
             // 리뷰 등록 전 현재 날짜로 reviewRegistDate 설정
-//            newReview.setReviewDate(LocalDate.now());
+            newReview.setReviewDate(LocalDate.now());
 
             newReview.setPaymentCode(1);        // payment_code를 1로 설정
 
@@ -107,7 +105,7 @@ public class ReviewController {
             logger.info("Locale : {}", locale);
 
             rAttr.addFlashAttribute("message", "새 리뷰 등록을 성공하였습니다.");
-            System.out.println("newReview222222222------------> " + newReview);
+//            System.out.println("newReview확인------------> " + newReview);
 
             return "redirect:/review/my-reviews";     // 리뷰 목록으로 리다이렉트
 
@@ -126,15 +124,12 @@ public class ReviewController {
     // 리뷰 수정 페이지
     @GetMapping("/edit/{reviewCode}")
     public ModelAndView userReviewEditPage(@PathVariable int reviewCode,
-                                             ModelAndView mv) {
+                                           ModelAndView mv) {
 
         ReviewDTO myReview = reviewService.findMyReviewByCode(reviewCode);
 
         mv.addObject("myReview", myReview);
         mv.setViewName("review/edit");
-        System.out.println("myReview----------------> = " + myReview);
-        System.out.println("mv-------------------->" + mv);
-        System.out.println("reviewCode------------->" + reviewCode);
 
         return mv;
     }
@@ -142,20 +137,44 @@ public class ReviewController {
     // 리뷰 수정 핸들러
     @PostMapping("/edit/{reviewCode}")
     public String userReviewEdit(@PathVariable int reviewCode,
-                                   @ModelAttribute ReviewDTO myReview,
-                                   @RequestParam(required = false) MultipartFile reviewThumbnail,
-                                   RedirectAttributes rAttr) {
+                                 @ModelAttribute ReviewDTO myReview,
+                                 @AuthenticationPrincipal MemberDTO member,
+                                 @RequestParam(required = false) MultipartFile reviewThumbnail,
+                                 RedirectAttributes rAttr) {
+
         try {
             myReview.setReviewCode(reviewCode);
-            System.out.println("myReview--------------> = " + myReview);
+            // 로그인의 memberID 넣기
+            myReview.setMemberId(member.getMemberId());
+            // 로그인한 회원번호 찾아서 새 리뷰 객체에 넣기
+            myReview.setMemberCode(member.getMemberCode());
+            myReview.setPaymentCode(1);        // payment_code를 1로 설정
 
             reviewService.updateMyReview(myReview, reviewThumbnail);
 
             rAttr.addFlashAttribute("message", "리뷰가 수정되었습니다.");
             return "redirect:/review/my-reviews";
         } catch (Exception e) {
+            e.printStackTrace();
             rAttr.addFlashAttribute("message", "리뷰 수정에 실패했습니다: " + e.getMessage());
             return "redirect:/review/edit/" + reviewCode;
+        }
+    }
+
+
+    // 리뷰 삭제 핸들러
+    @PostMapping("/delete/{reviewCode}")
+    public String userReviewDelete(@PathVariable int reviewCode,
+                                     RedirectAttributes rAttr) {
+        try {
+            System.out.println("--------리뷰 삭제 핸들러 발동--------");
+            reviewService.deleteReview(reviewCode);
+            rAttr.addFlashAttribute("message", "리뷰가 삭제되었습니다.");
+            return "redirect:/review/my-reviews";
+        } catch (Exception e) {
+            e.printStackTrace();
+            rAttr.addFlashAttribute("message", "리뷰가 실패했습니다: " + e.getMessage());
+            return "redirect:/review/my-reviews";
         }
     }
 
