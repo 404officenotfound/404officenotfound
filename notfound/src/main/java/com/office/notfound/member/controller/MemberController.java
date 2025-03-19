@@ -95,7 +95,7 @@ public class MemberController {
             return "redirect:/"; // 권한이 없으면 메인 페이지로 리디렉션
         }
     }
-
+    // 회원정보수정
     @PostMapping("/update")
     public String update(@ModelAttribute MemberDTO updateMember,
                          @AuthenticationPrincipal MemberDTO member,
@@ -128,11 +128,11 @@ public class MemberController {
             return "redirect:/member/mypage";
         }
     }
-
+    // 관리자수정
     @PostMapping("/adminupdate")
     public String updateAdmin(@ModelAttribute MemberDTO updateAdminMember,
-                         @AuthenticationPrincipal MemberDTO adminmember,
-                         RedirectAttributes rttr) {
+                              @AuthenticationPrincipal MemberDTO adminmember,
+                              RedirectAttributes rttr) {
         try {
             updateAdminMember.setMemberCode(adminmember.getMemberCode());
 
@@ -213,65 +213,67 @@ public class MemberController {
         return ResponseEntity.ok(response);
     }
 
+    //비밀번호 변경
     @PostMapping("/update-password")
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> updatePassword(@RequestParam int memberCode,
-                                                              @RequestParam String currentPassword,
-                                                              @RequestParam String newPassword) {
+    public ResponseEntity<Map<String, Object>> updatePassword(
+            @AuthenticationPrincipal MemberDTO member,
+            @RequestBody Map<String, String> passwords) {
         Map<String, Object> response = new HashMap<>();
-        try {
-            memberService.changePassword(memberCode, currentPassword, newPassword);
-            response.put("success", true);
-            response.put("message", "비밀번호가 성공적으로 변경되었습니다.");
-        } catch (IllegalArgumentException e) {
+        String currentPassword = passwords.get("currentPassword");
+        String newPassword = passwords.get("newPassword");
+
+        if (!memberService.checkPassword(member.getMemberCode(), currentPassword)) {
             response.put("success", false);
-            response.put("message", e.getMessage());
+            response.put("message", "현재 비밀번호가 일치하지 않습니다.");
+            return ResponseEntity.badRequest().body(response);
         }
+
+        memberService.updatePassword(member.getMemberCode(), newPassword);
+        response.put("success", true);
         return ResponseEntity.ok(response);
     }
 
 
-    // 비밀번호 찾기
-    @PostMapping("/find-password")
+    //비밀번호 찾기
+    @PostMapping("/reset-password")
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> findPassword(@RequestBody Map<String, String> request) {
-        Map<String, Object> response = new HashMap<>();
+    public ResponseEntity<Map<String, String>> resetPassword(@RequestBody Map<String, String> request) {
+        // 입력값 검증
+        if (!request.containsKey("memberId") || !request.containsKey("memberName") || !request.containsKey("memberEmail")) {
+            throw new IllegalArgumentException("필수 파라미터가 누락되었습니다.");
+        }
+        System.out.println("요청 데이터: " + request);
+
         try {
-            // 요청 값 가져오기
             String memberId = request.get("memberId");
             String memberName = request.get("memberName");
             String memberEmail = request.get("memberEmail");
+            String newPassword = memberService.resetPassword(memberId, memberName, memberEmail);
 
-            // 비밀번호 찾기 서비스 호출
-            memberService.findPassword(memberId, memberName, memberEmail);
+            // 성공 메시지 포함
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "비밀번호가 성공적으로 초기화되었습니다.");
+            response.put("newPassword", newPassword);
+            return ResponseEntity.ok(response);
 
-            response.put("success", true);
         } catch (IllegalArgumentException e) {
-            response.put("success", false);
-            response.put("message", e.getMessage());
+            System.err.println("잘못된 요청 데이터 - 에러 메시지: " + e.getMessage());
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(errorResponse);
+
         } catch (Exception e) {
-            response.put("success", false);
-            response.put("message", "서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+            System.err.println("서버 내부 오류 - 에러 메시지: " + e.getMessage());
+            e.printStackTrace(); // 스택 트레이스를 출력해 원인을 확인
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "서버 내부 오류가 발생했습니다.");
+            return ResponseEntity.status(500).body(errorResponse);
         }
-        return ResponseEntity.ok(response);
     }
 
 
-    // 인증번호 로그인
-    @PostMapping("/auth-login")
-    @ResponseBody
-    public ResponseEntity<Map<String, Object>> authLogin(@RequestParam String authCode) {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            MemberDTO member = memberService.loginWithAuthCode(authCode);
-            response.put("success", true);
-            response.put("member", member);
-        } catch (IllegalArgumentException e) {
-            response.put("success", false);
-            response.put("message", e.getMessage());
-        }
-        return ResponseEntity.ok(response);
-    }
+
 
 
 

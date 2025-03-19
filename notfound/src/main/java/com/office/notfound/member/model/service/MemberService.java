@@ -1,12 +1,11 @@
 package com.office.notfound.member.model.service;
 
-import com.office.notfound.common.util.MailService;
+
 import com.office.notfound.member.model.dao.MemberMapper;
 import com.office.notfound.member.model.dto.AuthorityDTO;
 import com.office.notfound.member.model.dto.MemberAuthorityDTO;
 import com.office.notfound.member.model.dto.MemberDTO;
 import com.office.notfound.member.model.dto.SignupDTO;
-import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.BadSqlGrammarException;
@@ -14,24 +13,20 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class MemberService {
 
     private final MemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
-    private final MailService mailService;
+
 
     @Autowired
     public MemberService(MemberMapper memberMapper,
-                         PasswordEncoder passwordEncoder, MailService mailService) {
+                         PasswordEncoder passwordEncoder) {
         this.memberMapper = memberMapper;
         this.passwordEncoder = passwordEncoder;
-        this.mailService = mailService;
     }
 
 
@@ -175,71 +170,21 @@ public class MemberService {
     // 비밀번호 변경
     @Transactional
     public void updatePassword(int memberCode, String newPassword) {
+        // 비밀번호 암호화
         String encryptedPassword = passwordEncoder.encode(newPassword);
-        memberMapper.updatePassword(memberCode, encryptedPassword);
-    }
 
-    // 비밀번호 찾기
-    @Transactional
-    public void findPassword(String memberId, String memberName, String memberEmail) {
-        // 사용자 확인
-        MemberDTO member = memberMapper.findMemberByIdNameEmail(memberId, memberName, memberEmail);
-        if (member == null) {
-            throw new IllegalArgumentException("입력한 정보와 일치하는 회원이 없습니다.");
-        }
+        // 디버깅 로그
+        System.out.println("암호화된 새 비밀번호: " + encryptedPassword);
 
-        // 인증번호 생성
-        String authCode = generateAuthCode();
-
-        // 인증번호 업데이트
-        memberMapper.updateAuthCode(member.getMemberCode(), authCode);
-
-        // 이메일 발송
-        String subject = "비밀번호 찾기 인증번호";
-        String message = String.format(
-                "<p>안녕하세요, %s님. 비밀번호 찾기 요청에 따라 인증번호를 발송합니다.</p>" +
-                        "<p><strong>인증번호: %s</strong></p>" +
-                        "<p>인증번호는 로그인을 위해 임시 비밀번호로 사용할 수 있습니다.</p>",
-                memberName, authCode
-        );
-        try {
-            mailService.sendEmail(memberEmail, subject, message);
-        } catch (MessagingException e) {
-            throw new RuntimeException("이메일 발송에 실패했습니다.");
+        // 데이터베이스 업데이트
+        int rowsUpdated = memberMapper.updatePassword(memberCode, encryptedPassword);
+        if (rowsUpdated == 0) {
+            throw new RuntimeException("비밀번호 변경 실패: 데이터베이스에 저장되지 않았습니다.");
         }
     }
 
-    // 인증번호 기반 로그인
-    @Transactional
-    public MemberDTO loginWithAuthCode(String authCode) {
-        // 인증번호로 회원 조회
-        MemberDTO member = memberMapper.findMemberByAuthCode(authCode);
 
-        if (member == null) {
-            throw new IllegalArgumentException("유효하지 않은 인증번호입니다.");
-        }
-
-        // 인증번호를 비밀번호로 사용
-        member.setMemberPassword(authCode);
-
-        // 인증번호 사용 후 제거(예: DB의 `auth_code` 컬럼 비우기)
-        memberMapper.updateAuthCode(member.getMemberCode(), null);
-
-        return member;
-    }
-
-
-    // 임시 인증번호 생성
-    private String generateAuthCode() {
-        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        StringBuilder sb = new StringBuilder();
-        Random random = new Random();
-        for (int i = 0; i < 6; i++) {
-            sb.append(chars.charAt(random.nextInt(chars.length())));
-        }
-        return sb.toString();
-    }
-
+    //비밀번호 변경
     @Transactional
     public void changePassword(int memberCode, String currentPassword, String newPassword) {
         // 사용자 조회
@@ -258,8 +203,52 @@ public class MemberService {
         memberMapper.updatePassword(memberCode, encryptedPassword);
     }
 
-}
+    @Transactional
+    public String resetPassword(String memberId, String memberName, String memberEmail) {
+        // 디버깅 추가
+        System.out.println("resetPassword 호출 - 입력된 데이터: memberId=" + memberId +
+                ", memberName=" + memberName + ", memberEmail=" + memberEmail);
 
+        // 사용자 조회
+        MemberDTO member = memberMapper.findMemberByIdNameEmail(memberId, memberName, memberEmail);
+        if (member == null) {
+            throw new IllegalArgumentException("입력하신 정보와 일치하는 계정을 찾을 수 없습니다.");
+        }
+        System.out.println("사용자 조회 성공 - memberId=" + member.getMemberId());
+
+        // 6자리 비밀번호 생성
+        String newPassword = generateRandomPassword(6);
+        System.out.println("생성된 새로운 비밀번호: " + newPassword);
+
+        // 비밀번호 암호화
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        System.out.println("암호화된 비밀번호: " + encodedPassword);
+
+        // DB 업데이트
+        int rowsUpdated = memberMapper.resetPassword(memberId, memberName, memberEmail, encodedPassword);
+        if (rowsUpdated == 0) {
+            throw new RuntimeException("비밀번호를 업데이트하는 데 실패했습니다.");
+        }
+        System.out.println("비밀번호 DB 업데이트 성공");
+
+        return newPassword; // 사용자에게 변경된 비밀번호 반환
+    }
+
+
+    private String generateRandomPassword(int length) {
+        String charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        Random random = new Random();
+        StringBuilder newPassword = new StringBuilder();
+
+        for (int i = 0; i < length; i++) {
+            int randomIndex = random.nextInt(charSet.length());
+            newPassword.append(charSet.charAt(randomIndex));
+        }
+        return newPassword.toString();
+    }
+
+
+}
 
 
 

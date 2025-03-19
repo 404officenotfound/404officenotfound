@@ -122,24 +122,22 @@
 
         fetch('/member/update-password', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: new URLSearchParams({
-                memberCode: MEMBER_CODE, // 현재 로그인한 사용자의 코드
-                currentPassword: currentPassword,
-                newPassword: newPassword
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ currentPassword, newPassword }),
         })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert("비밀번호가 성공적으로 변경되었습니다.");
+                    alert("비밀번호가 변경되었습니다.");
+                    document.getElementById("currentPassword").value = "";
+                    document.getElementById("newPassword").value = "";
                 } else {
-                    alert(data.message);
+                    alert("비밀번호 변경 실패: " + data.message);
                 }
             })
             .catch(err => {
                 console.error(err);
-                alert("오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+                alert("비밀번호 변경 중 오류가 발생했습니다.");
             });
     }
 

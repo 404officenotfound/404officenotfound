@@ -10,10 +10,10 @@
 <body>
 <div class="login-container">
   <!-- 이미지 클릭 시 main 페이지로 이동 -->
-  <img src="/img/logo/새로고.JPG" alt="로고" onclick="window.location.href='/';" style="cursor: pointer;" width="400px" height="170px">
+  <div>
+  <img src="/img/logo/새로고.JPG" alt="로고" onclick="window.location.href='/';" style="cursor: pointer;" width="420px" height="170px">
+  </div>
   <h2 class="login-title">로그인</h2>
-
-
 
   <form th:action="@{/auth/login}" method="post">
     <label for="memberId">아이디</label>
@@ -137,12 +137,6 @@
             });
   });
 
-  // 비밀번호 찾기 관련 변수
-  const findPwModal = document.getElementById("findPwModal");
-  const findPwBtn = document.getElementById("findPwBtn"); // 비밀번호 찾기 버튼
-  const findPwSubmit = document.getElementById("findPwSubmit");
-  const findPwResult = document.getElementById("findPwResult");
-
   // 모달 열기 (비밀번호 찾기)
   findPwBtn.addEventListener("click", () => {
     findPwModal.style.display = "flex";
@@ -162,44 +156,50 @@
     }
   });
 
-  // 서버 비밀번호 찾기 요청
-  findPwSubmit.addEventListener("click", () => {
+  document.getElementById("findPwSubmit").addEventListener("click", () => {
     const memberId = document.getElementById("findPwMemberId").value.trim();
-    const name = document.getElementById("findPwName").value.trim();
-    const email = document.getElementById("findPwEmail").value.trim();
+    const memberName = document.getElementById("findPwName").value.trim();
+    const memberEmail = document.getElementById("findPwEmail").value.trim();
+    const resultElement = document.getElementById("findPwResult");
 
-    // 결과 필드 초기화
-    findPwResult.innerText = "";
-    findPwResult.className = "modal-result";
-
-    // 입력값 확인
-    if (!memberId || !name || !email) {
-      findPwResult.innerText = "모든 필드를 입력해주세요.";
-      findPwResult.className = "modal-result error";
+    // 입력값 유효성 검사
+    if (!memberId || !memberName || !memberEmail) {
+      resultElement.innerText = "모든 정보를 입력해주세요.";
+      resultElement.className = "modal-result error";
       return;
     }
 
     // 서버 요청
-    fetch("/member/find-password", {
+    fetch("/member/reset-password", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ memberId: memberId, memberName: name, memberEmail: email }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ memberId, memberName, memberEmail }),
     })
-            .then((response) => response.json())
-            .then((data) => {
-              if (data.success) {
-                findPwResult.innerText = "인증번호가 이메일로 전송되었습니다.";
-                findPwResult.className = "modal-result success";
+            .then(res => res.json())
+            .then(data => {
+              if (data.newPassword) {
+                // 성공 메시지 및 새 비밀번호 표시
+                resultElement.innerText = `새 비밀번호: ${data.newPassword}`;
+                resultElement.className = "modal-result success";
               } else {
-                findPwResult.innerText = data.message || "비밀번호 찾기에 실패했습니다.";
-                findPwResult.className = "modal-result error";
+                // 실패 메시지 표시
+                resultElement.innerText = data.message;
+                resultElement.className = "modal-result error";
               }
             })
             .catch(() => {
-              findPwResult.innerText = "오류가 발생했습니다. 잠시 후 다시 시도해주세요.";
-              findPwResult.className = "modal-result error";
+              resultElement.innerText = "서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.";
+              resultElement.className = "modal-result error";
             });
   });
+
+
+
+
+
+
 
 
 
