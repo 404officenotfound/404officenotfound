@@ -81,11 +81,13 @@
                 </div>
             </form>
 
-            <!-- 회원탈퇴 버튼 -->
-            <!-- memberCode를 data-* 속성으로 HTML에 전달 -->
-            <div id="withdrawalSection" data-member-code="${member.memberCode}" class="withdrawal-section">
-                <button type="button" class="withdrawal-button" id="withdrawalBtn">회원탈퇴</button>
+
+            <!-- 회원 탈퇴 버튼 -->
+            <div id="withdrawalSection" class="withdrawal-section">
+            <button class="withdrawal-button" onclick="document.getElementById('withdrawalModal').style.display='block'">
+                회원탈퇴</button>
             </div>
+
         </div>
     </div>
 
@@ -95,19 +97,19 @@
             <span class="close-modal">&times;</span>
             <h2>회원탈퇴</h2>
             <p>탈퇴하려면 비밀번호를 입력하세요.</p>
-            <input type="password" id="withdrawalPassword" placeholder="비밀번호 입력">
-            <button id="verifyPassword">확인</button>
-            <div id="passwordError" style="color: red; display: none;">비밀번호가 일치하지 않습니다.</div>
 
-            <div id="confirmSection" style="display: none;">
-                <p>정말로 탈퇴하시겠습니까?</p>
-                <p>탈퇴 시 모든 정보가 삭제되며 복구할 수 없습니다.</p>
-                <div class="modal-buttons">
-                    <button class="modal-confirm" id="confirmWithdrawal">탈퇴</button>
-                    <button class="modal-cancel">취소</button>
-                </div>
-            </div>
+            <!-- 탈퇴 요청 폼 -->
+            <form th:action="@{/member/withdrawal}" method="post">
+                <input type="password" name="password" id="withdrawalPassword" placeholder="비밀번호 입력" required>
+                <input type="hidden" name="memberCode" th:value="${member.memberCode}">
+                <div id="passwordError" style="color: red; display: none;">비밀번호가 일치하지 않습니다.</div>
+                <button type="submit" class="confirm-button">탈퇴 확인</button>
+                <button type="button" class="cancel-button" onclick="document.getElementById('withdrawalModal').style.display='none'">취소</button>
+            </form>
         </div>
+    </div>
+
+    </div>
     </div>
 </main>
 

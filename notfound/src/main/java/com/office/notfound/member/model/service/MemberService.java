@@ -152,7 +152,6 @@ public class MemberService {
         return isPasswordCorrect;
     }
 
-
     // 회원 탈퇴
     @Transactional
     public boolean withdraw(int memberCode) {
@@ -163,6 +162,7 @@ public class MemberService {
 
         return result > 0; // 업데이트된 행이 1 이상이어야 성공
     }
+
     // ID찾기
     public String findMemberIdByNameAndEmail(String memberName, String memberEmail) {
         return memberMapper.findMemberIdByNameAndEmail(memberName, memberEmail);
