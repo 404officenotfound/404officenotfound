@@ -35,13 +35,27 @@ public interface MemberMapper {
     int updateadmin(MemberDTO updateAdminMember);
     // 회원 코드로 회원정보 조회
     MemberDTO findMemberByCode(@Param("memberCode") int memberCode);
-    // 탈퇴
+    // 회원탈퇴
     int withdrawMember(@Param("memberCode") int memberCode);
 
     // 이름과 이메일로 아이디를 조회
     String findMemberIdByNameAndEmail(@Param("memberName") String memberName,
                                       @Param("memberEmail") String memberEmail);
-
+    // 비밀번호 변경
     int updatePassword(@Param("memberCode") int memberCode, @Param("memberPassword") String memberPassword);
+
+    // 비밀번호 초기화
+    int resetPassword(@Param("memberId") String memberId,
+                      @Param("memberName") String memberName,
+                      @Param("memberEmail") String memberEmail,
+                      @Param("newPassword") String newPassword);
+
+    // ID, 이름, 이메일로 사용자 조회
+    MemberDTO findMemberByIdNameEmail(@Param("memberId") String memberId,
+                                      @Param("memberName") String memberName,
+                                      @Param("memberEmail") String memberEmail);
+
+
+
 
 }

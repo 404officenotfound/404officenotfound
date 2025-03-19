@@ -51,7 +51,7 @@
             a.authority_name as authorityName
         from
             tbl_member_role mr
-        join
+                join
             tbl_authority a on mr.authority_code = a.authority_code
         where
             mr.member_code = #{ memberCode }
@@ -70,11 +70,11 @@
     <!--  중복이메일 조회  -->
     <select id="countMemberByEmail" parameterType="string" resultType="Integer">
         SELECT
-        COUNT(*)
+            COUNT(*)
         FROM
-        tbl_member
+            tbl_member
         WHERE
-        member_email = #{memberEmail}
+            member_email = #{memberEmail}
     </select>
 
     <!--  신규 사용자 등록  -->
@@ -90,15 +90,15 @@
             member_endstatus
         )
         VALUES
-        (
-            #{memberName},
-            #{memberId},
-            #{memberPassword},
-            #{memberEmail},
-            #{memberPhone},
-            #{memberEnddate},
-            #{memberEndstatus}
-        )
+            (
+                #{memberName},
+                #{memberId},
+                #{memberPassword},
+                #{memberEmail},
+                #{memberPhone},
+                #{memberEnddate},
+                #{memberEndstatus}
+            )
     </insert>
 
     <!--   신규 사용자 정보 및 기본 권한 설정-->
@@ -109,38 +109,37 @@
             authority_code
         )
         VALUES
-        (
-            #{memberCode},
-            #{authorityCode}
-        )
+            (
+                #{memberCode},
+                #{authorityCode}
+            )
     </insert>
-
+    <!--  회원정보변경  -->
     <update id="updatemember">
-    UPDATE
+        UPDATE
         tbl_member
-    <set>
+        <set>
             <if test="memberName != null">member_name = #{memberName},</if>
             <if test="memberEmail != null">member_email = #{memberEmail},</if>
             <if test="memberPhone != null">member_phone = #{memberPhone}</if>
-    </set>
-    WHERE
+        </set>
+        WHERE
         member_code=#{memberCode}
     </update>
-
+    <!--어드민 정보 변경-->
     <update id="updateadmin">
-    UPDATE
+        UPDATE
         tbl_member
-    <set>
+        <set>
             <if test="memberName != null">member_name = #{memberName},</if>
             <if test="memberEmail != null">member_email = #{memberEmail},</if>
             <if test="memberPhone != null">member_phone = #{memberPhone}</if>
-    </set>
-    WHERE
+        </set>
+        WHERE
         member_code=#{memberCode}
     </update>
 
     <!-- 회원코드로 조회   -->
-
     <select id="findMemberByCode" resultType="com.office.notfound.member.model.dto.MemberDTO">
         SELECT
             *
@@ -169,7 +168,7 @@
             tbl_member
         WHERE
             member_name = #{memberName}
-        AND member_email = #{memberEmail}
+          AND member_email = #{memberEmail}
     </select>
 
     <!--  비밀번호변경  -->
@@ -182,7 +181,25 @@
             member_code = #{memberCode}
     </update>
 
+    <!--비밀번호찾기-->
+    <update id="resetPassword" parameterType="map">
+        UPDATE tbl_member
+        SET member_password = #{newPassword}
+        WHERE member_id = #{memberId}
+          AND member_name = #{memberName}
+          AND member_email = #{memberEmail};
+    </update>
+
+    <!-- 비밀번호찾기  -->
+    <select id="findMemberByIdNameEmail" resultType="com.office.notfound.member.model.dto.MemberDTO">
+        SELECT *
+        FROM tbl_member
+        WHERE member_id = #{memberId}
+          AND member_name = #{memberName}
+          AND member_email = #{memberEmail}
+    </select>
+
+
 
 
 </mapper>
-
