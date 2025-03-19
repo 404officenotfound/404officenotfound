@@ -116,7 +116,7 @@ public class FileUploadUtils {
         return "/img/review/" + savedFileName;
     }
 
-    public static boolean deleteReviewFile(String fileDir, String fileName) {
+/*    public static boolean deleteReviewFile(String fileDir, String fileName) {
 
         System.out.println("--- 이미지 삭제 시작 ---");
         System.out.println("fileDir = " + fileDir);
