@@ -66,8 +66,6 @@ public class ReviewService {
             // 서비스에서 파일 저장 후 경로 확인
             System.out.println("파일 저장 경로 확인: " + replaceFileName);
 
-            System.out.println("리뷰서비스 imageName-----------------> = " + imageName);
-//            System.out.println("리뷰서비스 newReview-----------------> = " + newReview);
         } else {
             newReview.setReviewImage(null);
         }
@@ -89,8 +87,7 @@ public class ReviewService {
 
         if(myReview != null) {
             // 이미지 URL 완성
-//            myReview.setReviewImage(IMAGE_URL + myReview.getReviewImage());
-            System.out.println("리뷰수정findMyReviewbyCodeService--------> " + myReview);
+            myReview.setReviewImage(myReview.getReviewImage());
         }
 
         System.out.println("myReview.getReviewImage() = " + myReview.getReviewImage());
@@ -114,17 +111,17 @@ public class ReviewService {
                 // 기존 이미지가 있다면 먼저 삭제
                 if (originalImageUrl != null && !originalImageUrl.isEmpty()) {
 
-//                    FileUploadUtils.deleteReviewFile();
+                    FileUploadUtils.deleteReviewFile();
                 }
 
                 // 새 이미지 저장
                 String imageName = UUID.randomUUID().toString().replace("-", "");
                 String newImageUrl = FileUploadUtils.saveReviewFile(IMAGE_DIR, imageName, reviewThumbnail);
-                System.out.println("새 이미지 저장됨: " + newImageUrl);
 
 
                 // 리뷰 정보에 새 이미지 URL 설정
                 myReview.setReviewImage(newImageUrl);
+
             } else {
                 // 이미지가 변경되지 않은 경우 기존 이미지 URL 유지
                 myReview.setReviewImage(originalImageUrl);
@@ -134,6 +131,7 @@ public class ReviewService {
             reviewMapper.updateReview(myReview);
 
             }   catch (Exception e) {
+            e.printStackTrace();
             // 새 이미지 저장 후 업데이트 실패 시, 새로 저장된 이미지도 삭제
             if (reviewThumbnail != null && !reviewThumbnail.isEmpty() &&
                     myReview.getReviewImage() != null &&
@@ -145,7 +143,25 @@ public class ReviewService {
             throw e;
         }
 
+    }
 
+    public void deleteReview(int reviewCode) throws Exception {
 
+        // 리뷰 이미지 정보 조회
+        ReviewDTO review = reviewMapper.findMyReviewByCode(reviewCode);
+        System.out.println("삭제서비스-------review이미지정보조회---------- " + review);
+
+        if (review == null) {
+            throw new IllegalArgumentException("리뷰가 존재하지 않습니다.");
+        }
+
+        // 이미지 파일 삭제
+        if (review.getReviewImage() != null) {
+            /* 이미지 삭제 기능 직접 구현해보세요~ */
+//            FileUploadUtils.deleteFile();
+        }
+
+        // 상품 정보 삭제
+        reviewMapper.deleteReview(reviewCode);
     }
 }

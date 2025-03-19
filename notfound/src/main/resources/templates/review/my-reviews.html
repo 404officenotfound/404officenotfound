@@ -69,11 +69,11 @@
                   <!--<button class="btn-edit" onclick="location.href='/review/edit/{reviewCode}'">수정</button>-->
 
                   <a class="btn-edit" th:href="@{'/review/edit/' + ${review.reviewCode}}">수정하기</a>
-<!--                  <form th:id="'deleteForm' + ${product.productCode}"
-                        th:action="@{'/product/admin/delete/' + ${product.productCode}}"
-                        method="post" style="display: inline;">-->
+                  <form th:id="'deleteForm' + ${review.reviewCode}"
+                        th:action="@{'/review/delete/' + ${review.reviewCode}}"
+                        method="post" style="display: inline;">
                   <button class="btn-delete" th:onclick="'if(confirm(\'정말 삭제하시겠습니까?\')) { submitDeleteForm(' + ${review.reviewCode} + '); }'">삭제하기</button>
-<!--                  </form>-->
+                  </form>
               </div>
           </div>
       </div>
@@ -85,8 +85,8 @@
 <div th:replace="~{fragments/footer :: footer}"></div>
 </main>
 <script>
-    function submitDeleteForm(productCode) {
-        document.getElementById('deleteForm' + productCode).submit();
+    function submitDeleteForm(reviewCode) {
+        document.getElementById('deleteForm' + reviewCode).submit();
     }
 </script>
 </body>
