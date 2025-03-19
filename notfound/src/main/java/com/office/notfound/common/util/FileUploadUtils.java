@@ -15,7 +15,7 @@ public class FileUploadUtils {
             throws IOException {
 
         /* 프로젝트 루트 디렉토리의 절대 경로를 가져옴 */
-        String projectPath = System.getProperty("user.dir");
+        String projectPath = System.getProperty("user.dir")  + "/notfound";
 
         /* build 폴더 경로 생성 */
         String buildPath = projectPath + "/build/resources/main/static/img/store";
@@ -37,9 +37,11 @@ public class FileUploadUtils {
 
         /* 저장할 파일 이름 생성 */
         String savedFileName = imageName + ext;
+        System.out.println("Store savedFileName------------->" + savedFileName);
 
         /* 저장할 파일 경로 생성 */
         File target = new File(dir, savedFileName);
+        System.out.println("Store target---------> = " + target);
 
         /* 파일 저장 */
         storeThumbnail.transferTo(target);
@@ -49,7 +51,7 @@ public class FileUploadUtils {
 
 
         /* 저장된 파일 이름 반환 */
-        return savedFileName;
+        return "/img/store/" + savedFileName;
     }
 
     public static boolean deleteFile(String fileDir, String fileName) {
@@ -58,7 +60,7 @@ public class FileUploadUtils {
         System.out.println("fileName = " + fileName);
 
         /* build 디렉토리 경로를 기반으로 삭제할 파일 경로 생성 */
-        String projectPath = System.getProperty("user.dir");
+        String projectPath = System.getProperty("user.dir") + "/notfound";
         String buildPath = projectPath + "/build/resources/main/static/img/store";
         Path filePath = Paths.get(buildPath, fileName);
 
@@ -83,7 +85,7 @@ public class FileUploadUtils {
             throws IOException {
 
         /* 프로젝트 루트 디렉토리의 절대 경로를 가져옴 */
-        String projectPath = System.getProperty("user.dir");
+        String projectPath = System.getProperty("user.dir") + "/notfound";
 
         /* build 폴더 경로 생성 */
         String buildPath = projectPath + "/build/resources/main/static/img/review";
@@ -102,15 +104,17 @@ public class FileUploadUtils {
 
         /* 저장할 파일 이름 생성 */
         String savedFileName = imageName + ext;
+        System.out.println("savedFileName------------->" + savedFileName);
 
         /* 저장할 파일 경로 생성 */
         File target = new File(dir, savedFileName);
+        System.out.println("target---------> = " + target);
 
         /* 파일 저장 */
         reviewThumbnail.transferTo(target);
 
         /* 저장된 파일 이름 반환 */
-        return savedFileName;
+        return "/img/review/" + savedFileName;
     }
 
     //    /* 이미지 삭제 기능은 SpringBoot 파일 업로드 기능을 복습하며 직접 구현해보세요~ */
@@ -133,7 +137,7 @@ public class FileUploadUtils {
         System.out.println("fileName = " + fileName);
 
         /* build 디렉토리 경로를 기반으로 삭제할 파일 경로 생성 */
-        String projectPath = System.getProperty("user.dir");
+        String projectPath = System.getProperty("user.dir") + "/notfound";;
         String buildPath = projectPath + "/build/resources/main/static/img/review";
         Path filePath = Paths.get(buildPath, fileName);
 

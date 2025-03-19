@@ -18,4 +18,8 @@ public interface ReviewMapper {
     void registNewReview(ReviewDTO newReview);
 
     List<ReviewDTO> selectReviewsByMemberId(String memberId);
+
+    ReviewDTO findMyReviewByCode(int reviewCode);
+
+    void updateReview(ReviewDTO myReview);
 }
