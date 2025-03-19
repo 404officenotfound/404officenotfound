@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 public class FileUploadUtils {
 
 
-    public static String saveFile(String imageDir, String imageName, MultipartFile storeThumbnail, MultipartFile storeImg1, MultipartFile storeImg2, MultipartFile storeImg3)
+    public static String saveStoreFile(String imageDir, String imageName, MultipartFile storeThumbnail, MultipartFile storeImg1, MultipartFile storeImg2, MultipartFile storeImg3)
             throws IOException {
 
         /* 프로젝트 루트 디렉토리의 절대 경로를 가져옴 */
