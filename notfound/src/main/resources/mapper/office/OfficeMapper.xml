@@ -38,4 +38,9 @@
         LIMIT 1;
     </select>
 
+    <delete id="deleteOfficeByStoreAndOfficeCode" parameterType="int">
+        DELETE FROM tbl_office
+        WHERE store_code = #{storeCode} AND office_code = #{officeCode}
+    </delete>
+
 </mapper>

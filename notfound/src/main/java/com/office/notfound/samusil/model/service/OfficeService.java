@@ -3,6 +3,7 @@ package com.office.notfound.samusil.model.service;
 import com.office.notfound.common.util.FileUploadUtils;
 import com.office.notfound.samusil.model.dao.OfficeMapper;
 import com.office.notfound.samusil.model.dto.OfficeDTO;
+import com.office.notfound.store.model.dao.StoreMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,16 +16,20 @@ import java.util.UUID;
 @Service
 public class OfficeService {
 
-//    @Value("${build/resources/main/static/img/store}")
+//    @Value("${build/resources/main/static/img/office}")
 //    private String IMAGE_DIR;
 //
-//    @Value("${/img/store/}")
+//    @Value("${img/office}")
 //    private String IMAGE_URL;
 
 //    @Value("${file.replace-dir}")
 //    private String uploadDir;
 
+    @Autowired
     private final OfficeMapper officeMapper;
+
+    @Autowired
+    private StoreMapper storeMapper;
 
     @Autowired
     public OfficeService(OfficeMapper officeMapper) {
@@ -71,6 +76,18 @@ public class OfficeService {
 
     @Transactional
     public void deleteOffice(int officeCode) {
+
+        try {
+            // officeCode에 해당하는 사무실이 해당 store에 속하는지 검증
+            // 예를 들어: officeCode와 storeCode로 사무실을 삭제하는 경우
+            int deleteCount = officeMapper.deleteOffice(officeCode);
+
+            if (deleteCount == 0) {
+                throw new IllegalArgumentException("해당 사무실을 삭제할 수 없습니다.");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("사무실 삭제 중 오류가 발생했습니다.", e);
+        }
 
         officeMapper.deleteStore(officeCode);
     }

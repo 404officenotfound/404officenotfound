@@ -52,7 +52,7 @@ public class StoreService {
         if (!storeThumbnail.isEmpty()) {
 
             String imageName = UUID.randomUUID().toString().replace("-", "");
-            String replaceFileName = FileUploadUtils.saveFile(IMAGE_DIR, imageName, storeThumbnail, storeImg1, storeImg2, storeImg3);
+            String replaceFileName = FileUploadUtils.saveStoreFile(IMAGE_DIR, imageName, storeThumbnail, storeImg1, storeImg2, storeImg3);
 
             store.setStoreThumbnailUrl(replaceFileName);
             store.setStoreImg1Url(replaceFileName);

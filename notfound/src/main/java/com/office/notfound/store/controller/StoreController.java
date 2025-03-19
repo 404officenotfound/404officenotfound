@@ -55,7 +55,6 @@ public class StoreController {
         // 사무실 상세 리스트 내 리뷰 조회용
         List<OfficeReviewDTO> FindOfficeReview = reviewService.findOfficeReview(storeCode);
 
-
         // 모델에 해당 매장 정보를 담아 상세 페이지를 반환
         model.addAttribute("store", store);
         model.addAttribute("latitude", store.getLatitude());
@@ -127,6 +126,9 @@ public class StoreController {
             rttr.addFlashAttribute("message", "새 지점 등록을 성공하였습니다.");
             // 지점 등록 성공 후 이동하는 페이지는 디폴트
             return "redirect:/store/admin/storemanage";
+        } catch (IllegalArgumentException e) {
+            rttr.addFlashAttribute("message", e.getMessage());
+            return "redirect:/store/admin/storecreate";
         } catch (Exception e) {
             rttr.addFlashAttribute("message", "새 지점 등록에 실패했습니다: " + e.getMessage());
             return "redirect:/store/admin/storecreate";
@@ -162,9 +164,13 @@ public class StoreController {
 
     @GetMapping("/store/storeregion/search")
     @ResponseBody
-    public List<StoreDTO> getStoresByRegion(@RequestParam String city,
-                                            @RequestParam String gu) {
-        return storeService.findStoresByCityAndGu(city, gu);
+    public List<StoreDTO> getStoresByRegion(@RequestParam(required = false) String city,  // city는 optional
+                                            @RequestParam String gu) {  // gu는 필수값
+        System.out.println("선택한 지역구: " + gu);
+        List<StoreDTO> stores = storeService.findStoresByCityAndGu(city, gu);
+        System.out.println("결과 스토어 리스트: " + stores); // 디버깅용 출력
+        return stores;
+
     }
 
     // 지점 수정 페이지 넘어가기
@@ -199,6 +205,7 @@ public class StoreController {
             // 지점 수정 성공 후 이동하는 페이지는 디폴트
             return "redirect:/store/admin/storemanage";
         } catch (Exception e) {
+            e.printStackTrace();
             rttr.addFlashAttribute("message", "지점 정보 수정에 실패했습니다: " + e.getMessage());
             return "redirect:/store/admin/storeedit/" + storeCode;
         }
@@ -206,7 +213,8 @@ public class StoreController {
 
     // 지점 삭제하기
     @PostMapping("/store/admin/delete/{storeCode}")
-    public String adminStoreDelete(@PathVariable("storeCode") int storeCode, RedirectAttributes rttr) {
+    public String adminStoreDelete(@PathVariable("storeCode") int storeCode,
+                                   RedirectAttributes rttr) {
 
         try {
             storeService.deleteStore(storeCode);
