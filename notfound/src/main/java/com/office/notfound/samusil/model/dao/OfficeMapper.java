@@ -11,4 +11,10 @@ public interface OfficeMapper {
     List<OfficeDTO> findAllOffices(int storeCode);
 
     OfficeDTO findOfficeDetail(int officeCode);
+
+    OfficeDTO findOfficeByStore(int storeCode, int officeCode);
+
+    void updateOffice(OfficeDTO office);
+
+    void deleteStore(int officeCode);
 }

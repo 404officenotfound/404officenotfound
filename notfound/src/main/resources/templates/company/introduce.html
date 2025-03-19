@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회사소개</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/introduce.css">
+    <link rel="stylesheet" href="/css/footer.css">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<main>
+    <div class="company-container">
+        <span class="company-logo">
+            <img src="/img/logo/새로고.JPG" alt="로고" class="company-icon">
+
+        <div class="company-content">
+            <h1 class="company-title">회사 MOTO</h1>
+            <h2 class="company-subtitle">| 사무실을 찾지 못한 사람들을 위한 새로운 시작</h2>
+            <p class="company-description">
+                현대 사회에서 많은 사람들이 업무 공간을 <span class="highlight">찾지 못해 어려움</span>, <span class="highlight">높은 임대료</span>,
+                <span class="highlight">불리한 계약 조건</span>, 원하는 <span class="highlight">환경을 갖춘 공간 부족</span> 등
+                다양한 문제들을 해결하기 위해
+            </p>
+            <p class="company-code-message">
+                우리는 "<span class="highlight-code">404 OFFICE NOT FOUND</span>"를 시작했습니다.
+            </p>
+        </div>
+        </span>
+        </div>
+    <div>
+        <h2>404, 찾을 수 없음? 이제는 찾을 수 있는 공간으로</h2>
+
+        <p>"404"라는 숫자는 웹에서 '찾을 수 없음(Not Found)'을 의미하는 HTTP 오류 코드입니다.
+            이는 우리가 해결하고자 하는 문제의 본질을 상징합니다.
+            우리는 단순히 사무실을 찾지 못한 현실을 보여주는 것이 아니라,
+            더 나은 대안을 제시하는 움직임을 만들어갑니다.</p>
+    </div>
+
+    <div>
+        <h2>우리가 제공하는 것</h2>
+        <p>
+            "404 OFFICE NOT FOUND"는
+            단순한 공유 오피스가 아닙니다.
+
+            우리는 단순히 공간을 제공하는 것이 아니라, 사람들이 보다 효율적으로 일할 수 있도록 돕는 환경을 조성합니다.
+
+            네트워크: 다양한 업종의 사람들이 모여 협업하고 교류할 수 있는 기회 제공
+            협업 도구: 생산성을 높일 수 있는 최적의 업무 환경 제공
+            유연한 공간: 필요에 따라 자유롭게 이용할 수 있는 맞춤형 공간 솔루션 제공
+        </p>
+    </div>
+<h2>
+    | 새로운 업무 공간의 패러다임을 제시하다
+</h2>
+    <div>
+        우리는 '사무실을 찾지 못한 사람들을 위한 발판'이 되고자 합니다. 단순히 공간을 대여하는 것을 넘어, 사용자들이 자유롭게 성장하고 혁신할 수 있는 환경을 구축합니다.
+
+
+        "404 OFFICE NOT FOUND"는 더 이상 '찾을 수 없음'이 아닌, 누구나 자신의 업무 스타일에 맞는 공간을 찾을 수 있는 곳이 될 것입니다.
+    </div>
+</main>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

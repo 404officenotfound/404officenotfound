@@ -265,3 +265,31 @@ label {
     margin-bottom: 5px; /* 라벨 아래 여백 추가 */
 }
 
+/* 로고 이미지 스타일 */
+.logo {
+    max-width: 100%; /* 부모 요소만큼 넓이를 제한 */
+    height: auto;    /* 원본 비율 유지 */
+    margin-bottom: 20px; /* 입력창과 간격 조절 */
+    display: block;
+}
+
+/* 로고를 로그인 입력창과 동일한 넓이로 설정 */
+.login-container .logo {
+    width: 100%;  /* 로그인 전체 컨테이너 너비와 동일하게 조정 */
+    max-width: 400px; /* 최대 넓이를 로그인 입력창의 넓이에 맞춤 */
+    margin: 0 auto; /* 중앙 정렬 */
+}
+
+@media (max-width: 768px) {
+    .logo {
+        max-width: 90%; /* 로고가 화면의 90%를 차지하도록 설정 */
+        margin: 0 auto; /* 중앙 정렬 */
+    }
+
+    form {
+        width: 90%; /* 로그인 입력창도 화면 크기에 맞춤 */
+    }
+}
+
+
+

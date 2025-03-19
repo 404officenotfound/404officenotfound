@@ -95,7 +95,7 @@ public class MemberController {
             return "redirect:/"; // 권한이 없으면 메인 페이지로 리디렉션
         }
     }
-
+    // 회원정보수정
     @PostMapping("/update")
     public String update(@ModelAttribute MemberDTO updateMember,
                          @AuthenticationPrincipal MemberDTO member,
@@ -128,11 +128,11 @@ public class MemberController {
             return "redirect:/member/mypage";
         }
     }
-
+    // 관리자수정
     @PostMapping("/adminupdate")
     public String updateAdmin(@ModelAttribute MemberDTO updateAdminMember,
-                         @AuthenticationPrincipal MemberDTO adminmember,
-                         RedirectAttributes rttr) {
+                              @AuthenticationPrincipal MemberDTO adminmember,
+                              RedirectAttributes rttr) {
         try {
             updateAdminMember.setMemberCode(adminmember.getMemberCode());
 
@@ -164,31 +164,38 @@ public class MemberController {
 
     // 회원 탈퇴 처리
     @PostMapping("/withdrawal")
-    public ResponseEntity<Map<String, Object>> withdraw(@RequestBody MemberDTO memberDTO) {
-        Map<String, Object> result = new HashMap<>();
-
-        // 로그 추가
-        System.out.println("Received MemberDTO: " + memberDTO);
-
-        // memberCode 확인
-        if (memberDTO.getMemberCode() == 0) {
-            result.put("success", false);
-            result.put("message", "회원 코드가 올바르게 전달되지 않았습니다.");
-            return ResponseEntity.badRequest().body(result);
+    public String withdrawal(@RequestParam int memberCode,
+                             @RequestParam String password,
+                             HttpSession session,
+                             RedirectAttributes redirectAttributes) {
+        try {
+            // 비밀번호 검증
+            boolean isPasswordValid = memberService.checkPassword(memberCode, password);
+            if (!isPasswordValid) {
+                redirectAttributes.addFlashAttribute("errorMessage", "비밀번호가 일치하지 않습니다.");
+                return "redirect:/member/mypage";
+            }
+            // 회원 탈퇴 처리
+            boolean isWithdrawn = memberService.withdraw(memberCode);
+            if (isWithdrawn) {
+                // 세션 무효화
+                session.invalidate();
+                // Spring Security 컨텍스트 초기화
+                SecurityContextHolder.clearContext();
+                // 탈퇴 성공 시 JavaScript Alert 메시지를 전달
+                redirectAttributes.addFlashAttribute("alertMessage", "회원탈퇴가 처리되었습니다. 지금까지 이용해주셔서 감사합니다");
+                return "redirect:/"; // 메인 페이지로 이동
+            } else {
+                redirectAttributes.addFlashAttribute("errorMessage", "탈퇴 처리 중 문제가 발생했습니다.");
+                return "redirect:/member/mypage";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("errorMessage", "탈퇴 처리 중 오류가 발생했습니다.");
+            return "redirect:/member/mypage";
         }
-
-        // 서비스 레이어 호출
-        boolean isDeleted = memberService.withdraw(memberDTO.getMemberCode());
-        if (isDeleted) {
-            result.put("success", true);
-            result.put("message", "회원 탈퇴가 완료되었습니다.");
-            return ResponseEntity.ok(result);
-        }
-
-        result.put("success", false);
-        result.put("message", "회원 탈퇴에 실패하였습니다.");
-        return ResponseEntity.status(500).body(result);
     }
+
 
     // 회원 이름과 이메일로 아이디 조회
     @GetMapping("/find-id")
@@ -213,6 +220,7 @@ public class MemberController {
         return ResponseEntity.ok(response);
     }
 
+    //비밀번호 변경
     @PostMapping("/update-password")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> updatePassword(
@@ -232,5 +240,48 @@ public class MemberController {
         response.put("success", true);
         return ResponseEntity.ok(response);
     }
+
+
+    //비밀번호 찾기
+    @PostMapping("/reset-password")
+    @ResponseBody
+    public ResponseEntity<Map<String, String>> resetPassword(@RequestBody Map<String, String> request) {
+        // 입력값 검증
+        if (!request.containsKey("memberId") || !request.containsKey("memberName") || !request.containsKey("memberEmail")) {
+            throw new IllegalArgumentException("필수 파라미터가 누락되었습니다.");
+        }
+        System.out.println("요청 데이터: " + request);
+
+        try {
+            String memberId = request.get("memberId");
+            String memberName = request.get("memberName");
+            String memberEmail = request.get("memberEmail");
+            String newPassword = memberService.resetPassword(memberId, memberName, memberEmail);
+
+            // 성공 메시지 포함
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "비밀번호가 성공적으로 초기화되었습니다.");
+            response.put("newPassword", newPassword);
+            return ResponseEntity.ok(response);
+
+        } catch (IllegalArgumentException e) {
+            System.err.println("잘못된 요청 데이터 - 에러 메시지: " + e.getMessage());
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(errorResponse);
+
+        } catch (Exception e) {
+            System.err.println("서버 내부 오류 - 에러 메시지: " + e.getMessage());
+            e.printStackTrace(); // 스택 트레이스를 출력해 원인을 확인
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "서버 내부 오류가 발생했습니다.");
+            return ResponseEntity.status(500).body(errorResponse);
+        }
+    }
+
+
+
+
+
 
 }

@@ -36,7 +36,11 @@
             </label>
             <!--   전화번호   -->
             <label for="memberPhone">* 전화번호<br>
-                <input type="tel" id="memberPhone" name="memberPhone"><br>
+                <input type="tel" id="memberPhone" name="memberPhone"  pattern="^010-\d{4}-\d{4}$"
+                       placeholder="010-1234-5678"><br>
+                <!-- 실시간 메시지 표시 -->
+                <small id="phoneError" style="color: red; display: none;">올바른 형식으로 입력하세요. (예: 010-1234-5678)</small>
+
             </label>
 
             <!-- 경고 메시지를 표시할 영역 -->
@@ -170,6 +174,20 @@
     });
 
 
+    document.getElementById("memberPhone").addEventListener("input", function () {
+        const phoneInput = this.value;
+        const phonePattern = /^010-\d{4}-\d{4}$/;
+        const errorElement = document.getElementById("phoneError");
+
+        // 형식이 맞는지 확인
+        if (phonePattern.test(phoneInput)) {
+            errorElement.style.display = "none"; // 에러 메시지 숨기기
+            this.setCustomValidity(""); // 폼 제출 허용
+        } else {
+            errorElement.style.display = "block"; // 에러 메시지 보이기
+            this.setCustomValidity("올바른 형식으로 입력하세요."); // 폼 제출 차단
+        }
+    });
 
 
 

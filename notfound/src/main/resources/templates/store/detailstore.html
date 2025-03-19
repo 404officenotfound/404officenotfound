@@ -111,6 +111,60 @@
 
     <hr class="separator">
 
+    <section class="map-area">
+        <div id="storeMap">
+            <div id="map" style="width:1300px; height:500px; display: flex; margin: 0 auto; "></div>
+
+            <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=65a5c45f0f71eab8b6e0448937121045"></script>
+            <script th:inline="javascript">
+                var latitude = [[${store.latitude}]];
+                var longitude = [[${store.longitude}]];
+                var storeName = [[${store.storeName}]];
+
+                var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+                    mapOption = {
+                        center: new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
+                        level: 3 // 지도의 확대 레벨
+                    };
+
+                // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+                var map = new kakao.maps.Map(mapContainer, mapOption);
+
+                // 마커가 표시될 위치입니다
+                var markerPosition  = new kakao.maps.LatLng(latitude, longitude);
+
+                // 마커를 생성합니다
+                var marker = new kakao.maps.Marker({
+                    position: markerPosition
+                });
+
+                // 마커가 지도 위에 표시되도록 설정합니다
+                marker.setMap(map);
+
+                // 아래 코드는 지도 위의 마커를 제거하는 코드입니다
+                // marker.setMap(null);
+
+                // 인포윈도우 표시
+                var infowindow = new kakao.maps.InfoWindow({
+                    content: '<div style="padding:5px;font-size:12px;">' + storeName + '</div>' // html 형태로 메시지 표시
+                });
+                infowindow.open(map, marker);
+            </script>
+        </div>
+        <script>
+            function myFunction() {
+                var x = document.getElementById("storeMap");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                } else {
+                    x.style.display = "none";
+                }
+            }
+        </script>
+    </section>
+
+    <hr class="separator">
+
     <section class="offices">
         사무실리스트입니다.
         <div th:each="office : ${officeList}" class="office-card">
