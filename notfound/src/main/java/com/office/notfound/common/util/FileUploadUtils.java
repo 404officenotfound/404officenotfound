@@ -116,13 +116,6 @@ public class FileUploadUtils {
         return "/img/review/" + savedFileName;
     }
 
-    public static boolean deleteReviewFile(String fileDir, String fileName) {
-
-        System.out.println("--- 이미지 삭제 시작 ---");
-        System.out.println("fileDir = " + fileDir);
-        System.out.println("fileName = " + fileName);
-
-        */
 /* build 디렉토리 경로를 기반으로 삭제할 파일 경로 생성 *//*
 
         String projectPath = System.getProperty("user.dir") + "/notfound";;

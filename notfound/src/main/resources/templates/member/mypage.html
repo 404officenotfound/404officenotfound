@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,16 +15,38 @@
 <div th:replace="~{fragments/header :: header}"></div>
 <main>
     <div class="mypage-container">
-        <!--    사이드바    -->
         <div class="side-menu">
             <ul>
                 <li><a href="/member/mypage">개인정보변경</a></li>
-                <li><a href="/reservation/search">예약관리</a></li>
-                <li><a href="/payment/search">결제관리</a></li>
-                <li><a href="/member/inquiry">문의내역</a></li>
-                <li><a href="/review/my-reviews">리뷰관리</a></li>
+
+                <!-- 관리자 계정일 때 보이는 사이드바-->
+                <div sec:authorize="#authentication.principal.memberCode == 1">
+                    <ul>
+                        <li><a href="/storeadmin/storemanage">매장관리</a></li>
+                        <li><a href="/reservation/search">예약관리</a></li>
+                        <li><a href="/payment/search">결제관리</a></li>
+                        <li><a href="/review/my-reviews">리뷰관리</a></li>
+                        <li><a href="/member/reviews">이벤트관리</a></li>
+                        <li><a href="/member/reviews">1대1관리</a></li>
+                        <li><a href="/member/reviews">FAQ관리</a></li>
+                    </ul>
+                </div>
+
+                <!-- 일반 회원 계정일 때 보이는 사이드바 -->
+                <div sec:authorize="#authentication.principal.memberCode == 2">
+                    <ul>
+                        <li><a href="/reservation/search">예약관리</a></li>
+                        <li><a href="/payment/search">결제관리</a></li>
+                        <li><a href="/member/inquiry">문의내역</a></li>
+                        <li><a href="/review/my-reviews">리뷰관리</a></li>
+                    </ul>
+                </div>
             </ul>
         </div>
+
+
+
+
 
         <div class="main-content">
             <form th:action="@{/member/update}" method="post">
