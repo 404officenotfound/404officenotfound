@@ -105,4 +105,9 @@
                 #{reviewImage}
             )
     </insert>
+
+    <!-- 나의 리뷰 조회 -->
+    <select id="findMyReviewByCode" resultType="com.office.notfound.review.model.dto.ReviewDTO" parameterType="_int">
+        SELECT * FROM tbl_review WHERE review_code = #{reviewCode}
+    </select>
 </mapper>

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
@@ -120,4 +121,42 @@ public class ReviewController {
         }
 
     }
+
+
+    // 리뷰 수정 페이지
+    @GetMapping("/edit/{reviewCode}")
+    public ModelAndView userReviewEditPage(@PathVariable int reviewCode,
+                                             ModelAndView mv) {
+
+        ReviewDTO myReview = reviewService.findMyReviewByCode(reviewCode);
+
+        mv.addObject("myReview", myReview);
+        mv.setViewName("review/edit");
+        System.out.println("myReview----------------> = " + myReview);
+        System.out.println("mv-------------------->" + mv);
+        System.out.println("reviewCode------------->" + reviewCode);
+
+        return mv;
+    }
+
+    // 리뷰 수정 핸들러
+    @PostMapping("/edit/{reviewCode}")
+    public String userReviewEdit(@PathVariable int reviewCode,
+                                   @ModelAttribute ReviewDTO myReview,
+                                   @RequestParam(required = false) MultipartFile reviewThumbnail,
+                                   RedirectAttributes rAttr) {
+        try {
+            myReview.setReviewCode(reviewCode);
+            System.out.println("myReview--------------> = " + myReview);
+
+            reviewService.updateMyReview(myReview, reviewThumbnail);
+
+            rAttr.addFlashAttribute("message", "리뷰가 수정되었습니다.");
+            return "redirect:/review/my-reviews";
+        } catch (Exception e) {
+            rAttr.addFlashAttribute("message", "리뷰 수정에 실패했습니다: " + e.getMessage());
+            return "redirect:/review/edit/" + reviewCode;
+        }
+    }
+
 }
