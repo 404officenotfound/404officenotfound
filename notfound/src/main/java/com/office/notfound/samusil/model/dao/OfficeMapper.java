@@ -17,4 +17,6 @@ public interface OfficeMapper {
     void updateOffice(OfficeDTO office);
 
     void deleteStore(int officeCode);
+
+    void insertOffice(OfficeDTO office);
 }

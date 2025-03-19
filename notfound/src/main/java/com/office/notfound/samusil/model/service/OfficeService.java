@@ -15,10 +15,10 @@ import java.util.UUID;
 @Service
 public class OfficeService {
 
-//    @Value("${build/resources/main/static/img/store}")
+//    @Value("${build/resources/main/static/img/office}")
 //    private String IMAGE_DIR;
 //
-//    @Value("${/img/store/}")
+//    @Value("${img/office}")
 //    private String IMAGE_URL;
 
 //    @Value("${file.replace-dir}")

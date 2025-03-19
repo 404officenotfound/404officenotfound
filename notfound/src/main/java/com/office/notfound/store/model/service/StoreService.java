@@ -21,10 +21,10 @@ import java.util.UUID;
 @Service
 public class StoreService {
 
-    @Value("build/resources/main/static/img/store")
+    @Value("/build/resources/main/static/img/store")
     private String IMAGE_DIR;
 
-    @Value("/img/store/")
+    @Value("/img/store")
     private String IMAGE_URL;
 
     private final StoreMapper storeMapper;
@@ -52,7 +52,7 @@ public class StoreService {
         if (!storeThumbnail.isEmpty()) {
 
             String imageName = UUID.randomUUID().toString().replace("-", "");
-            String replaceFileName = FileUploadUtils.saveFile(IMAGE_DIR, imageName, storeThumbnail, storeImg1, storeImg2, storeImg3);
+            String replaceFileName = FileUploadUtils.saveStoreFile(IMAGE_DIR, imageName, storeThumbnail, storeImg1, storeImg2, storeImg3);
 
             store.setStoreThumbnailUrl(replaceFileName);
             store.setStoreImg1Url(replaceFileName);
