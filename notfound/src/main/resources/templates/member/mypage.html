@@ -61,10 +61,13 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="memberPhone">휴대폰</label>
-                    <input type="text" id="memberPhone" name="memberPhone" th:value="${member.memberPhone}">
+                    <label for="memberPhone">전화번호</label>
+                    <input type="text" id="memberPhone" name="memberPhone" th:value="${member.memberPhone}"  required
+                           pattern="^010-\d{4}-\d{4}$">
                     <button type="submit" class="verify-button">변경</button>
                 </div>
+
+                <small id="phoneError" style="display: none; color: red">올바른 형식으로 입력하세요. (예: 010-1234-5678)</small>
 
                 <!-- mypage.html -->
                 <div th:if="${successMessage}">
@@ -219,7 +222,33 @@
         passwordError.style.display = 'none'; // 에러 메시지 숨기기
     });
 
+    document.getElementById("memberPhone").addEventListener("input", function () {
+        const phoneInput = this.value;
+        const errorElement = document.getElementById("phoneError");
 
+        // 입력된 값에서 숫자만 추출
+        let numericPhone = phoneInput.replace(/[^0-9]/g, "");
+
+        // 형식에 맞게 재정렬
+        if (numericPhone.length > 3 && numericPhone.length <= 7) {
+            numericPhone = numericPhone.replace(/(\d{3})(\d{1,4})/, "$1-$2");
+        } else if (numericPhone.length > 7) {
+            numericPhone = numericPhone.replace(/(\d{3})(\d{4})(\d{1,4})/, "$1-$2-$3");
+        }
+
+        // 입력 필드에 재지정
+        this.value = numericPhone;
+
+        //  (010-####-#### 형식)
+        const phonePattern = /^010-\d{4}-\d{4}$/;
+        if (phonePattern.test(numericPhone)) {
+            errorElement.style.display = "none"; // 에러 메시지 숨기기
+            this.setCustomValidity("");          // 폼 제출 가능
+        } else {
+            errorElement.style.display = "block"; // 에러 메시지 표시
+            this.setCustomValidity("올바른 형식의 전화번호를 입력해주세요."); // 폼 제출 차단
+        }
+    });
 
 </script>
 
