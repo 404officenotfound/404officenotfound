@@ -21,10 +21,10 @@ import java.util.UUID;
 @Service
 public class StoreService {
 
-    @Value("/build/resources/main/static/img/store")
+    @Value("build/resources/main/static/img/store")
     private String IMAGE_DIR;
 
-    @Value("/img/store")
+    @Value("/img/store/")
     private String IMAGE_URL;
 
     private final StoreMapper storeMapper;

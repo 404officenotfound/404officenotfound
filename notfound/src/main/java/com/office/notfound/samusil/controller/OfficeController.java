@@ -144,25 +144,28 @@ public class OfficeController {
 //
 //    }
 
-//    // 지점별 사무실 삭제
-//    @PostMapping("samusil/admin/officemanage/{storeCode}/{officeCode}")
-//    public String adminOfficeDelete(@PathVariable("storeCode") int storeCode,
-//                                    @PathVariable("officeCode") int officeCode,
-//                                    RedirectAttributes rAttr) {
-//        try {
-//            officeService.deleteOffice(officeCode);
-//            rAttr.addFlashAttribute("message", "사무실 삭제를 성공하였습니다.");
-//            return "redirect:/samusil/admin/officemanage";
-//        } catch (Exception e) {
-//            rAttr.addFlashAttribute("error", "사무실 삭제를 실패하였습니다.");
-//            return "redirect:/samusil/admin/officemanage";
-//        }
-//    }
-//
-//    @PostMapping("/samusil/admin/officemanage/{storeCode}/{officeCode}")
-//    public String deletOffice(@PathVariable("officeCode") int officeCode) {
-//        storeService.deleteStore(officeCode);
-//        return "redirect:/samusil/admin/officemanage";
-//    }
+    // 지점별 사무실 삭제
+    @PostMapping("samusil/admin/officemanage/{storeCode}")
+    public String adminOfficeDelete(@PathVariable("officeCode") int officeCode,
+                                    RedirectAttributes rAttr) {
+        try {
+            officeService.deleteOffice(officeCode);
+            rAttr.addFlashAttribute("message", "사무실 삭제를 성공하였습니다.");
+        } catch (Exception e) {
+            rAttr.addFlashAttribute("errorMessage", "사무실 삭제를 실패하였습니다." + e.getMessage());
+        }
+            return "redirect:/samusil/admin/officemanage/";
+    }
+
+    @PostMapping("/samusil/admin/officemanage/{storeode}")
+    public String deleteOffice(@PathVariable("officeCode") int officeCode, RedirectAttributes rAttr) {
+        try {
+            storeService.deleteStore(officeCode);
+            rAttr.addFlashAttribute("message", "사무실 삭제를 성공하였습니다.");
+        } catch (Exception e) {
+            rAttr.addFlashAttribute("errorMessage", "삭제 중 오류가 발생하였습니다. " + e.getMessage());
+        }
+        return "redirect:/samusil/admin/officemanage";
+    }
 
 }
