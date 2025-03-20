@@ -1,0 +1,27 @@
+main {
+    margin-top: 20px; /* 헤더 높이만큼 여백 추가 */
+    padding: 20px 300px 50px 300px;
+}
+.store-container {
+    display: flex;
+    align-items: center; /* 세로로 중앙 정렬 */
+    margin-bottom: 20px; /* 항목 간 간격 */
+}
+.store-thumbnail {
+    width: 250px;
+    height: 250px;
+    object-fit: cover; /* 이미지 왜곡 방지 */
+    margin-right: 20px; /* 이미지와 텍스트 간의 간격 */
+}
+a {
+    color: inherit; /* 부모 요소의 색상으로 상속 */
+    text-decoration: none; /* 밑줄 제거 */
+}
+/* 방문한 링크 색상도 동일하게 변경 */
+a:visited {
+    color: inherit; /* 방문한 링크 색상도 부모 색상으로 설정 */
+}
+hr {
+    margin-top: 20px; /* hr과 텍스트 간 간격 조정 */
+    width: 100%; /* hr이 가로 전체에 걸쳐서 표시 */
+}

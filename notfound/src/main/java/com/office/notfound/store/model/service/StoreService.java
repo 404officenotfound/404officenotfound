@@ -142,7 +142,7 @@ public class StoreService {
         String oldImagePath = uploadDir + "/" + oldImageName;
 
         // 새로운 이미지가 업로드되었을 경우
-        if (!newImage.isEmpty()) {
+        if (newImage != null && !newImage.isEmpty()) {
             // 기존 이미지 삭제
             File oldFile = new File(oldImagePath);
             if (oldFile.exists()) {
