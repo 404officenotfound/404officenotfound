@@ -3,60 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <title>예약 등록</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/reservation/register.css">
-    <link rel="stylesheet" href="/css/footer.css">
 </head>
 <body>
-    <div class="reservation-container">
-        <!-- 사무실 정보 표시 -->
-        <div class="office-info">
-            <h2>선택한 사무실 정보</h2>
-            <p>지점: <span th:text="${store.storeName}"></span></p>
-            <p>사무실 번호: <span th:text="${office.officeNum}"></span></p>
-            <p>타입: <span th:text="${office.officeType}"></span></p>
-            <p>시간당 가격: <span th:text="${office.officePrice}"></span>원</p>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="reservation-container">
+    <!-- 사무실 정보 표시 -->
+    <div class="office-info">
+        <h2>선택한 사무실 정보</h2>
+        <p>지점: <span th:text="${store.storeName}"></span></p>
+        <p>사무실 번호: <span th:text="${office.officeNum}"></span></p>
+        <p>타입: <span th:text="${office.officeType}"></span></p>
+        <p>시간당 가격: <span th:text="${office.officePrice}"></span>원</p>
+    </div>
+
+    <!-- 날짜 및 시간 선택 -->
+    <div class="step" id="step1">
+        <h2>예약 일시 선택</h2>
+
+        <!-- 달력 -->
+        <div class="calendar-container">
+            <div class="calendar-header">
+                <button type="button" onclick="prevMonth()">&lt;</button>
+                <span id="currentMonth"></span>
+                <button type="button" onclick="nextMonth()">&gt;</button>
+            </div>
+            <div class="calendar" id="calendar"></div>
         </div>
 
-        <!-- 날짜 및 시간 선택 -->
-        <div class="step" id="step1">
-            <h2>예약 일시 선택</h2>
-            
-            <!-- 달력 -->
-            <div class="calendar-container">
-                <div class="calendar-header">
-                    <button type="button" onclick="prevMonth()">&lt;</button>
-                    <span id="currentMonth"></span>
-                    <button type="button" onclick="nextMonth()">&gt;</button>
-                </div>
-                <div class="calendar" id="calendar"></div>
+        <!-- 시간 선택 -->
+        <div class="time-slots">
+            <h3>시간 선택</h3>
+            <div class="time-grid" id="timeGrid">
+                <!-- 동적으로 채워질 영역 -->
             </div>
-
-            <!-- 시간 선택 -->
-            <div class="time-slots">
-                <h3>시간 선택</h3>
-                <div class="time-grid" id="timeGrid">
-                    <!-- 동적으로 채워질 영역 -->
-                </div>
-            </div>
-        </div>
-
-        <!-- 예약 정보 확인 및 제출 -->
-        <div class="reservation-summary" style="display: none;">
-            <h3>예약 정보 확인</h3>
-            <p>날짜: <span id="selectedDate"></span></p>
-            <p>시간: <span id="selectedTimes"></span></p>
-            <p>총 금액: <span id="totalPrice"></span>원</p>
-
-            <button type="button" onclick="submitReservation()">예약하기</button>
         </div>
     </div>
 
-    <!-- 사무실 정보를 JavaScript에서 사용하기 위한 hidden input -->
-    <input type="hidden" id="officeCode" th:value="${office.officeCode}">
-    <input type="hidden" id="officePrice" th:value="${office.officePrice}">
+    <!-- 예약 정보 확인 및 제출 -->
+    <div class="reservation-summary" style="display: none;">
+        <h3>예약 정보 확인</h3>
+        <p>날짜: <span id="selectedDate"></span></p>
+        <p>시간: <span id="selectedTimes"></span></p>
+        <p>총 금액: <span id="totalPrice"></span>원</p>
 
-    <script src="/js/reservation/register.js"></script>
+        <button type="button" onclick="submitReservation()">예약하기</button>
+    </div>
+</div>
+
+<!-- 사무실 정보를 JavaScript에서 사용하기 위한 hidden input -->
+<input type="hidden" id="officeCode" th:value="${office.officeCode}">
+<input type="hidden" id="officePrice" th:value="${office.officePrice}">
+
+<script src="/js/reservation/register.js"></script>
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 </body>
 </html> 

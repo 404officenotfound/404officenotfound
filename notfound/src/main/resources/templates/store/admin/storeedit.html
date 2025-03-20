@@ -5,69 +5,78 @@
     <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
-    <style>
-        fieldset{
-            width: 700px;
-            padding: 20px;
-            border-radius: 10px; /* 모서리 둥글게 */
-        }
-    </style>
-    <title>Title</title>
+    <link rel="stylesheet" href="/css/store/storeedit.css">
+
+    <title>지점 정보 관리</title>
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
-<section>
-    <div class="container">
-        <h2 class="info">지점 정보 수정</h2>
-        <form th:action="@{'/store/admin/storeedit/' + ${store.storeCode}}" method="post" encType="multipart/form-data" th:object="${store}">
-            <fieldset>
-                <legend>필수 입력</legend>
-                <label for="storeName">지점명 : </label><input type="text" id="storeName" name="storeName" th:field="${store.storeName}" required><br>
-                <label for="storeCity">시/도 : </label><input type="text" id="storeCity" name="storeCity" th:field="${store.storeCity}" required><br>
-                <label for="storeGu">시/군/구 : </label><input type="text" id="storeGu" name="storeGu" th:field="${store.storeGu}" required><br>
-                <label for="storeAddress">상세주소 : </label><input type="text" id="storeAddress" name="storeAddress" th:field="${store.storeAddress}" required><br>
-                <label for="latitude">위도 : </label><input type="text" id="latitude" name="latitude" th:field="${store.latitude}" required><br><br>
-                <label for="longitude">경도 : </label><input type="text" id="longitude" name="longitude" th:field="${store.longitude}" required><br><br>
-                <label for="description">지점설명 : </label><input type="text" id="description" name="description" th:field="${store.description}" required><br>
-<!--                                            <label for="storeThumbnail">썸네일 : </label>-->
-<!--                                            <input type="file" id="storeThumbnail" name="storeThumbnail" accept="image/*" onchange="previewNewImage(this)" th:value="*{store.storeThumnailUrl}" required><br>-->
-<!--                                            <img id="preview" class="preview-image">-->
-            </fieldset>
-            <fieldset>
-                <legend>선택 입력</legend>
-                <!--                <label for="storeImg1">상세사진1 : </label><input type="file" id="storeImg1" name="storeImg1" th:field="${storeImg1}"><br>-->
-                <!--                <label for="storeImg2">상세사진2 : </label><input type="file" id="storeImg2" name="storeImg2" th:field="${storeImg2}"><br>-->
-                <!--                <label for="storeImg3">상세사진3 : </label><input type="file" id="storeImg3" name="storeImg3" th:field="${storeImg3}"><br>-->
-            </fieldset>
-            <input type="submit" value="수정완료">
-        </form>
+<main>
+    <div class="mypage-container">
+        <!--    사이드바    -->
+        <div class="side-menu">
+            <ul>
+                <li><a href="/member/adminmypage">개인정보변경</a></li>
+                <li><a href="/store/admin/storemanage">매장관리</a></li>
+                <li><a href="/admin/reservation/search">예약관리</a></li>
+                <li><a href="/admin/payment/search">결제관리</a></li>
+                <li><a href="/review/my-reviews">리뷰관리</a></li>
+                <li><a href="/event/list">이벤트관리</a></li>
+                <li><a href="/inquiry/list">1대1관리</a></li>
+                <li><a href="/faq/list">FAQ관리</a></li>
+            </ul>
+        </div>
 
-        <div th:if="${message}" th:text="${message}"
-             th:class="${'message ' + (messageType ?: 'info')}"></div>
+        <div class="main-content">
+            <h2 class="info">지점 정보 수정</h2>
+            <form th:action="@{'/store/admin/storeedit/' + ${store.storeCode}}" method="post" encType="multipart/form-data" th:object="${store}">
+                <fieldset>
+                    <legend>필수 입력</legend>
+                    <label for="storeName">지점명 : </label><input type="text" id="storeName" name="storeName" th:field="${store.storeName}" required><br>
+                    <label for="storeCity">시/도 : </label><input type="text" id="storeCity" name="storeCity" th:field="${store.storeCity}" required><br>
+                    <label for="storeGu">시/군/구 : </label><input type="text" id="storeGu" name="storeGu" th:field="${store.storeGu}" required><br>
+                    <label for="storeAddress">상세주소 : </label><input type="text" id="storeAddress" name="storeAddress" th:field="${store.storeAddress}" required><br>
+                    <label for="latitude">위도 : </label><input type="text" id="latitude" name="latitude" th:field="${store.latitude}" required><br><br>
+                    <label for="longitude">경도 : </label><input type="text" id="longitude" name="longitude" th:field="${store.longitude}" required><br><br>
+                    <label for="description">지점설명 : </label><input type="text" id="description" name="description" th:field="${store.description}" required><br>
+<!--                                                                <label for="storeThumbnail">썸네일 : </label>-->
+<!--                                                                <input type="file" id="storeThumbnail" name="storeThumbnail" accept="image/*" onchange="previewNewImage(this)" th:value="*{store.storeThumnailUrl}" required><br>-->
+<!--                                                                <img id="preview" class="preview-image">-->
+                </fieldset>
+                <fieldset>
+                    <legend>선택 입력</legend>
+<!--                                    <label for="storeImg1">상세사진1 : </label><input type="file" id="storeImg1" name="storeImg1" th:field="${storeImg1}"><br>-->
+<!--                                    <label for="storeImg2">상세사진2 : </label><input type="file" id="storeImg2" name="storeImg2" th:field="${storeImg2}"><br>-->
+<!--                                    <label for="storeImg3">상세사진3 : </label><input type="file" id="storeImg3" name="storeImg3" th:field="${storeImg3}"><br>-->
+                </fieldset>
+                <input type="submit" value="수정완료" class="submit-btn">
+            </form>
+
+            <div th:if="${message}" th:text="${message}"
+                 th:class="${'message ' + (messageType ?: 'info')}"></div>
+        </div>
     </div>
-</section>
-<div th:replace="~{fragments/footer :: footer}"></div>
+    <script>
+        /* 업로드할 이미지 미리보기(교체 기능 추가) */
+        function previewNewImage(input) {
+            const preview = document.getElementById('newImagePreview');
+            const currentImage = document.querySelector('.current-image');
 
-<script>
-    /* 업로드할 이미지 미리보기(교체 기능 추가) */
-    function previewNewImage(input) {
-        const preview = document.getElementById('newImagePreview');
-        const currentImage = document.querySelector('.current-image');
-
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                preview.src = e.target.result;
-                preview.style.display = 'block';
-                currentImage.classList.add('faded');
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    currentImage.classList.add('faded');
+                }
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                preview.style.display = 'none';
+                currentImage.classList.remove('faded');
             }
-            reader.readAsDataURL(input.files[0]);
-        } else {
-            preview.style.display = 'none';
-            currentImage.classList.remove('faded');
         }
-    }
-</script>
-
+    </script>
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</main>
 </body>
 </html>

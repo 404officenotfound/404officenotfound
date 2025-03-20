@@ -5,12 +5,13 @@
     <title>결제 내역 검색</title>
     <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/header.css">
-    <link rel="stylesheet" href="/css/payment/payment-select-one.css">
     <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/payment/payment-select-one.css">
+    <link rel="stylesheet" href="/css/search/search.css">
     <script src="/js/payment/payment-select-one.js" defer></script>
 </head>
 <body>
-
+<div th:replace="~{fragments/header :: header}"></div>
 <h2>결제 내역 검색</h2>
 
 <!-- 🔥 검색 유형 선택 드롭다운 -->
@@ -97,6 +98,6 @@
         <td th:text="${payment.paymentStatus}"></td>
     </tr>
 </table>
-
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

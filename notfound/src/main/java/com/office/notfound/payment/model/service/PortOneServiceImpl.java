@@ -80,4 +80,48 @@ public class PortOneServiceImpl implements PortOneService {
         }
         return null;
     }
+
+    @Override
+    public String getAccessToken() {
+        String url = "https://api.iamport.kr/users/getToken";
+
+        Map<String, String> requestBody = new HashMap<>();
+        requestBody.put("imp_key", apiKey);
+        requestBody.put("imp_secret", apiSecret);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
+        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, Map.class);
+
+        if (response.getStatusCode() == HttpStatus.OK) {
+            Map<String, Object> responseBody = response.getBody();
+            if (responseBody != null && responseBody.containsKey("response")) {
+                Map<String, Object> responseData = (Map<String, Object>) responseBody.get("response");
+                return (String) responseData.get("access_token");
+            }
+        }
+        throw new RuntimeException("포트원 액세스 토큰 발급 실패");
+    }
+
+    @Override
+    public Map<String, Object> getPaymentData(String impUid, String token) {
+        String url = "https://api.iamport.kr/payments/" + impUid;
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(token);
+
+        HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, Map.class);
+
+        if (response.getStatusCode() == HttpStatus.OK) {
+            Map<String, Object> responseBody = response.getBody();
+            if (responseBody != null && responseBody.containsKey("response")) {
+                return (Map<String, Object>) responseBody.get("response");
+            }
+        }
+        throw new RuntimeException("결제 정보 조회 실패");
+    }
 }

@@ -7,46 +7,57 @@
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/mypage.css">
+    <link rel="stylesheet" href="/css/boards/my-reviews.css">
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
 <div class="mypage-container">
-<div class="side-menu">
-    <ul>
-        <li><a href="/member/mypage">개인정보변경</a></li>
-        <li><a href="/member/reservation">예약관리</a></li>
-        <li><a href="/member/inquiry">문의내역</a></li>
-        <li><a href="/review/my-reviews">리뷰관리</a></li>
-    </ul>
-</div>
-   <h1>전체 리뷰 조회만 함</h1>
+    <div class="side-menu">
+        <ul>
+            <li><a href="/member/adminmypage">개인정보변경</a></li>
+            <li><a href="/store/admin/storemanage">매장관리</a></li>
+            <li><a href="/reservation/search">예약관리</a></li>
+            <li><a href="/payment/search">결제관리</a></li>
+            <li><a href="/review/list">리뷰관리</a></li>
+            <li><a href="/event/list">이벤트관리</a></li>
+            <li><a href="/inquiry/list">1대1관리</a></li>
+            <li><a href="/faq/list">FAQ관리</a></li>
+        </ul>
+    </div>
+    <section class="my-reviews-container">
+        <!-- 리뷰 항목 반복 렌더링 -->
+        <div class="review-item" th:each="review : ${reviewList}">
+            <div th:if="${not #lists.isEmpty(review.reviewImage)}">
+                <img th:src="${review.reviewImage}" alt="리뷰 이미지" />
+            </div>
+            <div th:if="${#lists.isEmpty(review.reviewImage)}">
+                <div class="review-notImage">
+                    <span> 등록된 이미지가 없습니다.</span>
+                </div>
+            </div>
 
-  <table>
-      <tr>
-          <th>리뷰번호</th>
-          <!--            <th>권한번호</th>-->
-          <th>멤버코드</th>
-          <th>결제코드</th>
-          <th>멤버아이디</th>
-          <th>리뷰 제목</th>
-          <th>리뷰 내용</th>
-          <th>등록날짜</th>
-          <th>평점</th>
-          <th> 이미지</th>
-      </tr>
-      <tr th:each="review : ${reviewList}">
-          <td th:text="${review.reviewCode}"></td>
-          <td th:text="${review.memberCode}"></td>
-          <td th:text="${review.paymentCode}"></td>
-          <td th:text="${review.memberId}"></td>
-          <td th:text="${review.reviewTitle}"></td>
-          <td th:text="${review.reviewContent}"></td>
-          <td th:text="${review.reviewDate}"></td>
-          <td th:text="${review.reviewRating}"></td>
-          <td th:text="${review.reviewImage}"></td>
-      </tr>
-  </table>
-    <button onclick="location.href='review/regist'">리뷰등록</button>
+            <div class="review-item-content">
+                <h5 th:text="${review.reviewTitle}">리뷰 제목</h5>
+                <p th:text="'리뷰번호: ' + ${review.reviewCode}"></p>
+                <p th:text="'멤버코드: ' + ${review.memberCode}"></p>
+                <p th:text="'작성자: ' + ${review.memberId}"></p>
+                <p th:text="'작성 날짜: ' + ${review.reviewDate}"></p>
+                <p th:text="'평점: ' + ${review.reviewRating} + '점'" class="review-rating"></p>
+                <p th:text="${review.reviewContent}">리뷰 내용</p>
+                <div class="review-actions">
+                    <a class="btn-edit" th:href="@{'/review/edit/' + ${review.reviewCode}}">수정하기</a>
+                    <form th:id="'deleteForm' + ${review.reviewCode}"
+                          th:action="@{'/review/delete/' + ${review.reviewCode}}"
+                          method="post" style="display: inline;">
+                        <button class="btn-delete" th:onclick="'if(confirm(\'정말 삭제하시겠습니까?\')) { submitDeleteForm(' + ${review.reviewCode} + '); }'">삭제하기</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- 리뷰 등록 버튼 -->
+        <button class="review-button" onclick="location.href='/review/regist'">리뷰등록</button>
+    </section>
 </div>
 <div th:replace="~{fragments/footer :: footer}"></div>
 </body>

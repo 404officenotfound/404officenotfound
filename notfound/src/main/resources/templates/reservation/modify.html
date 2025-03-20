@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>예약 수정</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/datepicker.css">
+    <link rel="stylesheet" href="/css/timepicker.css">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<div class="container mt-5">
+    <h2>예약 수정</h2>
+
+    <!-- 기존 예약 정보 표시 -->
+    <div class="card mb-4">
+        <div class="card-header">
+            현재 예약 정보
+        </div>
+        <div class="card-body">
+            <p><strong>예약번호:</strong> <span th:text="${reservation.reservationCode}"></span></p>
+            <p><strong>사무실:</strong> <span th:text="${reservation.storeName}"></span></p>
+            <p><strong>예약날짜:</strong> <span th:text="${#temporals.format(reservation.startDatetime, 'yyyy-MM-dd')}"></span></p>
+            <p><strong>이용 시작 시간:</strong> <span th:text="${#temporals.format(reservation.startDatetime, 'HH:mm')}"></span></p>
+            <p><strong>이용 종료 시간:</strong> <span th:text="${#temporals.format(reservation.endDatetime, 'HH:mm')}"></span></p>
+            <p><strong>가격:</strong> <span th:text="${#numbers.formatInteger(reservation.totalPrice, 3, 'COMMA')}"></span>원</p>
+        </div>
+    </div>
+
+    <!-- 수정 폼 -->
+    <form id="modifyForm" th:action="@{/reservation/modify/{code}(code=${reservation.reservationCode})}" method="post">
+        <input type="hidden" name="reservationCode" th:value="${reservation.reservationCode}">
+        <input type="hidden" name="memberCode" th:value="${reservation.memberCode}">
+
+        <div class="form-group">
+            <label>사무실</label>
+            <select class="form-control" id="officeCode" name="officeCode" required>
+                <option value="">사무실을 선택하세요</option>
+                <!-- 사무실 목록은 JavaScript로 동적 로드 -->
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>예약 날짜</label>
+            <input type="date" class="form-control" id="reservationDate" name="reservationDate" required>
+        </div>
+
+        <div class="form-group">
+            <label>시작 시간</label>
+            <select class="form-control" id="startTime" name="startTime" required>
+                <option value="">시작 시간을 선택하세요</option>
+                <!-- 시간 옵션은 JavaScript로 동적 로드 -->
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>종료 시간</label>
+            <select class="form-control" id="endTime" name="endTime" required>
+                <option value="">종료 시간을 선택하세요</option>
+                <!-- 시간 옵션은 JavaScript로 동적 로드 -->
+            </select>
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary">수정하기</button>
+            <a href="/reservation/search" class="btn btn-secondary ml-2">취소</a>
+        </div>
+    </form>
+</div>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script>
+    // 페이지 로드 시 초기화
+    $(document).ready(function() {
+        // 현재 예약 정보로 폼 초기화
+        const officeCode = /*[[${reservation.officeCode}]]*/ 'defaultOfficeCode'; // 기본값 설정
+        const reservationDate = /*[[${#temporals.format(reservation.startDatetime, 'yyyy-MM-dd')}]]*/ '2023-01-01'; // 기본값 설정
+
+        $('#officeCode').val(officeCode);
+        $('#reservationDate').val(reservationDate);
+
+        // 사무실 목록 로드
+        loadOffices();
+
+        // 날짜 변경 시 이벤트
+        $('#reservationDate').on('change', function() {
+            loadAvailableTimeSlots();
+        });
+
+        // 사무실 변경 시 이벤트
+        $('#officeCode').on('change', function() {
+            loadAvailableTimeSlots();
+        });
+    });
+
+    // 사무실 목록 로드
+    function loadOffices() {
+        $.get('/api/offices', function(offices) {
+            const select = $('#officeCode');
+            offices.forEach(office => {
+                select.append(new Option(office.name, office.code));
+            });
+        });
+    }
+
+    // 예약 가능한 시간대 로드
+    function loadAvailableTimeSlots() {
+        const officeCode = $('#officeCode').val();
+        const date = $('#reservationDate').val();
+
+        if (!officeCode || !date) return;
+
+        $.get(`/api/reservations/available-times?officeCode=${officeCode}&date=${date}`, function(times) {
+            const startSelect = $('#startTime');
+            const endSelect = $('#endTime');
+
+            startSelect.empty().append('<option value="">시작 시간을 선택하세요</option>');
+            endSelect.empty().append('<option value="">종료 시간을 선택하세요</option>');
+
+            times.forEach(time => {
+                startSelect.append(new Option(time, time));
+                endSelect.append(new Option(time, time));
+            });
+        });
+    }
+</script>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html> 

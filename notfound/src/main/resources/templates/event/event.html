@@ -13,19 +13,18 @@
 <div th:replace="~{fragments/header :: header}"></div>
 <main>
     <section class="event">
-
         <!--<tr th:each="eventList : ${eventList}">-->
             <div class="card mb-3" th:each="eventList : ${eventList}">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <img th:src="@{/img/logo/새로고.JPG}" class="img-fluid rounded-start" th:alt="|event no.${eventList.eventCode}|">
+                        <img th:src="@{|/img/logo/event_img${eventList.eventCode}.jpg|}" class="img-fluid rounded-start" th:alt="|event no.${eventList.eventCode}|">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
                             <h5>
                             <a class="card-title" th:href="@{ /event/detail/{code} (code=${ eventList.eventCode })}" th:text="${eventList.eventTitle}"></a>
                             </h5>
-                            <p class="card-text">진행 상태</p>
+                            <!--<p class="card-text">진행 상태</p>-->
                             <small class="text-body-secondary" th:text="${eventList.eventStatus}"></small>
 
                         </div>

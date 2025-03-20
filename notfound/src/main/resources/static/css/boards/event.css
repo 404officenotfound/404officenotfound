@@ -1,9 +1,10 @@
 main {
-    margin-top: 280px; /* 헤더 높이만큼 여백 추가 */
+    /*margin-top: 280px;*/ /* 헤더 높이만큼 여백 추가 */
     padding: 20px; /* 내부 여백 */
 }
 .event {
-    margin-top: 40px;
+    margin: 30px auto;
+    max-width: 1200px;
     padding: 20px;
     background-color: #f9f9f9; /* 부드러운 배경색 */
     border-radius: 10px; /* 모서리 둥글게 처리 */
@@ -14,9 +15,12 @@ main {
 }
 .card-text {
     margin: 0;
+    display: inline;
 }
 .text-body-secondary {
-    margin-left: 120px;
+    justify-content: left;
+    display: flex;
+    margin: 20px 0;
 }
 .card-body h5 {
     margin-top: 10px;
