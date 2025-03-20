@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS tbl_authority
     authority_name VARCHAR(20) NOT NULL COMMENT '권한이름',
     -- TABLE LEVEL CONSTRAINTS
     CONSTRAINT pk_authority_code PRIMARY KEY (authority_code)
-) ENGINE=INNODB COMMENT '권한';
+) ENGINE=INNODB AUTO_INCREMENT = 1, COMMENT '권한';
 
 -- 3. 회원별권한 테이블 (tbl_member_role)
 CREATE TABLE IF NOT EXISTS tbl_member_role
