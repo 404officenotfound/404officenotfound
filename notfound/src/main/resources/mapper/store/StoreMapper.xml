@@ -126,6 +126,21 @@
             store_img3_url = #{storeImg3Url}
         WHERE store_code = #{storeCode}
     </update>
+    <select id="findImageByStoreCode" parameterType="com.office.notfound.store.model.dto.StoreDTO">
+        SELECT store_name = #{storeName},
+               store_city = #{storeCity},
+               store_gu = #{storeGu},
+               store_address = #{storeAddress},
+               latitude = #{latitude},
+               longitude = #{longitude},
+               description = #{description},
+               store_thumbnail_url = CASE WHEN #{storeThumbnailUrl} IS NOT NULL THEN #{storeThumbnailUrl} ELSE store_thumbnail_url END,
+               store_img1_url = #{storeImg1Url},
+               store_img2_url = #{storeImg2Url},
+               store_img3_url = #{storeImg3Url}
+        FROM tbl_store
+        WHERE store_code = #{storeCode}
+    </select>
     <delete id="deleteStore" parameterType="int">
         DELETE FROM tbl_store
         WHERE store_code = #{storeCode}

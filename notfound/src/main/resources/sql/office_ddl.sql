@@ -202,3 +202,4 @@ CREATE TABLE tbl_review (
 );
 
 COMMIT;
+
