@@ -3,7 +3,7 @@
 INSERT INTO tbl_member
 (member_name, member_id, member_password, member_email, member_phone, member_enddate, member_endstatus)
 VALUES
-    ('정상협', 'user01', '$2a$10$cYuXuzmhojpxD2AV7CoZX.dq1qVXnWUlmdvx1Y3P5xezD5z968nNu', 'user01@gmail.com', '010-1234-5678', NULL, 'N'),
+    ('관리자', 'user01', '$2a$10$cYuXuzmhojpxD2AV7CoZX.dq1qVXnWUlmdvx1Y3P5xezD5z968nNu', 'user01@gmail.com', '010-1234-5678', NULL, 'N'),
     ('일반사용자','user02', '$2a$10$A.i2AkaE/4qhjwo45MHofeShPXOLsD0HanK7Ce..npQj7GKslsJR.', 'user02@gmail.com', '010-1234-5678', NULL, 'N' ),
     ('일반사용자2','user03', '$2a$10$bxvD9ctVmDoZjQAXv4nfVOQx6zyOR9hc2ELFKxK21wjRaHf/O3CQm', 'user03@gmail.com', '010-1234-5678', NULL, 'N' ),
     ('일반사용자3','user04', '$2a$10$fWGThR11/nx7oDngNCTpiOq14g6tpjwf61TskCEZ1yFIIdI1CHTQu', 'user04@gmail.com', '010-1234-5678', NULL, 'N' );
@@ -42,7 +42,7 @@ VALUES ('건대입구역 점', '서울', '광진구', '능동로 87', 37.539044,
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/2502/average-bartable.webp');
 INSERT INTO tbl_store (store_name, store_city, store_gu, store_address, latitude, longitude, description, store_thumbnail_url, store_img1_url, store_img2_url, store_img3_url)
 VALUES ('홍대입구역 점', '서울', '마포구', '양화로 188', 37.557855, 126.926266,
-        '지하철 역사와 연결되어 있어서 날씨와 상관 없이 접근 가능.',
+        '라운지 공용 커피머신 외 입주사 사무실 마다 네스프레소 캡슐 커피 머신 제공.',
         'https://biz.chosun.com/resizer/v2/BVYQ6E247BFJJJBLY7UM6ZAO7I.jpg?auth=6f6153a65fe26ae528c6bd663ba361d7ca587edceeb384ed25a5a48d6021bec9&width=616',
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/2502/average-sofa.webp',
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/2502/average-meetingroom.webp',
@@ -63,7 +63,7 @@ VALUES ('서울숲 점', '서울', '성동구', '성수동 1가', 37.545016, 127
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/sec-lounge_picture-slide01.jpg');
 INSERT INTO tbl_store (store_name, store_city, store_gu, store_address, latitude, longitude, description, store_thumbnail_url, store_img1_url, store_img2_url, store_img3_url)
 VALUES ('디지털미디어시티역 점', '서울', '마포구', '성암로 179', 37.576153, 126.898829,'지하철 역 출구 바로 앞 큰길에 위치에 접근성 최상. 라운지 한 켠에 집중을 위한 독방 구비.',
-        'https://postfiles.pstatic.net/MjAxOTExMjJfMTc2/MDAxNTc0NDAwNTg1OTk0.c5TjZYl20F3JjCYjCDE8szKCCyKUpmWquJHnZA1lHOgg.8WxoMOHzX1J4RSRH81mxEIn6i-NZTgtalF-tOGI7USAg.JPEG.knscoco/1574400584801.jpg?type=w966',
+        'https://img.freepik.com/premium-photo/low-angle-view-modern-building-against-clear-blue-sky_1048944-9517699.jpg?w=740',
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/2502/average-focusroom.webp',
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/sec-lounge_picture-slide05.jpg',
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/sec-lounge_picture-slide01.jpg');
@@ -108,7 +108,7 @@ VALUES ('중앙로 점', '대구', '중구', '국채보상로 586 교보생명 �
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/sec-lounge_picture-slide06.jpg');
 INSERT INTO tbl_store (store_name, store_city, store_gu, store_address, latitude, longitude, description, store_thumbnail_url, store_img1_url, store_img2_url, store_img3_url)
 VALUES ('라페스타 점', '경기', '고양시 일산동구', '무궁화로 32-34 라페스타', 37.661203, 126.768914, '입주사 한정 고객 라페스타 건물 내 롯데시네마 주1회 50%할인 중.',
-        '라운지 공용 커피머신 외 입주사 사무실 마다 네스프레소 캡슐 커피 머신 제공.',
+        'https://www.kbgoldenlifex.com/senior/img/upload/20211111112356882.jpg',
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/sec-lounge_picture-slide05.jpg',
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/2502/average-bartable.webp',
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/sec-lounge_picture-slide06.jpg');
@@ -133,71 +133,113 @@ VALUES
     (1, '1인실', '101', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (1, '4인실', '102', 1500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (1, '10인실', '103', 4000000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (1, '1인실', '104', 550000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (1, '4인실', '105', 1600000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (1, '1인실', '104', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (1, '4인실', '105', 1600000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
     (1, '10인실', '106', 4200000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
 
-    (2, '1인실', '201', 550000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (2, '1인실', '201', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (2, '4인실', '202', 1500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (2, '10인실', '203', 4000000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (2, '1인실', '204', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (2, '4인실', '205', 1550000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (2, '4인실', '205', 1550000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
     (2, '10인실', '206', 4300000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
 
     (3, '1인실', '301', 480000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (3, '4인실', '302', 1600000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (3, '10인실', '303', 4200000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (3, '1인실', '304', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (3, '4인실', '305', 1550000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (3, '4인실', '305', 1550000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
     (3, '10인실', '306', 4300000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
 
-    (4, '1인실', '401', 520000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (4, '1인실', '401', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (4, '4인실', '402', 1500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (4, '10인실', '403', 4200000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (4, '1인실', '404', 490000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (4, '4인실', '405', 1600000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (4, '1인실', '404', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (4, '4인실', '405', 1600000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
     (4, '10인실', '406', 4300000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
 
-    (5, '1인실', '501', 480000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (5, '1인실', '501', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (5, '4인실', '502', 1500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (5, '10인실', '503', 4000000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (5, '1인실', '504', 550000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (5, '4인실', '505', 1600000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (5, '1인실', '504', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (5, '4인실', '505', 1600000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
     (5, '10인실', '506', 4200000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
 
     (6, '1인실', '601', 480000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (6, '4인실', '602', 1550000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (6, '10인실', '603', 4000000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (6, '1인실', '604', 470000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (6, '4인실', '605', 1600000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (6, '4인실', '605', 1600000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
     (6, '10인실', '606', 4200000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
 
     (7, '1인실', '701', 470000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (7, '4인실', '702', 1450000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (7, '4인실', '702', 1450000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
     (7, '10인실', '703', 4000000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (7, '1인실', '704', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (7, '4인실', '705', 1550000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (7, '4인실', '705', 1550000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
     (7, '10인실', '706', 4200000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
 
     (8, '1인실', '801', 490000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (8, '4인실', '802', 1500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (8, '4인실', '802', 1500000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
     (8, '10인실', '803', 4000000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (8, '1인실', '804', 470000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (8, '4인실', '805', 1600000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (8, '4인실', '805', 1600000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
     (8, '10인실', '806', 4300000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
 
     (9, '1인실', '901', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (9, '4인실', '902', 1550000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (9, '4인실', '902', 1550000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
     (9, '10인실', '903', 4000000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (9, '1인실', '904', 480000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (9, '4인실', '905', 1600000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (9, '10인실', '906', 4200000, 'http://www.dodreamoffice.com/img/why_img1.jpg');
+    (9, '한 층 전체', '905', 1600000, 'https://sparkplus20241.cafe24.com/sparkpluskr/office/usage-img03.jpg'),
+    (9, '10인실', '906', 4200000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+
+(10, '1인실', '901', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+(10, '4인실', '902', 1550000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+(10, '10인실', '903', 4000000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+(10, '1인실', '904', 480000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+(10, '4인실', '905', 1600000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+(10, '10인실', '906', 4200000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+
+    (11, '1인실', '901', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (11, '4인실', '902', 1550000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (11, '10인실', '903', 4000000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (11, '1인실', '904', 480000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (11, '4인실', '905', 1600000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (11, '한 층 전체', '906', 4200000, 'https://sparkplus20241.cafe24.com/sparkpluskr/office/usage-img03.jpg'),
+
+    (12, '1인실', '901', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (12, '4인실', '902', 1550000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
+    (12, '10인실', '903', 4000000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (12, '1인실', '904', 480000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (12, '4인실', '905', 1600000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
+    (12, '10인실', '906', 4200000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+
+    (13, '1인실', '901', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (13, '4인실', '902', 1550000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
+    (13, '10인실', '903', 4000000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (13, '1인실', '904', 480000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (13, '4인실', '905', 1600000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
+    (13, '10인실', '906', 4200000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+
+    (14, '1인실', '901', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (14, '4인실', '902', 1550000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
+    (14, '10인실', '903', 4000000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (14, '1인실', '904', 480000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (14, '4인실', '905', 1600000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
+    (14, '10인실', '906', 4200000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+
+    (15, '1인실', '901', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (15, '4인실', '902', 1550000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
+    (15, '10인실', '903', 4000000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (15, '1인실', '904', 480000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (15, '4인실', '905', 1600000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
+    (15, '10인실', '906', 4200000, 'http://www.dodreamoffice.com/img/why_img1.jpg');
 
 
 INSERT INTO tbl_reservation (member_code, office_code, start_datetime, end_datetime, total_price, reservation_status)
 VALUES
-    (1, 1, '2025-03-15 08:00:00', '2025-03-15 10:00:00', 500000, '예약완료'),
-    (2, 4, '2025-03-18 10:00:00', '2025-03-18 12:00:00', 4000000, '예약완료'),
+    (1, 1, '2025-03-15 08:00:00', '2025-03-15 10:00:00', 100, '예약완료'),
+    (2, 4, '2025-03-18 10:00:00', '2025-03-18 12:00:00', 1, '예약완료'),
     (3, 6, '2025-03-20 12:00:00', '2025-03-20 14:00:00', 1600000, '예약완료'),
     (3, 9, '2025-03-20 14:00:00', '2025-03-20 16:00:00', 500000, '예약완료'),
     (4, 7, '2025-03-22 18:00:00', '2025-03-22 20:00:00', 4500000, '예약완료'),
@@ -210,16 +252,16 @@ VALUES
     (3, 11, '2025-04-05 12:00:00', '2025-04-05 14:00:00', 1500000, '예약취소');
 
 -- 🔥 결제 데이터 삽입
-INSERT INTO tbl_payment (member_code, payment_date, payment_method, payment_amount, payment_status, imp_uid, merchant_uid, api_parm)
+INSERT INTO tbl_payment (member_code, payment_date, payment_method, payment_amount, payment_status, imp_uid, merchant_uid)
 VALUES
-    (1, '2025-03-15 07:50:00', '카드', 500000, '결제완료', 'IMP123456', 'ORD123456', '{"status":"paid"}'),
-    (2, '2025-03-18 09:50:00', '계좌이체', 4000000, '결제완료', 'IMP123457', 'ORD123457', '{"status":"paid"}'),
-    (3, '2025-03-20 11:50:00', '카드', 2100000, '결제완료', 'IMP123458', 'ORD123458', '{"status":"paid"}'),
-    (4, '2025-03-22 17:50:00', '카드', 4500000, '결제완료', 'IMP123459', 'ORD123459', '{"status":"paid"}'),
-    (1, '2025-03-25 15:50:00', '계좌이체', 500000, '결제취소', 'IMP123460', 'ORD123460', '{"status":"cancelled"}'),
-    (2, '2025-03-27 11:50:00', '카드', 6050000, '결제완료', 'IMP123461', 'ORD123461', '{"status":"paid"}'),
-    (4, '2025-04-01 07:50:00', '계좌이체', 1500000, '결제완료', 'IMP123462', 'ORD123462', '{"status":"paid"}'),
-    (3, '2025-04-05 09:50:00', '카드', 2000000, '결제취소', 'IMP123463', 'ORD123463', '{"status":"cancelled"}');
+    (1, '2025-03-15 07:50:00', '카드', 1, '결제완료', 'IMP123456', 'ORD123456'),
+    (2, '2025-03-18 09:50:00', '계좌이체', 4000000, '결제완료', 'IMP123457', 'ORD123457'),
+    (3, '2025-03-20 11:50:00', '카드', 2100000, '결제완료', 'IMP123458', 'ORD123458'),
+    (4, '2025-03-22 17:50:00', '카드', 4500000, '결제완료', 'IMP123459', 'ORD123459'),
+    (1, '2025-03-25 15:50:00', '계좌이체', 500000, '결제취소', 'IMP123460', 'ORD123460'),
+    (2, '2025-03-27 11:50:00', '카드', 6050000, '결제완료', 'IMP123461', 'ORD123461'),
+    (4, '2025-04-01 07:50:00', '계좌이체', 1500000, '결제완료', 'IMP123462', 'ORD123462'),
+    (3, '2025-04-05 09:50:00', '카드', 2000000, '결제취소', 'IMP123463', 'ORD123463');
 
 -- 🔥 예약-결제 관계 데이터 삽입
 INSERT INTO tbl_reservation_payment (reservation_code, payment_code)
@@ -257,14 +299,19 @@ INSERT INTO tbl_faq (faq_title, faq_content) VALUES
 
 -- 1:1 문의 게시판
 INSERT INTO tbl_inquiry (member_code, member_id, inquiry_title, inquiry_content, inquiry_created_at, inquiry_answer_state, inquiry_admin_answer) VALUES
-                                                                                                                                                     (3, 'user01', '예약 취소는 어떻게 하나요?', '예약을 취소하려면 어떤 절차를 따라야 하는지 알고 싶습니다. 예약이 이미 확정된 상태에서 취소가 가능한지 확인하고 싶어요.', '2025-03-12 10:30:00', '답변 완료', '안녕하세요 고객님, 문의해 주셔서 감사합니다.\n예약 취소는 로그인 → 마이페이지 → 예약관리 페이지에서 가능합니다. \n 기타 궁금한 내용이 있으시면 언제든지 문의해 주세요.\n감사합니다.'),
-                                                                                                                                                     (1, 'user02', '주차 공간 예약이 가능한가요?', '지점에 주차 공간이 부족한 것 같은데, 사무실 예약과 함께 주차 공간도 예약할 수 있는지 확인하고 싶습니다.', '2025-03-12 11:00:00', '답변 대기', NULL),
-                                                                                                                                                     (2, 'user03', '인터넷 속도가 너무 느려요', '공유 오피스에서 제공하는 인터넷 속도가 매우 느린데, 해결 방법이나 점검을 요청할 수 있을까요?', '2025-03-12 12:15:00', '답변 대기', NULL),
-                                                                                                                                                     (4, 'user04', '회의실 예약은 어떻게 하나요?', '회의실을 예약하려면 어떤 절차를 거쳐야 하는지 궁금합니다. 온라인으로 예약 가능한가요?', '2025-03-12 12:45:00', '답변 완료', '안녕하세요 고객님, 문의해 주셔서 감사합니다.\n회의실 예약은 지점 → 지역별 조회 → 각 지점별로 조회하여 원하는 사무실을 선택해 예약하실 수 있습니다. \n 기타 궁금한 내용이 있으시면 언제든지 문의해 주세요.\n감사합니다.'),
-                                                                                                                                                     (1, 'user03', '사무실 호실에 대한 정보가 부족해요', '각 사무실 호실에 대한 상세 정보가 부족한 것 같습니다. 사진이나 추가 정보를 제공해주실 수 있나요?', '2025-03-12 13:00:00', '답변 대기', NULL),
-                                                                                                                                                     (2, 'user02', '사무실에서 개인 물품을 두고 가도 되나요?', '공유 오피스를 사용한 후 개인 물품을 사무실에 두고 가도 괜찮은지 궁금합니다. 물품 보관 정책에 대해 알고 싶어요.', '2025-03-12 14:00:00', '답변 대기', NULL),
-                                                                                                                                                     (3, 'user01', '장기 예약시 별도의 할인이 있나요?', '사무실이 너무 좋아서 장기 예약을 하고 싶습니다. 별도의 할인이 있나요?', '2025-03-12 14:30:00', '답변 완료', '안녕하세요 고객님, 문의해 주셔서 감사합니다.\n장기예약시 할인은 제공하고 있지 않고 있습니다. 자세한 사항은 별도 문의 바랍니다.\n감사합니다. '),
-                                                                                                                                                     (4, 'user04', '공유 오피스 이용 중 규정 위반 시 처벌이 있나요?', '공유 오피스를 이용하면서 규정을 위반하면 어떤 처벌이 있을 수 있는지 궁금합니다. 이에 대한 정보가 필요해요.', '2025-03-12 15:00:00', '답변 완료', '안녕하세요 고객님, 문의해 주셔서 감사합니다.\n규정 위반 시, 1회 경고 후 반복 시 이용 제한이 있을 수 있습니다. \n 기타 궁금한 내용이 있으시면 언제든지 문의해 주세요.\n감사합니다.');
+                                                                                                                                                     (1, 'user01', '예약 취소는 어떻게 하나요?', '예약을 취소하려면 어떤 절차를 따라야 하는지 알고 싶습니다. 예약이 이미 확정된 상태에서 취소가 가능한지 확인하고 싶어요.', '2025-03-12 10:30:00', '답변 완료', '안녕하세요 고객님, 문의해 주셔서 감사합니다.\n예약 취소는 로그인 → 마이페이지 → 예약관리 페이지에서 가능합니다. \n 기타 궁금한 내용이 있으시면 언제든지 문의해 주세요.\n감사합니다.'),
+                                                                                                                                                     (2, 'user02', '주차 공간 예약이 가능한가요?', '지점에 주차 공간이 부족한 것 같은데, 사무실 예약과 함께 주차 공간도 예약할 수 있는지 확인하고 싶습니다.', '2025-03-12 11:00:00', '답변 대기', NULL),
+                                                                                                                                                     (3, 'user03', '인터넷 속도가 너무 느려요', '공유 오피스에서 제공하는 인터넷 속도가 매우 느린데, 해결 방법이나 점검을 요청할 수 있을까요?', '2025-03-13 12:15:00', '답변 대기', NULL),
+                                                                                                                                                     (4, 'user04', '회의실 예약은 어떻게 하나요?', '회의실을 예약하려면 어떤 절차를 거쳐야 하는지 궁금합니다. 온라인으로 예약 가능한가요?', '2025-03-13 12:45:00', '답변 완료', '안녕하세요 고객님, 문의해 주셔서 감사합니다.\n회의실 예약은 지점 → 지역별 조회 → 각 지점별로 조회하여 원하는 사무실을 선택해 예약하실 수 있습니다. \n 기타 궁금한 내용이 있으시면 언제든지 문의해 주세요.\n감사합니다.'),
+                                                                                                                                                     (3, 'user03', '사무실 호실에 대한 정보가 부족해요', '각 사무실 호실에 대한 상세 정보가 부족한 것 같습니다. 사진이나 추가 정보를 제공해주실 수 있나요?', '2025-03-14 13:00:00', '답변 대기', NULL),
+                                                                                                                                                     (2, 'user02', '사무실에서 개인 물품을 두고 가도 되나요?', '공유 오피스를 사용한 후 개인 물품을 사무실에 두고 가도 괜찮은지 궁금합니다. 물품 보관 정책에 대해 알고 싶어요.', '2025-03-14 14:00:00', '답변 대기', NULL),
+                                                                                                                                                     (1, 'user01', '장기 예약시 별도의 할인이 있나요?', '사무실이 너무 좋아서 장기 예약을 하고 싶습니다. 별도의 할인이 있나요?', '2025-03-15 14:30:00', '답변 완료', '안녕하세요 고객님, 문의해 주셔서 감사합니다.\n장기예약시 할인은 제공하고 있지 않고 있습니다. 자세한 사항은 별도 문의 바랍니다.\n감사합니다. '),
+                                                                                                                                                     (4, 'user04', '공유 오피스 이용 중 규정 위반 시 처벌이 있나요?', '공유 오피스를 이용하면서 규정을 위반하면 어떤 처벌이 있을 수 있는지 궁금합니다. 이에 대한 정보가 필요해요.', '2025-03-16 15:00:00', '답변 완료', '안녕하세요 고객님, 문의해 주셔서 감사합니다.\n규정 위반 시, 1회 경고 후 반복 시 이용 제한이 있을 수 있습니다. \n 기타 궁금한 내용이 있으시면 언제든지 문의해 주세요.\n감사합니다.'),
+                                                                                                                                                     (1, 'user01', '회의실 예약 비용이 궁금해요', '회의실 예약 비용이 어떻게 책정되는지 알고 싶습니다.', '2025-03-17 10:00:00', '답변 완료', '안녕하세요 고객님, 문의해 주셔서 감사합니다.\n회의실 예약 비용은 지점과 시간대에 따라 다를 수 있습니다. 자세한 사항은 예약 페이지를 확인해 주세요.\n감사합니다.'),
+                                                                                                                                                     (2, 'user02', '장비 대여 서비스가 있나요?', '공유 오피스에서 사용할 수 있는 모니터나 기타 장비를 대여할 수 있나요?', '2025-03-18 11:15:00', '답변 완료', '안녕하세요 고객님, 문의해 주셔서 감사합니다.\n현재 모니터, 키보드, 마우스 등의 기본 장비 대여가 가능합니다. 추가 장비는 사전 예약 후 이용해 주세요.\n감사합니다.'),
+                                                                                                                                                     (3, 'user03', '야간에도 사무실을 이용할 수 있나요?', '공유 오피스 운영 시간이 어떻게 되나요? 24시간 이용이 가능한가요?', '2025-03-19 12:30:00', '답변 대기', NULL),
+                                                                                                                                                     (4, 'user04', '회의실 예약 취소 규정이 궁금합니다.', '회의실 예약을 취소할 경우 수수료가 발생하나요?', '2025-03-19 13:45:00', '답변 대기', NULL),
+                                                                                                                                                     (1, 'user01', '법인카드 결제가 가능한가요?', '법인카드로 사무실 예약이 가능한지 궁금합니다.', '2025-03-20 15:00:00', '답변 대기', NULL);
 
 
 

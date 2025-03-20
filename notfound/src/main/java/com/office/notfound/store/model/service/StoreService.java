@@ -45,6 +45,8 @@ public class StoreService {
         StoreDTO store = storeMapper.findStoreByCode(storeCode);
 
         return storeMapper.findStoreByCode(storeCode);
+
+//        return store;
     }
 
     @Transactional
@@ -63,67 +65,10 @@ public class StoreService {
         storeMapper.insertStore(store);
     }
 
-
-//    @Transactional
-//    public void createStore(StoreDTO store, MultipartFile storeImg1) throws Exception {
-//
-//        // 각 이미지의 저장된 URL을 저장할 변수 선언
-//        String img1Url = null;
-//
-//        // 이미지 저장
-//        if (!storeImg1.isEmpty()) {
-//            String fileName = UUID.randomUUID().toString().replace("-", "");
-//            img1Url = FileUploadUtils.saveStoreFile(uploadDir, fileName, storeImg1);
-//        }
-//        store.setStoreImg1Url(img1Url);
-//
-//        // 상품 정보 저장
-//        storeMapper.insertStore(store);
-//    }
-//
-//    @Transactional
-//    public void createStore(StoreDTO store, MultipartFile storeImg2) throws Exception {
-//
-//        // 각 이미지의 저장된 URL을 저장할 변수 선언
-//        String img2Url = null;
-//
-//        // 이미지 저장
-//        if (!storeImg2.isEmpty()) {
-//            String fileName = UUID.randomUUID().toString().replace("-", "");
-//            img2Url = FileUploadUtils.saveStoreFile(uploadDir, fileName, storeImg2);
-//        }
-//        store.setStoreImg2Url(img2Url);
-//
-//
-//        // 상품 정보 저장
-//        storeMapper.insertStore(store);
-//    }
-//
-//    @Transactional
-//    public void createStore(StoreDTO store, MultipartFile storeImg3) throws Exception {
-//
-//        // 각 이미지의 저장된 URL을 저장할 변수 선언
-//        String img3Url = null;
-//
-//        // 이미지 저장
-//
-//        if (!storeImg3.isEmpty()) {
-//            String fileName = UUID.randomUUID().toString().replace("-", "");
-//            img3Url = FileUploadUtils.saveStoreFile(uploadDir, fileName, storeImg3);
-//        }
-//
-//        store.setStoreImg3Url(img3Url);
-//
-//
-//        // 상품 정보 저장
-//        storeMapper.insertStore(store);
-//    }
-
     public List<String> getDistinctCities() {
 
         return storeMapper.findDistinctCities();
     }
-
 
     public List<String> getGuByCity(String city) {
 
@@ -200,4 +145,9 @@ public class StoreService {
         // 상품 정보 삭제
         storeMapper.deleteStore(storeCode);
     }
+
+//    public List<Store> findStoresByRegion(String storeCity, String storeGu) {
+//
+//        return storeMapper.findStoresByRegion(storeCity, storeGu);
+//    }
 }

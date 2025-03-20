@@ -9,7 +9,7 @@
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
-<section>
+<main>
     <span class="region-select">
         <label for="city-select">시 선택 : </label>
         <select id="city-select" name="storeCity" required>
@@ -27,7 +27,6 @@
             <div th:each="store : ${storeRegionPage}" class="store-container">
                 <div class="store-grid">
                     <img th:src="${store.storeThumbnailUrl}" th:alt="${store.storeName}" class="store-thumbnail">
-
                     <div class="store-item">
                         <!-- 상세지점으로 갈 때 브라우저에 표시될 경로 주소다. -->
                         <a th:href="@{'/store/detailstore/' + ${store.storeCode}}">
@@ -40,7 +39,7 @@
             </div>
         </div>
     </span>
-</section>
+</main>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const citySelect = document.getElementById("city-select");

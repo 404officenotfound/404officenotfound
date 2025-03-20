@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -28,6 +27,7 @@ public class OfficeController {
     // 사무실 전체 조회
     @GetMapping("/store/detailstore")
     public String officeList(@RequestParam("storeCode") int storeCode, Model model) {
+
         StoreDTO store = storeService.findStoreByCode(storeCode);
 
         List<OfficeDTO> officeList = officeService.findAllOffices(storeCode);
@@ -83,66 +83,8 @@ public class OfficeController {
     // 관리자용 사무실 등록 페이지
     @GetMapping("/samusil/admin/officecreate")
     public String adminOfficeCreatePage() {
-        return "samusil/admin/officecreate";
+        return "/samusil/admin/officecreate";
     }
-
-//    // 사무실 등록 페이지
-//    @PostMapping("samusil/admin/officecreate")
-//    public String adminOfficeCreate(@ModelAttribute OfficeDTO office,
-//                                    @RequestParam("officeThumbnailUrl") MultipartFile officeThumbnailUrl,
-//                                    RedirectAttributes rAttr) {
-//        try {
-//            officeService.insertOffice(office, officeThumbnailUrl);
-//            rAttr.addFlashAttribute("message", "사무실 등록을 성공하였습니다.");
-//            return "redirect:/samusil/admin/officemanage";
-//        } catch (Exception e) {
-//            rAttr.addFlashAttribute("error", "사무실 등록을 실패하였습니다.");
-//            return "redirect:/samusil/admin/officecreate";
-//        }
-//    }
-
-//    // 지점별 사무실 수정 페이지 넘어가기
-//    @PostMapping("samusil/admin/officeedit/{storeCode}/{officeCode}")
-//    public String adminOfficeEditPage(@PathVariable("storeCode") int storeCode,
-//                                      @PathVariable("officeCode") int officeCode,
-//                                      Model model) {
-//
-//        OfficeDTO office = officeService.findOfficeByStore(storeCode, officeCode);
-//
-//        model.addAttribute("office", office);
-//
-//        return "samusil/admin/officeedit";
-//    }
-//
-//    // 지점별 사무실 수정 정보 저장하기
-//    @PostMapping("samusil/admin/officeedit/{storeCode}/{officeCode}")
-//    public String adminOfficeEdit(@PathVariable("storeCode") int storeCode,
-//                                  @PathVariable("officeCode") int officeCode,
-//                                  @ModelAttribute StoreDTO store,
-//                                  @ModelAttribute OfficeDTO office,
-//                                  RedirectAttributes rAttr) {
-//
-//        try {
-//            // 객체타입 중 하나인 String이라 null과 비교 가능
-//            if (office.getOfficeType() == null) {
-//                throw new IllegalArgumentException("필수 입력 데이터가 누락되었습니다.");
-//            }
-//            // 기본 원시형이라 0이랑 비교
-//            if(office.getOfficeNum() == 0 || office.getOfficePrice() == 0) {
-//                throw new IllegalArgumentException("필수 입력 데이터가 누락되었습니다.");
-//            }
-//
-//            store.setStoreCode(storeCode);
-//            office.setOfficeCode(officeCode);
-//            officeService.updateOffice(office);
-//            rAttr.addFlashAttribute("message", "사무실 수정를 성공하였습니다.");
-//            return "redirect:/samusil/admin/officemanage";
-//        } catch (Exception e) {
-//            rAttr.addFlashAttribute("error", "사무실 수정를 실패하였습니다.");
-//            return "redirect:/samusil/admin/officeedit";
-//        }
-//
-//    }
 
     // 지점별 사무실 삭제
     @PostMapping("samusil/admin/officemanage/{storeCode}")
@@ -154,18 +96,6 @@ public class OfficeController {
         } catch (Exception e) {
             rAttr.addFlashAttribute("errorMessage", "사무실 삭제를 실패하였습니다." + e.getMessage());
         }
-            return "redirect:/samusil/admin/officemanage/";
+        return "redirect:.store/samusil/admin/officemanage";
     }
-
-    @PostMapping("/samusil/admin/officemanage/{storeode}")
-    public String deleteOffice(@PathVariable("officeCode") int officeCode, RedirectAttributes rAttr) {
-        try {
-            storeService.deleteStore(officeCode);
-            rAttr.addFlashAttribute("message", "사무실 삭제를 성공하였습니다.");
-        } catch (Exception e) {
-            rAttr.addFlashAttribute("errorMessage", "삭제 중 오류가 발생하였습니다. " + e.getMessage());
-        }
-        return "redirect:/samusil/admin/officemanage";
-    }
-
 }

@@ -55,6 +55,7 @@ public class StoreController {
         // 사무실 상세 리스트 내 리뷰 조회용
         List<OfficeReviewDTO> FindOfficeReview = reviewService.findOfficeReview(storeCode);
 
+
         // 모델에 해당 매장 정보를 담아 상세 페이지를 반환
         model.addAttribute("store", store);
         model.addAttribute("latitude", store.getLatitude());
@@ -93,34 +94,6 @@ public class StoreController {
                                    @RequestParam(value = "storeImg3", required = false) MultipartFile storeImg3,
                                    RedirectAttributes rttr) {
 
-//        try {
-//            // 파일 저장 로직 (예: 로컬 디렉토리 저장)
-//            String uploadDir = "C:\\MyWs\\404officesemi\\notfound\\src\\main\\resources\\static\\img\\store";
-//
-//            if (!storeThumbnail.isEmpty()) {
-//                String thumbnailPath = uploadDir + storeThumbnail.getOriginalFilename();
-//                storeThumbnail.transferTo(new File(thumbnailPath));
-//                storeDTO.setStoreThumbnail(thumbnailPath);
-//            }
-//
-//            if (!storeImg1.isEmpty()) {
-//                String img1Path = uploadDir + storeImg1.getOriginalFilename();
-//                storeImg1.transferTo(new File(img1Path));
-//                storeDTO.setStoreImg1(img1Path);
-//            }
-//
-//            if (!storeImg2.isEmpty()) {
-//                String img2Path = uploadDir + storeImg2.getOriginalFilename();
-//                storeImg2.transferTo(new File(img2Path));
-//                storeDTO.setStoreImg2(img2Path);
-//            }
-//
-//            if (!storeImg3.isEmpty()) {
-//                String img3Path = uploadDir + storeImg3.getOriginalFilename();
-//                storeImg3.transferTo(new File(img3Path));
-//                storeDTO.setStoreImg3(img3Path);
-//            }
-
         try {
             storeService.createStore(store, storeThumbnail, storeImg1, storeImg2, storeImg3);
             rttr.addFlashAttribute("message", "새 지점 등록을 성공하였습니다.");
@@ -143,7 +116,7 @@ public class StoreController {
             @RequestParam(required = false) String storeGu,
             Model model) {
 
-//        List<Store> storesRegion = storeService.findStoresByRegion(city, gu);
+//        List<Store> storesRegion = storeService.findStoresByRegion(storeCity, storeGu);
 //        model.addAttribute("storeRegionPage", storesRegion); // 여기에 리스트 저장
         return "store/storeregion";
     }
@@ -231,5 +204,4 @@ public class StoreController {
         storeService.deleteStore(storeCode);
         return "redirect:/store/admin/storemanage";
     }
-
 }
