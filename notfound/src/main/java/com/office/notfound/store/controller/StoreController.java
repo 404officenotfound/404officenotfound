@@ -55,10 +55,9 @@ public class StoreController {
         // 사무실 상세 리스트 내 리뷰 조회용
         List<OfficeReviewDTO> FindOfficeReview = reviewService.findOfficeReview(storeCode);
 
+
         // 모델에 해당 매장 정보를 담아 상세 페이지를 반환
         model.addAttribute("store", store);
-        model.addAttribute("latitude", store.getLatitude());
-        model.addAttribute("longitude", store.getLongitude());
         model.addAttribute("officeList", officeList);
         model.addAttribute("FindOfficeReview", FindOfficeReview);
 
@@ -88,9 +87,9 @@ public class StoreController {
     @PostMapping("store/admin/storecreate")
     public String adminStoreCreate(@ModelAttribute StoreDTO store,
                                    @RequestParam("storeThumbnail") MultipartFile storeThumbnail,
-                                   @RequestParam(value = "storeImg1", required = false) MultipartFile storeImg1,
-                                   @RequestParam(value = "storeImg2", required = false) MultipartFile storeImg2,
-                                   @RequestParam(value = "storeImg3", required = false) MultipartFile storeImg3,
+                                   @RequestParam("storeImg1") MultipartFile storeImg1,
+                                   @RequestParam("storeImg2") MultipartFile storeImg2,
+                                   @RequestParam("storeImg3") MultipartFile storeImg3,
                                    RedirectAttributes rttr) {
 
 //        try {
@@ -126,9 +125,6 @@ public class StoreController {
             rttr.addFlashAttribute("message", "새 지점 등록을 성공하였습니다.");
             // 지점 등록 성공 후 이동하는 페이지는 디폴트
             return "redirect:/store/admin/storemanage";
-        } catch (IllegalArgumentException e) {
-            rttr.addFlashAttribute("message", e.getMessage());
-            return "redirect:/store/admin/storecreate";
         } catch (Exception e) {
             rttr.addFlashAttribute("message", "새 지점 등록에 실패했습니다: " + e.getMessage());
             return "redirect:/store/admin/storecreate";
@@ -164,12 +160,9 @@ public class StoreController {
 
     @GetMapping("/store/storeregion/search")
     @ResponseBody
-    public List<StoreDTO> getStoresByRegion(@RequestParam(required = false) String city,  // city는 optional
-                                            @RequestParam String gu) {  // gu는 필수값
-        System.out.println("선택한 지역구: " + gu);
-        List<StoreDTO> stores = storeService.findStoresByCityAndGu(city, gu);
-        System.out.println("결과 스토어 리스트: " + stores); // 디버깅용 출력
-        return stores;
+    public List<StoreDTO> getStoresByRegion(@RequestParam String city,
+                                            @RequestParam String gu) {
+        return storeService.findStoresByCityAndGu(city, gu);
     }
 
     // 지점 수정 페이지 넘어가기
@@ -191,28 +184,23 @@ public class StoreController {
     @PostMapping("/store/admin/storeedit/{storeCode}")
     public String adminStoreEdit(@PathVariable("storeCode") int storeCode,
                                  @ModelAttribute StoreDTO store,
-                                 @RequestParam(value = "newImage", required = false) MultipartFile newImage,
                                  RedirectAttributes rttr) {
 
-        try {
-            if (store.getStoreName() == null || store.getStoreAddress() == null) {
-                throw new IllegalArgumentException("필수 입력 데이터가 누락되었습니다.");
-            }
+        store.setStoreCode(storeCode);
+        storeService.updateStore(store);
 
-            store.setStoreCode(storeCode);
-            storeService.updateStore(store, newImage);
+        try {
             rttr.addFlashAttribute("message", "지점 정보 수정을 성공하였습니다.");
             // 지점 수정 성공 후 이동하는 페이지는 디폴트
             return "redirect:/store/admin/storemanage";
         } catch (Exception e) {
-            e.printStackTrace();
             rttr.addFlashAttribute("message", "지점 정보 수정에 실패했습니다: " + e.getMessage());
-            return "redirect:/store/admin/storeedit/" + storeCode;
+            return "redirect:/store/admin/storeedit";
         }
     }
 
     // 지점 삭제하기
-    @PostMapping("/store/admin/delete/{storeCode}")
+    @PostMapping("/store/admin/storemanage/{storeCode}")
     public String adminStoreDelete(@PathVariable("storeCode") int storeCode,
                                    RedirectAttributes rttr) {
 
@@ -224,12 +212,6 @@ public class StoreController {
             rttr.addFlashAttribute("message", "선택 지점 삭제에 실패했습니다: " + e.getMessage());
             return "redirect:/store/admin/storemanage";
         }
-    }
-
-    @PostMapping("/store/admin/storemanage/{storeCode}")
-    public String deleteStore(@PathVariable("storeCode") int storeCode) {
-        storeService.deleteStore(storeCode);
-        return "redirect:/store/admin/storemanage";
     }
 
 }
