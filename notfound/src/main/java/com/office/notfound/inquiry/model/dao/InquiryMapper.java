@@ -9,5 +9,8 @@ import java.util.List;
 public interface InquiryMapper {
     List<InquiryDTO> selectAllInquiryList();
 
+    List<InquiryDTO> selectMyInquiryList(int memberCode);
+
     InquiryDTO selectInquiryByCode(int code);
+
 }
