@@ -54,12 +54,12 @@ CREATE TABLE IF NOT EXISTS tbl_member (
                                           member_name VARCHAR(20) NOT NULL COMMENT '이름',
                                           member_id VARCHAR(20) NOT NULL COMMENT '아이디',
                                           member_password VARCHAR(255) NOT NULL COMMENT '비밀번호',
-                                          member_email VARCHAR(30) NOT NULL COMMENT '이메일',
-                                          member_phone VARCHAR(100) NOT NULL COMMENT '전화번호',
+                                          member_email VARCHAR(20) NOT NULL COMMENT '이메일',
+                                          member_phone VARCHAR(20) NOT NULL COMMENT '전화번호',
                                           member_enddate DATETIME NULL COMMENT '탈퇴날짜',
                                           member_endstatus VARCHAR(20) NOT NULL DEFAULT 'N' COMMENT '탈퇴여부',
                                           CONSTRAINT pk_member_code PRIMARY KEY (member_code)
-) ENGINE=INNODB AUTO_INCREMENT = 1 , COMMENT '회원정보';
+) ENGINE=INNODB COMMENT '회원정보';
 
 
 -- 2. 권한 테이블 (tbl_authority)
@@ -140,7 +140,6 @@ CREATE TABLE tbl_payment (
                              payment_status ENUM('결제완료', '결제취소') DEFAULT '결제완료' COMMENT '결제 상태',
                              imp_uid VARCHAR(30) NOT NULL COMMENT 'API 결제번호',
                              merchant_uid VARCHAR(50) NOT NULL COMMENT '가맹점 주문번호',
-                             api_parm TEXT NOT NULL COMMENT 'API 응답 데이터',
                              FOREIGN KEY (member_code) REFERENCES tbl_member(member_code) ON DELETE CASCADE,
                              INDEX idx_payment_member_code (member_code),
                              INDEX idx_payment_status (payment_status)
@@ -202,4 +201,3 @@ CREATE TABLE tbl_review (
 );
 
 COMMIT;
-
