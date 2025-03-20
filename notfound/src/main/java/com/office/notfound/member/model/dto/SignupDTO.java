@@ -27,7 +27,7 @@ public class SignupDTO {
     private String memberEmail;
 
     @NotBlank(message = "전화번호를 입력해주세요.")
-    @Pattern(regexp = "^\\d{1,20}$", message = "전화번호는 20자리 숫자이하만 입력 가능합니다.")
+    @Pattern(regexp = "^010-\\d{4}-\\d{4}$", message = "전화번호는 반드시 010-1234-5678 형식이어야 합니다.")
     private String memberPhone;
     private LocalDateTime memberEnddate = null;  // 탈퇴 날짜 기본값 null
     private String memberEndstatus = "N";  // 기본 탈퇴 상태 'N'

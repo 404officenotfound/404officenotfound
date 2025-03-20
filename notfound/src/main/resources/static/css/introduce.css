@@ -1,0 +1,81 @@
+/* 메인 컨테이너 스타일 */
+.company-container {
+    display: flex; /* 로고와 텍스트를 가로 배치 */
+    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center; /* 세로 가운데 정렬 */
+    min-height: calc(100vh - 200px); /* 헤더/푸터 제외 높이 */
+    padding: 40px 20px;
+    gap: 20px; /* 로고와 텍스트 사이 간격 */
+}
+
+/* 로고 스타일 */
+.company-logo {
+    flex: 0 0 auto; /* 고정 크기 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.company-logo img {
+    width: 150px; /* 사진 크기 */
+    height: auto;
+}
+
+/* 텍스트 영역 */
+.company-content {
+    flex: 1; /* 남은 공간을 차지 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+    max-width: 600px; /* 텍스트 최대 너비 제한 */
+}
+
+/* 회사 제목 스타일 */
+.company-title {
+    font-size: 28px; /* 제목 크기 */
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #222;
+}
+
+/* 본문 텍스트 스타일 */
+.company-description {
+    font-size: 16px; /* 본문 텍스트 크기 */
+    line-height: 1.8; /* 줄 간격 */
+    color: #555; /* 텍스트 색상 */
+    margin-bottom: 20px;
+}
+
+.highlight {
+    color: #007bff; /* 하이라이트 효과 파란색 */
+    font-weight: bold;
+}
+
+.highlight-code {
+    color: #28a745; /* 강조 코드 초록색 */
+    font-weight: bold;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .company-container {
+        flex-direction: column; /* 좁은 화면에서는 세로 배치 */
+        gap: 15px; /* 간격 축소 */
+        padding: 20px;
+    }
+
+    .company-logo img {
+        width: 120px; /* 모바일에서 로고 크기 축소 */
+    }
+
+    .company-content {
+        max-width: 100%; /* 텍스트 폭 제한 해제 */
+    }
+
+    .company-title {
+        font-size: 24px; /* 제목 축소 */
+    }
+
+    .company-description {
+        font-size: 14px; /* 본문 텍스트 축소 */
+    }
+}
+

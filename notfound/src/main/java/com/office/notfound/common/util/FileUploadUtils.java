@@ -13,7 +13,6 @@ import java.util.UUID;
 
 public class FileUploadUtils {
 
-
     public static Map<String, String> saveStoreFile(String uploadDir, String fileName,
                                                     MultipartFile storeThumbnail,
                                                     MultipartFile storeImg1,
@@ -37,7 +36,6 @@ public class FileUploadUtils {
 
         return fileUrls; // 저장된 파일 경로 반환
     }
-
     // 개별 파일 저장을 위한 메서드
     private static String saveFile(File dir, String fileName, MultipartFile file, String prefix) throws IOException {
         if (file == null || file.isEmpty()) {
@@ -118,22 +116,20 @@ public class FileUploadUtils {
         return "/img/review/" + savedFileName;
     }
 
-    /*    public static boolean deleteReviewFile(String fileDir, String fileName) {
+/*    public static boolean deleteReviewFile(String fileDir, String fileName) {
 
             System.out.println("--- 이미지 삭제 시작 ---");
             System.out.println("fileDir = " + fileDir);
             System.out.println("fileName = " + fileName);
 
-            */
-    /* build 디렉토리 경로를 기반으로 삭제할 파일 경로 생성 *//*
-
+/* build 디렉토리 경로를 기반으로 삭제할 파일 경로 생성 */
         String projectPath = System.getProperty("user.dir") + "/notfound";;
         String buildPath = projectPath + "/build/resources/main/static/img/review";
         Path filePath = Paths.get(buildPath, fileName);
 
         try {
-            */
-    /* 파일 존재 여부 확인 후 삭제 *//*
+/* 파일 존재 여부 확인 후 삭제 */
+
 
             if (Files.exists(filePath)) {
                 Files.delete(filePath);
@@ -149,10 +145,4 @@ public class FileUploadUtils {
         return false;
     }
 */
-    public static boolean deleteReviewFile() {
-
-        System.out.println("--- 이미지 삭제는 직접 구현해보세요~ ---");
-        return false;
-    }
-
 }

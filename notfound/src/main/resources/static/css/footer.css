@@ -1,26 +1,88 @@
+/* 전체 푸터 스타일 */
 footer {
     display: flex;
-    justify-content: space-between;  /* 좌, 중, 우로 정렬 */
-    align-items: center;  /* 세로 정렬 */
-    padding: 20px;
-    background-color: #ffffff;
-    color: black;
-    text-align: center;
+    justify-content: space-between; /* 좌, 중, 우 정렬 */
+    align-items: center; /* 세로 가운데 정렬 */
+    padding: 30px 50px; /* 공간감 확보 */
+    background-color: #222; /* 어두운 배경 */
+    color: #fff; /* 글자 색을 밝게 */
+    font-family: 'Arial', sans-serif; /* 폰트 변경 */
+    font-size: 14px;
+    position: relative;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2); /* 위쪽 그림자 */
 }
 
+/* 좌측 영역 (로고 등을 포함할 수 있는 부분) */
 #logo-footer {
-    flex: 1;  /* 좌측 영역 차지 */
+    flex: 1;
     display: flex;
-    justify-content: flex-start; /* 왼쪽 정렬 */
+    justify-content: flex-start;
+    align-items: center;
+    font-weight: bold;
+    font-size: 20px; /* 강조된 크기 */
+    color: #f8b400; /* 로고 색상 (밝은 오렌지 톤) */
 }
 
+/* 중앙 텍스트 영역 */
 #middle-footer {
-    flex: 2;  /* 중앙을 더 넓게 */
+    flex: 2;
     text-align: center;
+    line-height: 1.8; /* 읽기 쉽도록 줄 간격 조정 */
+    font-size: 15px;
+    color: #ccc; /* 연한 회색 톤 */
 }
 
+#middle-footer p {
+    margin: 5px 0; /* 텍스트 간격 추가 */
+    color: #ddd; /* 조금 다른 밝기 */
+}
+
+/* 우측 상담 정보 섹션 */
 #right-footer {
-    flex: 1;  /* 우측 영역 차지 */
-    display: block; /* span을 block 요소로 변경 */
-    justify-content: flex-end; /* 오른쪽 정렬 */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* 오른쪽 정렬 */
+    font-size: 15px;
+    color: #fff;
+    text-align: right;
+}
+
+#right-footer h3 {
+    margin: 0;
+    color: #f8b400; /* 상담 번호 헤드라인 색상 */
+    font-size: 22px;
+}
+
+#right-footer h5 {
+    margin: 3px 0;
+    color: #aaa; /* 서브 텍스트 색상 */
+    font-size: 13px;
+    font-weight: normal;
+}
+
+/* 하단 구분선 */
+footer hr {
+    width: 100%;
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* 흐린 구분선 */
+    margin: 20px 0;
+}
+
+/* 반응형 처리 (화면이 좁아졌을 때) */
+@media screen and (max-width: 768px) {
+    footer {
+        flex-direction: column; /* 세로 구조로 변경 */
+        text-align: center;
+    }
+
+    #right-footer {
+        align-items: center; /* 오른쪽 영역 중앙 정렬 */
+        margin-top: 20px; /* 간격 추가 */
+    }
+
+    #logo-footer {
+        justify-content: center; /* 로고 중앙 정렬 */
+        margin-bottom: 20px; /* 간격 추가 */
+    }
 }

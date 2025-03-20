@@ -189,7 +189,38 @@
     <hr class="separator">
 
     <section class="review">
+        <div th:if="${not #lists.isEmpty(FindOfficeReview)}">
 
+            <!--<th>이미지 파일 경로</th>-->
+            <div class="card mb-3" th:each="officeReview : ${FindOfficeReview}">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img th:src="${officeReview.reviewImage}" class="img-fluid rounded-start" th:alt="|${officeReview.officeNum}호의 리뷰 이미지|">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <p class="card-text">아이디</p>
+                            <small class="text-body-secondary" th:text="${officeReview.memberId}"></small>
+                            <p class="card-text">등록일자</p>
+                            <small class="text-body-secondary" th:text="${officeReview.reviewDate}"></small>
+                            <p class="card-text">사무실 유형</p>
+                            <small class="text-body-secondary" th:text="${officeReview.officeType}"></small>
+                            <p class="card-text">사무실 호실</p>
+                            <small class="text-body-secondary" th:text="${officeReview.officeNum}"></small>
+                            <p class="card-text">평점</p>
+                            <small class="text-body-secondary" th:text="|${officeReview.reviewRating}점|"></small>
+                            <h5 class="card-title">제목</h5>
+                            <p class="card-text" th:text="${officeReview.reviewTitle}">제목에 들어갈거</p>
+                            <h5 class="card-title">내용</h5>
+                            <p class="card-text" th:text="${officeReview.reviewContent}">내용에 들어갈거</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:if="${#lists.isEmpty(FindOfficeReview)}">
+            <p> 등록된 리뷰가 없습니다. </p>
+        </div>
     </section>
 
     <hr class="separator">

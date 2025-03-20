@@ -61,10 +61,13 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="memberPhone">휴대폰</label>
-                    <input type="text" id="memberPhone" name="memberPhone" th:value="${member.memberPhone}">
+                    <label for="memberPhone">전화번호</label>
+                    <input type="text" id="memberPhone" name="memberPhone" th:value="${member.memberPhone}"  required
+                           pattern="^010-\d{4}-\d{4}$">
                     <button type="submit" class="verify-button">변경</button>
                 </div>
+
+                <small id="phoneError" style="display: none; color: red">올바른 형식으로 입력하세요. (예: 010-1234-5678)</small>
 
                 <!-- mypage.html -->
                 <div th:if="${successMessage}">
@@ -78,11 +81,13 @@
                 </div>
             </form>
 
-            <!-- 회원탈퇴 버튼 -->
-            <!-- memberCode를 data-* 속성으로 HTML에 전달 -->
-            <div id="withdrawalSection" data-member-code="${member.memberCode}" class="withdrawal-section">
-                <button type="button" class="withdrawal-button" id="withdrawalBtn">회원탈퇴</button>
+
+            <!-- 회원 탈퇴 버튼 -->
+            <div id="withdrawalSection" class="withdrawal-section">
+            <button class="withdrawal-button" onclick="document.getElementById('withdrawalModal').style.display='block'">
+                회원탈퇴</button>
             </div>
+
         </div>
     </div>
 
@@ -92,19 +97,19 @@
             <span class="close-modal">&times;</span>
             <h2>회원탈퇴</h2>
             <p>탈퇴하려면 비밀번호를 입력하세요.</p>
-            <input type="password" id="withdrawalPassword" placeholder="비밀번호 입력">
-            <button id="verifyPassword">확인</button>
-            <div id="passwordError" style="color: red; display: none;">비밀번호가 일치하지 않습니다.</div>
 
-            <div id="confirmSection" style="display: none;">
-                <p>정말로 탈퇴하시겠습니까?</p>
-                <p>탈퇴 시 모든 정보가 삭제되며 복구할 수 없습니다.</p>
-                <div class="modal-buttons">
-                    <button class="modal-confirm" id="confirmWithdrawal">탈퇴</button>
-                    <button class="modal-cancel">취소</button>
-                </div>
-            </div>
+            <!-- 탈퇴 요청 폼 -->
+            <form th:action="@{/member/withdrawal}" method="post">
+                <input type="password" name="password" id="withdrawalPassword" placeholder="비밀번호 입력" required>
+                <input type="hidden" name="memberCode" th:value="${member.memberCode}">
+                <div id="passwordError" style="color: red; display: none;">비밀번호가 일치하지 않습니다.</div>
+                <button type="submit" class="confirm-button">탈퇴 확인</button>
+                <button type="button" class="cancel-button" onclick="document.getElementById('withdrawalModal').style.display='none'">취소</button>
+            </form>
         </div>
+    </div>
+
+    </div>
     </div>
 </main>
 
@@ -141,6 +146,7 @@
                 alert("비밀번호 변경 중 오류가 발생했습니다.");
             });
     }
+
 
 
 
@@ -218,7 +224,33 @@
         passwordError.style.display = 'none'; // 에러 메시지 숨기기
     });
 
+    document.getElementById("memberPhone").addEventListener("input", function () {
+        const phoneInput = this.value;
+        const errorElement = document.getElementById("phoneError");
 
+        // 입력된 값에서 숫자만 추출
+        let numericPhone = phoneInput.replace(/[^0-9]/g, "");
+
+        // 형식에 맞게 재정렬
+        if (numericPhone.length > 3 && numericPhone.length <= 7) {
+            numericPhone = numericPhone.replace(/(\d{3})(\d{1,4})/, "$1-$2");
+        } else if (numericPhone.length > 7) {
+            numericPhone = numericPhone.replace(/(\d{3})(\d{4})(\d{1,4})/, "$1-$2-$3");
+        }
+
+        // 입력 필드에 재지정
+        this.value = numericPhone;
+
+        //  (010-####-#### 형식)
+        const phonePattern = /^010-\d{4}-\d{4}$/;
+        if (phonePattern.test(numericPhone)) {
+            errorElement.style.display = "none"; // 에러 메시지 숨기기
+            this.setCustomValidity("");          // 폼 제출 가능
+        } else {
+            errorElement.style.display = "block"; // 에러 메시지 표시
+            this.setCustomValidity("올바른 형식의 전화번호를 입력해주세요."); // 폼 제출 차단
+        }
+    });
 
 </script>
 

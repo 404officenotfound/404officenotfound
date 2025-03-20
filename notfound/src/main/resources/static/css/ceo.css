@@ -1,0 +1,64 @@
+/* 메인 컨테이너 스타일 */
+.ceo-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: calc(100vh - 200px);
+    padding: 60px 20px;
+    background-color: #fff;
+}
+
+.ceo-content {
+    max-width: 800px;
+    width: 100%;
+}
+
+/* CEO 제목 스타일 */
+.ceo-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+/* CEO 메시지 스타일 */
+.ceo-message {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #333;
+}
+
+.ceo-message p {
+    margin-bottom: 25px;
+}
+
+/* CEO 서명 */
+.ceo-signature {
+    text-align: right;
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 40px;
+    color: #333;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .ceo-container {
+        padding: 40px 20px;
+    }
+
+    .ceo-title {
+        font-size: 24px;
+        margin-bottom: 30px;
+    }
+
+    .ceo-message {
+        font-size: 14px;
+    }
+
+    .ceo-signature {
+        font-size: 16px;
+        margin-top: 30px;
+    }
+}

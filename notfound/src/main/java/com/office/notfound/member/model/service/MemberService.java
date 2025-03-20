@@ -1,5 +1,6 @@
 package com.office.notfound.member.model.service;
 
+
 import com.office.notfound.member.model.dao.MemberMapper;
 import com.office.notfound.member.model.dto.AuthorityDTO;
 import com.office.notfound.member.model.dto.MemberAuthorityDTO;
@@ -12,9 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class MemberService {
@@ -22,11 +21,14 @@ public class MemberService {
     private final MemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
 
+
     @Autowired
-    public MemberService(MemberMapper memberMapper, PasswordEncoder passwordEncoder) {
+    public MemberService(MemberMapper memberMapper,
+                         PasswordEncoder passwordEncoder) {
         this.memberMapper = memberMapper;
         this.passwordEncoder = passwordEncoder;
     }
+
 
     @Transactional
     public Integer regist(SignupDTO signupDTO) {
@@ -124,7 +126,7 @@ public class MemberService {
         memberMapper.updatemember(updateMember);
     }
 
-    // 관리자가 회원 정보 수정
+    // 관리자 회원 정보 수정
     @Transactional
     public void updateAdmin(MemberDTO updateAdminMember) {
         if (updateAdminMember.getMemberAuthorities() == null) {
@@ -150,7 +152,6 @@ public class MemberService {
         return isPasswordCorrect;
     }
 
-
     // 회원 탈퇴
     @Transactional
     public boolean withdraw(int memberCode) {
@@ -161,17 +162,96 @@ public class MemberService {
 
         return result > 0; // 업데이트된 행이 1 이상이어야 성공
     }
+
     // ID찾기
     public String findMemberIdByNameAndEmail(String memberName, String memberEmail) {
         return memberMapper.findMemberIdByNameAndEmail(memberName, memberEmail);
     }
-
+    // 비밀번호 변경
     @Transactional
     public void updatePassword(int memberCode, String newPassword) {
+        // 비밀번호 암호화
+        String encryptedPassword = passwordEncoder.encode(newPassword);
+
+        // 디버깅 로그
+        System.out.println("암호화된 새 비밀번호: " + encryptedPassword);
+
+        // 데이터베이스 업데이트
+        int rowsUpdated = memberMapper.updatePassword(memberCode, encryptedPassword);
+        if (rowsUpdated == 0) {
+            throw new RuntimeException("비밀번호 변경 실패: 데이터베이스에 저장되지 않았습니다.");
+        }
+    }
+
+
+    //비밀번호 변경
+    @Transactional
+    public void changePassword(int memberCode, String currentPassword, String newPassword) {
+        // 사용자 조회
+        MemberDTO member = memberMapper.findMemberByCode(memberCode);
+        if (member == null) {
+            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
+        }
+
+        // 현재 비밀번호 검증(현재 비밀번호 = 인증번호 확인)
+        if (!Objects.equals(member.getMemberPassword(), currentPassword)) {
+            throw new IllegalArgumentException("현재 비밀번호가 일치하지 않습니다.");
+        }
+
+        // 새 비밀번호 저장 (암호화 후 저장)
         String encryptedPassword = passwordEncoder.encode(newPassword);
         memberMapper.updatePassword(memberCode, encryptedPassword);
     }
+
+    @Transactional
+    public String resetPassword(String memberId, String memberName, String memberEmail) {
+        // 디버깅 추가
+        System.out.println("resetPassword 호출 - 입력된 데이터: memberId=" + memberId +
+                ", memberName=" + memberName + ", memberEmail=" + memberEmail);
+
+        // 사용자 조회
+        MemberDTO member = memberMapper.findMemberByIdNameEmail(memberId, memberName, memberEmail);
+        if (member == null) {
+            throw new IllegalArgumentException("입력하신 정보와 일치하는 계정을 찾을 수 없습니다.");
+        }
+        System.out.println("사용자 조회 성공 - memberId=" + member.getMemberId());
+
+        // 6자리 비밀번호 생성
+        String newPassword = generateRandomPassword(6);
+        System.out.println("생성된 새로운 비밀번호: " + newPassword);
+
+        // 비밀번호 암호화
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        System.out.println("암호화된 비밀번호: " + encodedPassword);
+
+        // DB 업데이트
+        int rowsUpdated = memberMapper.resetPassword(memberId, memberName, memberEmail, encodedPassword);
+        if (rowsUpdated == 0) {
+            throw new RuntimeException("비밀번호를 업데이트하는 데 실패했습니다.");
+        }
+        System.out.println("비밀번호 DB 업데이트 성공");
+
+        return newPassword; // 사용자에게 변경된 비밀번호 반환
+    }
+
+
+    private String generateRandomPassword(int length) {
+        String charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        Random random = new Random();
+        StringBuilder newPassword = new StringBuilder();
+
+        for (int i = 0; i < length; i++) {
+            int randomIndex = random.nextInt(charSet.length());
+            newPassword.append(charSet.charAt(randomIndex));
+        }
+        return newPassword.toString();
+    }
+
+
 }
+
+
+
 
 
 
