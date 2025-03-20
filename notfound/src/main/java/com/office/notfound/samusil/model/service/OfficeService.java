@@ -11,6 +11,8 @@ import java.util.List;
 public class OfficeService {
 
     private final OfficeMapper officeMapper;
+    
+    private StoreMapper storeMapper;
 
     @Autowired
     public OfficeService(OfficeMapper officeMapper) {
@@ -27,5 +29,33 @@ public class OfficeService {
         OfficeDTO office = officeMapper.findOfficeDetail(officeCode);
 
         return office;
+    }
+  
+  public OfficeDTO findOfficeByStore(int storeCode, int officeCode) {
+
+        return officeMapper.findOfficeByStore(storeCode, officeCode);
+    }
+  
+  @Transactional
+    public void updateOffice(OfficeDTO office) {
+        officeMapper.updateOffice(office);
+    }
+
+    @Transactional
+    public void deleteOffice(int officeCode) {
+
+        try {
+            // officeCode에 해당하는 사무실이 해당 store에 속하는지 검증
+            // 예를 들어: officeCode와 storeCode로 사무실을 삭제하는 경우
+            int deleteCount = officeMapper.deleteOffice(officeCode);
+
+            if (deleteCount == 0) {
+                throw new IllegalArgumentException("해당 사무실을 삭제할 수 없습니다.");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("사무실 삭제 중 오류가 발생했습니다.", e);
+        }
+
+        officeMapper.deleteStore(officeCode);
     }
 }

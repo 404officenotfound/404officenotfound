@@ -6,6 +6,8 @@ import com.office.notfound.samusil.model.dto.OfficeDTO;
 import com.office.notfound.samusil.model.service.OfficeService;
 import com.office.notfound.store.model.dto.StoreDTO;
 import com.office.notfound.store.model.service.StoreService;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.catalina.Store;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -55,9 +57,10 @@ public class StoreController {
         // 사무실 상세 리스트 내 리뷰 조회용
         List<OfficeReviewDTO> FindOfficeReview = reviewService.findOfficeReview(storeCode);
 
-
         // 모델에 해당 매장 정보를 담아 상세 페이지를 반환
         model.addAttribute("store", store);
+        model.addAttribute("latitude", store.getLatitude());
+        model.addAttribute("longitude", store.getLongitude());
         model.addAttribute("officeList", officeList);
         model.addAttribute("FindOfficeReview", FindOfficeReview);
 
@@ -87,44 +90,19 @@ public class StoreController {
     @PostMapping("store/admin/storecreate")
     public String adminStoreCreate(@ModelAttribute StoreDTO store,
                                    @RequestParam("storeThumbnail") MultipartFile storeThumbnail,
-                                   @RequestParam("storeImg1") MultipartFile storeImg1,
-                                   @RequestParam("storeImg2") MultipartFile storeImg2,
-                                   @RequestParam("storeImg3") MultipartFile storeImg3,
+                                   @RequestParam(value = "storeImg1", required = false) MultipartFile storeImg1,
+                                   @RequestParam(value = "storeImg2", required = false) MultipartFile storeImg2,
+                                   @RequestParam(value = "storeImg3", required = false) MultipartFile storeImg3,
                                    RedirectAttributes rttr) {
-
-//        try {
-//            // 파일 저장 로직 (예: 로컬 디렉토리 저장)
-//            String uploadDir = "C:\\MyWs\\404officesemi\\notfound\\src\\main\\resources\\static\\img\\store";
-//
-//            if (!storeThumbnail.isEmpty()) {
-//                String thumbnailPath = uploadDir + storeThumbnail.getOriginalFilename();
-//                storeThumbnail.transferTo(new File(thumbnailPath));
-//                storeDTO.setStoreThumbnail(thumbnailPath);
-//            }
-//
-//            if (!storeImg1.isEmpty()) {
-//                String img1Path = uploadDir + storeImg1.getOriginalFilename();
-//                storeImg1.transferTo(new File(img1Path));
-//                storeDTO.setStoreImg1(img1Path);
-//            }
-//
-//            if (!storeImg2.isEmpty()) {
-//                String img2Path = uploadDir + storeImg2.getOriginalFilename();
-//                storeImg2.transferTo(new File(img2Path));
-//                storeDTO.setStoreImg2(img2Path);
-//            }
-//
-//            if (!storeImg3.isEmpty()) {
-//                String img3Path = uploadDir + storeImg3.getOriginalFilename();
-//                storeImg3.transferTo(new File(img3Path));
-//                storeDTO.setStoreImg3(img3Path);
-//            }
 
         try {
             storeService.createStore(store, storeThumbnail, storeImg1, storeImg2, storeImg3);
             rttr.addFlashAttribute("message", "새 지점 등록을 성공하였습니다.");
             // 지점 등록 성공 후 이동하는 페이지는 디폴트
             return "redirect:/store/admin/storemanage";
+        } catch (IllegalArgumentException e) {
+            rttr.addFlashAttribute("message", e.getMessage());
+            return "redirect:/store/admin/storecreate";
         } catch (Exception e) {
             rttr.addFlashAttribute("message", "새 지점 등록에 실패했습니다: " + e.getMessage());
             return "redirect:/store/admin/storecreate";
@@ -160,9 +138,12 @@ public class StoreController {
 
     @GetMapping("/store/storeregion/search")
     @ResponseBody
-    public List<StoreDTO> getStoresByRegion(@RequestParam String city,
-                                            @RequestParam String gu) {
-        return storeService.findStoresByCityAndGu(city, gu);
+    public List<StoreDTO> getStoresByRegion(@RequestParam(required = false) String city,  // city는 optional
+                                            @RequestParam String gu) {  // gu는 필수값
+        System.out.println("선택한 지역구: " + gu);
+        List<StoreDTO> stores = storeService.findStoresByCityAndGu(city, gu);
+        System.out.println("결과 스토어 리스트: " + stores); // 디버깅용 출력
+        return stores;
     }
 
     // 지점 수정 페이지 넘어가기
@@ -184,18 +165,23 @@ public class StoreController {
     @PostMapping("/store/admin/storeedit/{storeCode}")
     public String adminStoreEdit(@PathVariable("storeCode") int storeCode,
                                  @ModelAttribute StoreDTO store,
+                                 @RequestParam(value = "newImage", required = false) MultipartFile newImage,
                                  RedirectAttributes rttr) {
 
-        store.setStoreCode(storeCode);
-        storeService.updateStore(store);
-
         try {
+            if (store.getStoreName() == null || store.getStoreAddress() == null) {
+                throw new IllegalArgumentException("필수 입력 데이터가 누락되었습니다.");
+            }
+
+            store.setStoreCode(storeCode);
+            storeService.updateStore(store, newImage);
             rttr.addFlashAttribute("message", "지점 정보 수정을 성공하였습니다.");
             // 지점 수정 성공 후 이동하는 페이지는 디폴트
             return "redirect:/store/admin/storemanage";
         } catch (Exception e) {
+            e.printStackTrace();
             rttr.addFlashAttribute("message", "지점 정보 수정에 실패했습니다: " + e.getMessage());
-            return "redirect:/store/admin/storeedit";
+            return "redirect:/store/admin/storeedit/" + storeCode;
         }
     }
 
@@ -214,4 +200,9 @@ public class StoreController {
         }
     }
 
+    @PostMapping("/store/admin/storemanage/{storeCode}")
+    public String deleteStore(@PathVariable("storeCode") int storeCode) {
+        storeService.deleteStore(storeCode);
+        return "redirect:/store/admin/storemanage";
+    }
 }

@@ -102,9 +102,11 @@ public class FileUploadUtils {
 
         /* 저장할 파일 이름 생성 */
         String savedFileName = imageName + ext;
+        System.out.println("savedFileName------------->" + savedFileName);
 
         /* 저장할 파일 경로 생성 */
         File target = new File(dir, savedFileName);
+        System.out.println("target---------> = " + target);
 
         /* 파일 저장 */
         reviewThumbnail.transferTo(target);
@@ -113,20 +115,6 @@ public class FileUploadUtils {
         return "/img/review/" + savedFileName;
     }
 
-    //    /* 이미지 삭제 기능은 SpringBoot 파일 업로드 기능을 복습하며 직접 구현해보세요~ */
-//    public static void deleteFile(String filePath) {
-//
-//        File file = new File(filePath);
-//        if (file.exists()) {
-//            if(!file.delete()) {
-//                throw new IOException("파일 삭제에 실패했습니다: " + filePath);
-//            }
-//        } else {
-//            throw new IOException("삭제할 파일을 찾을 수 없습니다: " + filePath);
-//        }
-//
-//        return ;
-//    }
     public static boolean deleteReviewFile(String fileDir, String fileName) {
         System.out.println("--- 이미지 삭제 시작 ---");
         System.out.println("fileDir = " + fileDir);

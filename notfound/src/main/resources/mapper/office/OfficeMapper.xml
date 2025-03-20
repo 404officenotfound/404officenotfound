@@ -35,7 +35,16 @@
             tbl_office
         WHERE
             office_code = #{officeCode}
-            LIMIT 1;
+        LIMIT 1;
     </select>
+    <select id="getOfficeListByStore" resultType="com.office.notfound.samusil.model.dto.OfficeDTO">
+        SELECT office_code,
+               office_num
+        FROM tbl_office WHERE store_code = #{storeCode}
+    </select>
+    <delete id="deleteOfficeByStoreAndOfficeCode" parameterType="int">
+        DELETE FROM tbl_office
+        WHERE store_code = #{storeCode} AND office_code = #{officeCode}
+    </delete>
 
 </mapper>
