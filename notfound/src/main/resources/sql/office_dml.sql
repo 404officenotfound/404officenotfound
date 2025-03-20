@@ -42,7 +42,7 @@ VALUES ('건대입구역 점', '서울', '광진구', '능동로 87', 37.539044,
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/2502/average-bartable.webp');
 INSERT INTO tbl_store (store_name, store_city, store_gu, store_address, latitude, longitude, description, store_thumbnail_url, store_img1_url, store_img2_url, store_img3_url)
 VALUES ('홍대입구역 점', '서울', '마포구', '양화로 188', 37.557855, 126.926266,
-        '지하철 역사와 연결되어 있어서 날씨와 상관 없이 접근 가능.',
+        '라운지 공용 커피머신 외 입주사 사무실 마다 네스프레소 캡슐 커피 머신 제공.',
         'https://biz.chosun.com/resizer/v2/BVYQ6E247BFJJJBLY7UM6ZAO7I.jpg?auth=6f6153a65fe26ae528c6bd663ba361d7ca587edceeb384ed25a5a48d6021bec9&width=616',
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/2502/average-sofa.webp',
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/2502/average-meetingroom.webp',
@@ -63,7 +63,7 @@ VALUES ('서울숲 점', '서울', '성동구', '성수동 1가', 37.545016, 127
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/sec-lounge_picture-slide01.jpg');
 INSERT INTO tbl_store (store_name, store_city, store_gu, store_address, latitude, longitude, description, store_thumbnail_url, store_img1_url, store_img2_url, store_img3_url)
 VALUES ('디지털미디어시티역 점', '서울', '마포구', '성암로 179', 37.576153, 126.898829,'지하철 역 출구 바로 앞 큰길에 위치에 접근성 최상. 라운지 한 켠에 집중을 위한 독방 구비.',
-        'https://postfiles.pstatic.net/MjAxOTExMjJfMTc2/MDAxNTc0NDAwNTg1OTk0.c5TjZYl20F3JjCYjCDE8szKCCyKUpmWquJHnZA1lHOgg.8WxoMOHzX1J4RSRH81mxEIn6i-NZTgtalF-tOGI7USAg.JPEG.knscoco/1574400584801.jpg?type=w966',
+        'https://img.freepik.com/premium-photo/low-angle-view-modern-building-against-clear-blue-sky_1048944-9517699.jpg?w=740',
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/2502/average-focusroom.webp',
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/sec-lounge_picture-slide05.jpg',
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/sec-lounge_picture-slide01.jpg');
@@ -108,7 +108,7 @@ VALUES ('중앙로 점', '대구', '중구', '국채보상로 586 교보생명 �
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/sec-lounge_picture-slide06.jpg');
 INSERT INTO tbl_store (store_name, store_city, store_gu, store_address, latitude, longitude, description, store_thumbnail_url, store_img1_url, store_img2_url, store_img3_url)
 VALUES ('라페스타 점', '경기', '고양시 일산동구', '무궁화로 32-34 라페스타', 37.661203, 126.768914, '입주사 한정 고객 라페스타 건물 내 롯데시네마 주1회 50%할인 중.',
-        '라운지 공용 커피머신 외 입주사 사무실 마다 네스프레소 캡슐 커피 머신 제공.',
+        'https://www.kbgoldenlifex.com/senior/img/upload/20211111112356882.jpg',
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/sec-lounge_picture-slide05.jpg',
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/2502/average-bartable.webp',
         'https://sparkplus20241.cafe24.com/sparkpluskr/lounge/sec-lounge_picture-slide06.jpg');
@@ -133,65 +133,107 @@ VALUES
     (1, '1인실', '101', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (1, '4인실', '102', 1500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (1, '10인실', '103', 4000000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (1, '1인실', '104', 550000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (1, '4인실', '105', 1600000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (1, '1인실', '104', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (1, '4인실', '105', 1600000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
     (1, '10인실', '106', 4200000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
 
-    (2, '1인실', '201', 550000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (2, '1인실', '201', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (2, '4인실', '202', 1500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (2, '10인실', '203', 4000000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (2, '1인실', '204', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (2, '4인실', '205', 1550000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (2, '4인실', '205', 1550000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
     (2, '10인실', '206', 4300000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
 
     (3, '1인실', '301', 480000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (3, '4인실', '302', 1600000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (3, '10인실', '303', 4200000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (3, '1인실', '304', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (3, '4인실', '305', 1550000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (3, '4인실', '305', 1550000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
     (3, '10인실', '306', 4300000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
 
-    (4, '1인실', '401', 520000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (4, '1인실', '401', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (4, '4인실', '402', 1500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (4, '10인실', '403', 4200000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (4, '1인실', '404', 490000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (4, '4인실', '405', 1600000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (4, '1인실', '404', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (4, '4인실', '405', 1600000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
     (4, '10인실', '406', 4300000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
 
-    (5, '1인실', '501', 480000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (5, '1인실', '501', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (5, '4인실', '502', 1500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (5, '10인실', '503', 4000000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (5, '1인실', '504', 550000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (5, '4인실', '505', 1600000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (5, '1인실', '504', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (5, '4인실', '505', 1600000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
     (5, '10인실', '506', 4200000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
 
     (6, '1인실', '601', 480000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (6, '4인실', '602', 1550000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (6, '10인실', '603', 4000000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (6, '1인실', '604', 470000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (6, '4인실', '605', 1600000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (6, '4인실', '605', 1600000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
     (6, '10인실', '606', 4200000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
 
     (7, '1인실', '701', 470000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (7, '4인실', '702', 1450000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (7, '4인실', '702', 1450000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
     (7, '10인실', '703', 4000000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (7, '1인실', '704', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (7, '4인실', '705', 1550000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (7, '4인실', '705', 1550000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
     (7, '10인실', '706', 4200000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
 
     (8, '1인실', '801', 490000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (8, '4인실', '802', 1500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (8, '4인실', '802', 1500000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
     (8, '10인실', '803', 4000000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (8, '1인실', '804', 470000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (8, '4인실', '805', 1600000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (8, '4인실', '805', 1600000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
     (8, '10인실', '806', 4300000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
 
     (9, '1인실', '901', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (9, '4인실', '902', 1550000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (9, '4인실', '902', 1550000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
     (9, '10인실', '903', 4000000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (9, '1인실', '904', 480000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (9, '4인실', '905', 1600000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-    (9, '10인실', '906', 4200000, 'http://www.dodreamoffice.com/img/why_img1.jpg');
+    (9, '한 층 전체', '905', 1600000, 'https://sparkplus20241.cafe24.com/sparkpluskr/office/usage-img03.jpg'),
+    (9, '10인실', '906', 4200000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+
+    (10, '1인실', '901', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (10, '4인실', '902', 1550000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (10, '10인실', '903', 4000000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (10, '1인실', '904', 480000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (10, '4인실', '905', 1600000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (10, '10인실', '906', 4200000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+
+    (11, '1인실', '901', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (11, '4인실', '902', 1550000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (11, '10인실', '903', 4000000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (11, '1인실', '904', 480000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (11, '4인실', '905', 1600000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (11, '한 층 전체', '906', 4200000, 'https://sparkplus20241.cafe24.com/sparkpluskr/office/usage-img03.jpg'),
+
+    (12, '1인실', '901', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (12, '4인실', '902', 1550000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
+    (12, '10인실', '903', 4000000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (12, '1인실', '904', 480000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (12, '4인실', '905', 1600000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
+    (12, '10인실', '906', 4200000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+
+    (13, '1인실', '901', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (13, '4인실', '902', 1550000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
+    (13, '10인실', '903', 4000000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (13, '1인실', '904', 480000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (13, '4인실', '905', 1600000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
+    (13, '10인실', '906', 4200000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+
+    (14, '1인실', '901', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (14, '4인실', '902', 1550000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
+    (14, '10인실', '903', 4000000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (14, '1인실', '904', 480000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (14, '4인실', '905', 1600000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
+    (14, '10인실', '906', 4200000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+
+    (15, '1인실', '901', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (15, '4인실', '902', 1550000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
+    (15, '10인실', '903', 4000000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (15, '1인실', '904', 480000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (15, '4인실', '905', 1600000, 'http://www.dodreamoffice.com/office/img/oneday_four.jpg'),
+    (15, '10인실', '906', 4200000, 'http://www.dodreamoffice.com/img/why_img1.jpg');
 
 
 INSERT INTO tbl_reservation (member_code, office_code, start_datetime, end_datetime, total_price, reservation_status)
