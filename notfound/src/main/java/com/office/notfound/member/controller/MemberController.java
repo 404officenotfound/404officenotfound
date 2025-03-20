@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -279,6 +280,14 @@ public class MemberController {
         }
     }
 
+    // 모든 회원 리스트를 가져와서 페이지에 전달
+    @GetMapping("/list")
+    public String listMembers(Model model) {
+        // 서비스에서 회원 데이터 가져오기
+        List<MemberDTO> members = memberService.getAllMembers();
+        model.addAttribute("members", members);
+        return "member/list"; // 회원 리스트 페이지와 연결
+    }
 
 
 

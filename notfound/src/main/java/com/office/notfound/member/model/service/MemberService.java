@@ -247,6 +247,10 @@ public class MemberService {
         return newPassword.toString();
     }
 
+    // 모든 회원 정보를 반환하는 메서드
+    public List<MemberDTO> getAllMembers() {
+        return memberMapper.findAllMembers();
+    }
 
 }
 
