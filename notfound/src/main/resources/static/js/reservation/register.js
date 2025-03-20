@@ -8,7 +8,7 @@ const officePrice = parseInt(document.getElementById("officePrice").value);
 // KST (한국 시간) 기준으로 날짜 설정
 const koreaTimeOffset = 9 * 60 * 60 * 1000;
 const now = new Date(Date.now() + koreaTimeOffset);
-const today = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1); // 🔹 당일 예약 불가
+const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
 // 📅 달력 렌더링
 document.addEventListener("DOMContentLoaded", function () {
@@ -35,7 +35,6 @@ function renderCalendar() {
         const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
         const dateString = date.toISOString().split("T")[0];
 
-        // 🔹 당일 예약 불가 (오늘 날짜 + 1일부터 활성화)
         const isDisabled = date < today;
 
         calendarHtml += `
@@ -72,15 +71,28 @@ function prevMonth() {
 
 // 📅 날짜 선택
 function selectDate(button) {
-    selectedDate = button.dataset.date;
+    selectedDate = adjustToKST(button.dataset.date);
     document.querySelectorAll("#calendar button").forEach((btn) => btn.classList.remove("selected"));
     button.classList.add("selected");
 
-    fetchAvailableTimeSlots();
+    console.log("✅ 선택한 날짜 (KST 기준):", selectedDate); // 🔹 디버깅 로그
+    fetchBookedTimeSlots();
 }
 
-// ⏰ 예약 가능 시간 조회
-function fetchAvailableTimeSlots() {
+// ✅ KST 변환 함수 (UTC → KST 조정)
+function adjustToKST(dateString) {
+    let [year, month, day] = dateString.split("-").map(Number);
+
+    // ✅ UTC 기준 날짜를 직접 KST로 변환
+    let date = new Date(Date.UTC(year, month - 1, day, 0, 0, 0));  // UTC+0 기준으로 00:00:00
+    date.setHours(date.getHours() + 9); // 🔹 KST 변환 (UTC+9)
+
+    // 🔥 날짜를 YYYY-MM-DD 형식으로 변환하여 반환
+    return date.toISOString().split("T")[0];
+}
+
+// 📌 예약된 시간 불러오기
+function fetchBookedTimeSlots() {
     fetch("/api/reservations/available-times", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -88,39 +100,32 @@ function fetchAvailableTimeSlots() {
     })
         .then((response) => response.json())
         .then((data) => {
-            if (!data || !Array.isArray(data.availableTimes) || !Array.isArray(data.bookedTimes)) {
-                console.error("❌ 예약 가능 시간 데이터가 올바르지 않습니다:", data);
+            if (!data || !Array.isArray(data.bookedTimes)) {
+                console.error("❌ 예약된 시간 데이터가 올바르지 않습니다:", data);
                 return;
             }
-
-            renderTimeSlots(data.availableTimes, data.bookedTimes);
+            renderTimeSlots(data.bookedTimes);
         })
-        .catch((error) => console.error("❌ 예약 가능 시간 조회 실패:", error));
+        .catch((error) => console.error("❌ 예약된 시간 조회 실패:", error));
 }
 
-// 🕒 시간대 렌더링 (예약된 시간대 비활성화)
-function renderTimeSlots(availableTimes, bookedTimes) {
+// 🕒 시간대 렌더링 (예약된 시간 비활성화)
+function renderTimeSlots(bookedTimes) {
     const timeGrid = document.getElementById("timeGrid");
     let timeHtml = "";
 
     for (let hour = 0; hour < 24; hour += 2) {
         const timeSlot = `${hour.toString().padStart(2, "0")}:00`;
 
-        // ✅ 예약된 시간인지 체크 (startTime~endTime 범위 포함)
-        const isBooked = bookedTimes.some((bookedRange) => {
-            const [bookedStart, bookedEnd] = bookedRange.split("~").map((t) => parseInt(t.split(":")[0]));
-            return hour >= bookedStart && hour < bookedEnd;
-        });
-
-        // ✅ 예약 가능한 시간인지 체크
-        const isAvailable = availableTimes.includes(timeSlot);
+        // ✅ 예약된 시간인지 체크하여 버튼 비활성화
+        const isBooked = bookedTimes.includes(timeSlot);
 
         timeHtml += `
             <button type="button" 
                     class="time-slot ${isBooked ? "booked" : ""}" 
                     data-time="${timeSlot}"
                     onclick="toggleTimeSlot(this)"
-                    ${!isAvailable || isBooked ? "disabled" : ""}>
+                    ${isBooked ? "disabled" : ""}>
                 ${timeSlot}
             </button>
         `;
@@ -129,26 +134,25 @@ function renderTimeSlots(availableTimes, bookedTimes) {
     timeGrid.innerHTML = timeHtml;
 }
 
+// ✅ 버튼 클릭 시 선택 / 취소 (토글 기능)
 function toggleTimeSlot(button) {
-    const time = button.dataset.time;
-    const hour = parseInt(time.split(":")[0]);
+    if (button.disabled) return; // 🔥 이미 예약된 시간은 클릭 방지
 
+    const time = button.dataset.time;
     const existingIndex = selectedTimeSlots.findIndex((slot) => slot.startTime === time);
 
-    // ✅ 선택된 버튼이면 해제
     if (existingIndex !== -1) {
+        // 🛑 선택한 시간 취소
         selectedTimeSlots.splice(existingIndex, 1);
         button.classList.remove("selected");
-        button.disabled = false; // 선택 해제하면 다시 활성화
-        updateTimeSlotState(); // UI 업데이트
-        updateReservationSummary(); // 예약 정보 업데이트
+        button.disabled = false;
+        updateReservationSummary();
         return;
     }
 
-    let endHour = hour + 1;
-    let endMinute = 59; // 🔹 1시간 59분 설정
+    let endHour = parseInt(time.split(":")[0]) + 1;
+    let endMinute = 59;
 
-    // 🔹 `24:00` 방지: `23:59`로 변환
     if (endHour >= 24) {
         endHour = 23;
         endMinute = 59;
@@ -159,43 +163,36 @@ function toggleTimeSlot(button) {
         endTime: `${endHour.toString().padStart(2, "0")}:${endMinute.toString().padStart(2, "0")}`,
     };
 
-    // ✅ **연속된 시간인지 체크 (오차 범위 5분까지 허용)**
     if (selectedTimeSlots.length === 0 || isSequential(newSlot, selectedTimeSlots)) {
         selectedTimeSlots.push(newSlot);
         selectedTimeSlots.sort((a, b) => getTotalMinutes(a.startTime) - getTotalMinutes(b.startTime));
         button.classList.add("selected");
     } else {
-        alert("연속된 시간(오차 범위 5분 이내)만 선택할 수 있습니다.");
+        alert("연속된 시간만 선택할 수 있습니다.");
         return;
     }
 
-    updateTimeSlotState(); // ✅ 선택된 시간대 전부 비활성화 적용
     updateReservationSummary();
 }
 
+// ✅ UI 업데이트: 예약 정보 업데이트
+function updateReservationSummary() {
+    const summary = document.querySelector(".reservation-summary");
 
-// 🛑 **선택한 시간대 모두 비활성화 (연속된 시간 포함)**
-function updateTimeSlotState() {
-    document.querySelectorAll(".time-slot").forEach((btn) => {
-        const slotTime = btn.dataset.time;
-        const slotHour = parseInt(slotTime.split(":")[0]);
+    if (selectedDate && selectedTimeSlots.length > 0) {
+        document.getElementById("selectedDate").textContent = selectedDate;
+        document.getElementById("selectedTimes").textContent = selectedTimeSlots
+            .map((slot) => slot.startTime)
+            .join(", ");
+        document.getElementById("totalPrice").textContent = (selectedTimeSlots.length * officePrice).toLocaleString();
 
-        // ✅ 예약된 시간인지 확인 (이미 예약된 시간대는 booked 클래스가 있음)
-        const isBooked = btn.classList.contains("booked");
-
-        // ✅ 선택된 시간대 안에 포함되면 비활성화
-        const isSelected = selectedTimeSlots.some((slot) => {
-            const startHour = parseInt(slot.startTime.split(":")[0]);
-            const endHour = parseInt(slot.endTime.split(":")[0]);
-            return slotHour >= startHour && slotHour < endHour;
-        });
-
-        // 🚀 **예약된 시간대 또는 선택된 시간대는 비활성화**
-        btn.disabled = isBooked || isSelected;
-    });
+        summary.style.display = "block";
+    } else {
+        summary.style.display = "none";
+    }
 }
 
-// 🔄 연속된 시간인지 체크하는 함수 (오차 범위 5분 허용)
+// ✅ 연속된 시간인지 확인하는 함수
 function isSequential(newSlot, slots) {
     if (slots.length === 0) return true;
 
@@ -205,12 +202,10 @@ function isSequential(newSlot, slots) {
         const newStartTimeMinutes = getTotalMinutes(newSlot.startTime);
         const newEndTimeMinutes = getTotalMinutes(newSlot.endTime);
 
-        // 🚀 **연속된 시간인지 확인 (오차 범위 5분까지 허용)**
         if (Math.abs(newStartTimeMinutes - endTimeMinutes) <= 5 || Math.abs(newEndTimeMinutes - startTimeMinutes) <= 5) {
             return true;
         }
     }
-
     return false;
 }
 
@@ -220,17 +215,14 @@ function getTotalMinutes(time) {
     return hour * 60 + minute;
 }
 
-// 📝 예약 정보 업데이트 (가격 계산 수정)
+// 📝 예약 정보 업데이트
 function updateReservationSummary() {
     const summary = document.querySelector(".reservation-summary");
 
     if (selectedDate && selectedTimeSlots.length > 0) {
-        const startTime = selectedTimeSlots[0].startTime;
-        const endTime = selectedTimeSlots[selectedTimeSlots.length - 1].endTime;
-
         document.getElementById("selectedDate").textContent = selectedDate;
-        document.getElementById("selectedTimes").textContent = `${startTime} ~ ${endTime}`;
-        document.getElementById("totalPrice").textContent = (selectedTimeSlots.length * 2 * officePrice).toLocaleString();
+        document.getElementById("selectedTimes").textContent = selectedTimeSlots.map((slot) => slot.startTime).join(", ");
+        document.getElementById("totalPrice").textContent = (selectedTimeSlots.length * officePrice).toLocaleString();
 
         summary.style.display = "block";
     } else {
@@ -245,7 +237,6 @@ function submitReservation() {
         return;
     }
 
-    // 🔹 예약 확인 메시지
     const confirmReservation = confirm(
         `📅 날짜: ${selectedDate}\n🕒 시간: ${selectedTimeSlots[0].startTime} ~ ${selectedTimeSlots[selectedTimeSlots.length - 1].endTime}\n💰 총 금액: ${document.getElementById("totalPrice").textContent} 원\n\n예약을 진행하시겠습니까?`
     );
@@ -254,18 +245,20 @@ function submitReservation() {
         return;
     }
 
+    // 🔹 서버로 보낼 배열 생성
+    const reservations = selectedTimeSlots.map(slot => ({
+        officeCode: officeCode,
+        reservationDate: selectedDate,
+        startTime: slot.startTime,
+        endTime: slot.endTime,
+        totalPrice: officePrice
+    }));
 
-    // 🔹 서버로 예약 데이터 전송
+    // 🔹 서버로 예약 데이터 전송 (배열 형태)
     fetch("/api/reservations/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            officeCode,
-            reservationDate: selectedDate,
-            startTime: selectedTimeSlots[0].startTime,
-            endTime: selectedTimeSlots[selectedTimeSlots.length - 1].endTime,
-            totalPrice: document.getElementById("totalPrice").textContent.replace(/,/g, ""),
-        }),
+        body: JSON.stringify({ reservations }), // ✅ 배열 형태로 전송
     })
         .then((response) => response.json())
         .then((result) => {
