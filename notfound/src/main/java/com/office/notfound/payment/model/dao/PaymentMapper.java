@@ -5,18 +5,17 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface PaymentMapper {
     List<PaymentDTO> searchPayment(@Param("memberCode") Integer memberCode,
+                                   @Param("paymentCode") Integer paymentCode,
                                    @Param("paymentDate") String paymentDate,
                                    @Param("startDate") String startDate,
                                    @Param("endDate") String endDate);
+
     List<PaymentDTO> findAllPayments(@Param("memberCode") Integer memberCode);
-
-    void insertPayment(PaymentDTO payment);
-
-    void insertReservationPayment(int reservationCode, int paymentCode);
 
     int getReservationPrice(int reservationCode);
 
@@ -25,4 +24,16 @@ public interface PaymentMapper {
     PaymentDTO findPaymentById(int paymentCode);
 
     int getReservationCodeByPayment(@Param("paymentCode") int paymentCode);
+
+    List<Integer> getReservationCodesByPayment(@Param("paymentCode") int paymentCode);
+
+    void insertPayment(PaymentDTO paymentDTO);
+
+    void insertReservationPayment(Map<String, Integer> paramMap);
+
+    List<PaymentDTO> searchAdminPayment(@Param("paymentCode") Integer paymentCode,
+                                        @Param("memberCode") Integer memberCode,
+                                        @Param("paymentDate") String paymentDate,
+                                        @Param("startDate") String startDate,
+                                        @Param("endDate") String endDate);
 }

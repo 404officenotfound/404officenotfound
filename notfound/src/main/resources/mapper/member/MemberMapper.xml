@@ -205,6 +205,21 @@
           AND member_email = #{memberEmail}
     </select>
 
+    <!-- 모든 회원 정보 조회 -->
+    <select id="findAllMembers" resultMap="authenticated">
+        SELECT
+            member_code,
+            member_name,
+            member_id,
+            member_password,
+            member_email,
+            member_phone,
+            member_enddate,
+            member_endstatus
+        FROM
+            tbl_member
+    </select>
+
 
 
 

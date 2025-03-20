@@ -9,6 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 import java.util.List;
 
@@ -27,7 +32,6 @@ public class OfficeController {
     // 사무실 전체 조회
     @GetMapping("/store/detailstore")
     public String officeList(@RequestParam("storeCode") int storeCode, Model model) {
-
         StoreDTO store = storeService.findStoreByCode(storeCode);
 
         List<OfficeDTO> officeList = officeService.findAllOffices(storeCode);

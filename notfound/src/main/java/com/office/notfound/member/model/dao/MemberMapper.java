@@ -55,6 +55,8 @@ public interface MemberMapper {
                                       @Param("memberName") String memberName,
                                       @Param("memberEmail") String memberEmail);
 
+    // 모든 회원 정보 가져오기
+    List<MemberDTO> findAllMembers();
 
 
 

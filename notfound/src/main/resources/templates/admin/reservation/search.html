@@ -3,10 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>관리자 - 예약 관리</title>
+    <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/payment/payment-select-one.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
     <script src="/js/admin/reservation-management.js" defer></script>
 </head>
 <body>
+<div th:replace="~{fragments/header :: header}"></div>
     <h2>예약 관리</h2>
 
     <!-- 검색 폼 -->
@@ -114,6 +118,7 @@
                 취소된 예약 삭제
             </button>
         </div>
+        <div th:replace="~{fragments/footer :: footer}"></div>
     </form>
 </body>
 </html> 

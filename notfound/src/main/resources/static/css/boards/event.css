@@ -18,7 +18,9 @@ main {
     display: inline;
 }
 .text-body-secondary {
-   /* margin-left: 120px;*/
+    justify-content: left;
+    display: flex;
+    margin: 20px 0;
 }
 .card-body h5 {
     margin-top: 10px;

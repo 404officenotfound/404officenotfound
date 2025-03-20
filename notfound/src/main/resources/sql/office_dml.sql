@@ -193,12 +193,12 @@ VALUES
     (9, '한 층 전체', '905', 1600000, 'https://sparkplus20241.cafe24.com/sparkpluskr/office/usage-img03.jpg'),
     (9, '10인실', '906', 4200000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
 
-(10, '1인실', '901', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-(10, '4인실', '902', 1550000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-(10, '10인실', '903', 4000000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-(10, '1인실', '904', 480000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-(10, '4인실', '905', 1600000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-(10, '10인실', '906', 4200000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (10, '1인실', '901', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (10, '4인실', '902', 1550000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (10, '10인실', '903', 4000000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (10, '1인실', '904', 480000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (10, '4인실', '905', 1600000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+    (10, '10인실', '906', 4200000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
 
     (11, '1인실', '901', 500000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
     (11, '4인실', '902', 1550000, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
@@ -321,12 +321,12 @@ INSERT INTO tbl_review (member_code, payment_code, member_id, review_title, revi
                                                                                                                                                 (1, 1, 'user01', '편리한 사무실 공간', '오픈한지 얼마 되지 않은 곳이라 사람 없이 편안한 분위기에서 업무에 집중할 수 있었습니다. 사무실이 깨끗해서 만족스러웠습니다. ', '2025-03-12 16:00:00', 5, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
                                                                                                                                                 (2, 8, 'user02', '위치가 좋지만 소음이 조금 아쉬워요', '위치는 정말 좋은데, 주변 소음이 조금 신경 쓰였습니다. 그 외에는 만족스러웠어요!!', '2025-03-12 16:30:00', 4, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
                                                                                                                                                 (3, 6, 'user03', '회의실 예약이 편리합니다!', '회의실 예약 시스템이 아주 편리하고 직관적이어서 정말 좋았습니다. 다만, 더 많은 회의실이 있었으면 좋겠습니다!', '2025-03-12 17:00:00', 4, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-                                                                                                                                                (4, 3, 'user04', '라페스타점 인터넷 속도 빠르고 좋아요!!', '인터넷 속도가 매우 빠르고 안정적이어서 업무에 큰 도움이 되었습니다! \n피시방이 따로 없네요.', '2025-03-12 17:30:00', 5, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+                                                                                                                                                (4, 3, 'user04', '디지털미디어시티역점 인터넷 속도 빠르고 좋아요!!', '인터넷 속도가 매우 빠르고 안정적이어서 업무에 큰 도움이 되었습니다! \n피시방이 따로 없네요.', '2025-03-12 17:30:00', 5, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
                                                                                                                                                 (3, 2, 'user01', '공유 오피스에서의 첫 경험', '첫 번째로 이용한 공유 오피스였는데, 직원들이 친절하고 공간이 아늑해서 편하게 일할 수 있었습니다.', '2025-03-12 18:00:00', 5, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
                                                                                                                                                 (1, 2, 'user02', '가성비 좋아요', '가성비는 좋은데 조금 더 편안한 의자와 큰 테이블이 필요할 것 같습니다. 그 외에는 만족했습니다.', '2025-03-12 18:30:00', 4, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
                                                                                                                                                 (3, 5, 'user03', '회의실이 부족해요', '회의실 수가 부족해서 예약이 어려웠습니다. 더 많은 회의실을 추가해주시면 좋겠습니다.', '2025-03-12 19:00:00', 3, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
                                                                                                                                                 (4, 7, 'user04', '새로 생긴 곳이라 그런지 시설이 좋네요.', '위치도 정말 좋고 시설도 매우 깨끗해 만족스러웠습니다. \n하지만 주차공간이 조금 부족한 느낌이었습니다. \n주차 공간이 필요해요', '2025-03-12 19:30:00', 4, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
-                                                                                                                                                (2, 5, 'user01', '송도국제도시점 잘 이용 했습니다.', '공간이 넓고 조용해서 업무에 집중하기 좋았습니다.\n하지만 간식 제공이 부족한 점이 아쉬웠어요. 더 많은 간식을 제공해 주셨으면 좋겠습니다.', '2025-03-12 20:00:00', 4, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
+                                                                                                                                                (2, 5, 'user01', '홍대입구역점 잘 이용 했습니다.', '공간이 넓고 조용해서 업무에 집중하기 좋았습니다.\n하지만 간식 제공이 부족한 점이 아쉬웠어요. 더 많은 간식을 제공해 주셨으면 좋겠습니다.', '2025-03-12 20:00:00', 4, 'http://www.dodreamoffice.com/img/why_img1.jpg'),
                                                                                                                                                 (1, 3, 'user04', '최고의 공유 오피스', '여기서 일하는 경험이 정말 좋았습니다. 모든 것이 잘 갖춰져 있어서 다음에도 또 이용할 생각입니다.', '2025-03-12 20:30:00', 5, 'http://www.dodreamoffice.com/img/why_img1.jpg');
 
 

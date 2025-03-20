@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface ReservationMapper {
@@ -40,15 +41,19 @@ public interface ReservationMapper {
   // 🔹 일정 기간 지난 '예약취소' 상태의 예약 자동 삭제
   int deleteOldCanceledReservations();
 
-  void updateReservationStatus(@Param("reservationCode") int reservationCode, 
-                             @Param("status") String status);
+  void updateReservationStatus(@Param("reservationCode") int reservationCode,
+                               @Param("status") String status);
 
-  List<String> findBookedTimeSlots(@Param("officeCode") int officeCode, 
-                                  @Param("date") String date);
+  List<String> findBookedTimeSlots(@Param("officeCode") int officeCode,
+                                   @Param("date") String date);
 
   boolean checkTimeSlotAvailability(@Param("officeCode") int officeCode,
-                                  @Param("startDatetime") LocalDateTime startDatetime,
-                                  @Param("endDatetime") LocalDateTime endDatetime);
+                                    @Param("startDatetime") LocalDateTime startDatetime,
+                                    @Param("endDatetime") LocalDateTime endDatetime);
 
   void insertReservation(ReservationDTO reservation);
+
+  Optional<ReservationDTO> selectReservationByCode(@Param("reservationCode") Integer reservationCode);
+
+  void updateReservation(ReservationDTO reservation);
 }

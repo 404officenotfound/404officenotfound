@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/store/detailstore.css">
@@ -130,8 +131,6 @@
                             <small class="text-body-secondary" th:text="${officeReview.reviewDate}"></small>
                             <p class="card-text">사무실 유형</p>
                             <small class="text-body-secondary" th:text="${officeReview.officeType}"></small>
-                            <p class="card-text">사무실 호실</p>
-                            <small class="text-body-secondary" th:text="${officeReview.officeNum}"></small>
                             <p class="card-text">평점</p>
                             <small class="text-body-secondary" th:text="|${officeReview.reviewRating}점|"></small>
                             <h5 class="card-title">제목</h5>
