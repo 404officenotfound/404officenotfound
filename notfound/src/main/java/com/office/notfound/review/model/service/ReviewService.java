@@ -111,7 +111,7 @@ public class ReviewService {
                 // 기존 이미지가 있다면 먼저 삭제
                 if (originalImageUrl != null && !originalImageUrl.isEmpty()) {
 
-                    FileUploadUtils.deleteReviewFile();
+//                    FileUploadUtils.deleteReviewFile();
                 }
 
                 // 새 이미지 저장

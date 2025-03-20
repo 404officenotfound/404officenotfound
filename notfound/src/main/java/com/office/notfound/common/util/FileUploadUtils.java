@@ -116,7 +116,7 @@ public class FileUploadUtils {
         return "/img/review/" + savedFileName;
     }
 
-/*    public static boolean deleteReviewFile(String fileDir, String fileName) {
+  public static boolean deleteReviewFile(String fileDir, String fileName) {
 
             System.out.println("--- 이미지 삭제 시작 ---");
             System.out.println("fileDir = " + fileDir);
@@ -127,8 +127,8 @@ public class FileUploadUtils {
         String buildPath = projectPath + "/build/resources/main/static/img/review";
         Path filePath = Paths.get(buildPath, fileName);
 
-        try {
 /* 파일 존재 여부 확인 후 삭제 */
+        try {
 
 
             if (Files.exists(filePath)) {
@@ -144,5 +144,4 @@ public class FileUploadUtils {
 
         return false;
     }
-*/
 }
