@@ -19,14 +19,14 @@
 
     <!-- 모든 문의 조회 (관리자) -->
     <select id="selectAllInquiryList" resultMap="selectAllInquiryListMapper">
-        SELECT * FROM tbl_inquiry ORDER BY inquiry_created_at DESC
+        SELECT * FROM tbl_inquiry ORDER BY inquiry_created_at ASC
     </select>
 
     <!-- 특정 사용자의 문의 조회 -->
     <select id="selectMyInquiryList" resultMap="selectAllInquiryListMapper">
         SELECT * FROM tbl_inquiry
         WHERE member_code = #{memberCode}
-        ORDER BY inquiry_created_at DESC
+        ORDER BY inquiry_created_at ASC
     </select>
 
     <select id="selectInquiryByCode" parameterType="int" resultMap="selectAllInquiryListMapper">
