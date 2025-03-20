@@ -39,7 +39,7 @@ public class AuthController {
                         @RequestParam("memberPassword") String memberPassword,
                         HttpSession session) {
         try {
-            // 인증 서비스에 대한 로그인 처리 코드 (예: authService.authenticate())
+            // 인증 서비스에 대한 로그인 처리 코드
             authService.loadUserByUsername(memberId);
             return "redirect:/";  // 로그인 성공 시 홈으로 리다이렉트
         } catch (BadCredentialsException | UsernameNotFoundException e) {

@@ -58,6 +58,8 @@
 <table th:if="${searchExecuted and not #lists.isEmpty(paymentList)}">
     <tr>
         <th>결제번호</th>
+        <th>회원 ID</th>
+        <th>예약번호</th>
         <th>결제날짜</th>
         <th>결제방법</th>
         <th>결제금액</th>
@@ -65,6 +67,8 @@
     </tr>
     <tr th:each="payment : ${paymentList}">
         <td th:text="${payment.paymentCode}"></td>
+        <td th:text="${payment.memberCode}"></td>
+        <td th:text="${payment.reservationCode}"></td>
         <td th:text="${payment.paymentDate}"></td>
         <td th:text="${payment.paymentMethod}"></td>
         <td th:text="${payment.paymentAmount}"></td>
@@ -77,6 +81,8 @@
 <table th:if="${searchExecuted and not #lists.isEmpty(searchPayment)}">
     <tr>
         <th>결제번호</th>
+        <th>회원 ID</th>
+        <th>예약번호</th>
         <th>결제날짜</th>
         <th>결제방법</th>
         <th>결제금액</th>
@@ -84,6 +90,8 @@
     </tr>
     <tr th:each="payment : ${searchPayment}">
         <td th:text="${payment.paymentCode}"></td>
+        <td th:text="${payment.memberCode}"></td>
+        <td th:text="${payment.reservationCode}"></td>
         <td th:text="${payment.paymentDate}"></td>
         <td th:text="${payment.paymentMethod}"></td>
         <td th:text="${payment.paymentAmount}"></td>
