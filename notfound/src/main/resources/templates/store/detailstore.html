@@ -114,7 +114,6 @@
     <section class="offices">
         사무실리스트입니다.
         <div th:each="office : ${officeList}" class="office-card">
-            <img th:src="${office.officeThumbnail}" th:alt="|${store.storeName}의 ${office.officeNum}호실 이미지|" />
             <img th:src="${office.officeThumbnailUrl}" th:alt="|${store.storeName}의 ${office.officeNum}호실 이미지|" />
             <div class="details">
                 <h3 th:text="|${office.officeNum}호실|"></h3>

@@ -3,10 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>예약 조회</title>
-    <link rel="stylesheet" href="/css/payment/payment-select-one.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/search/search.css">
     <script src="/js/reservation/reservation-select-one.js" defer></script>
+    <script src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+    <script src="/js/reservation/payment.js" defer></script>
 </head>
 <body>
+<div th:replace="~{fragments/header :: header}"></div>
 
 <h2>예약 내역 검색</h2>
 
@@ -47,6 +52,16 @@
     검색 결과가 없습니다.
 </p>
 
+<!-- 🔥 버튼 그룹 추가 -->
+<div class="button-group" style="margin-bottom: 10px;">
+    <button type="button" id="paymentButton" class="btn btn-success" onclick="processSelectedPayments()" style="margin-right: 10px;">
+        결제하기
+    </button>
+    <button type="button" id="cancelPaymentButton" class="btn btn-danger" onclick="cancelSelectedPayments()" style="display: none;">
+        결제취소
+    </button>
+</div>
+
 <!-- 🔥 예약 내역 목록 -->
 <form id="cancelFormAll" th:action="@{/reservation/cancel-multiple}" method="post" onsubmit="return confirmCancelBatch(event)">
     <table>
@@ -60,15 +75,20 @@
             <th>이용 종료 시간</th>
             <th>가격</th>
             <th>상태</th>
+            <th>수정</th>
         </tr>
         </thead>
         <tbody>
         <!-- 🔥 전체 조회된 예약 리스트 -->
         <tr th:each="reservation : ${reservationList}">
             <td>
-                <input type="checkbox" class="reservationCheckbox" name="reservationCodes"
+                <input type="checkbox" class="reservationCheckbox" 
+                       name="reservationCodes"
                        th:value="${reservation.reservationCode}"
+                       th:data-price="${reservation.totalPrice}"
+                       th:data-status="${reservation.reservationStatus}"
                        th:disabled="${reservation.reservationStatus == '예약취소'}"
+                       onchange="updateButtonVisibility()"
                        th:classappend="${reservation.reservationStatus == '예약취소' ? 'disabled-checkbox' : ''}">
             </td>
             <td th:text="${reservation.reservationCode}"></td>
@@ -79,15 +99,24 @@
             <td th:text="${reservation.totalPrice != null ? #numbers.formatInteger(reservation.totalPrice, 3, 'COMMA') + '원' : '가격 없음'}"></td>
             <td th:text="${reservation.reservationStatus}"
                 th:style="${reservation.reservationStatus == '예약취소' ? 'color: red;' : ''}">
+            </td>
+            <td>
+                <a th:if="${reservation.reservationStatus.name() == '예약완료' or reservation.reservationStatus.name() == '결제대기'}"
+                   th:href="@{/reservation/modify/{code}(code=${reservation.reservationCode})}"
+                   class="btn btn-primary btn-sm">예약변경</a>
             </td>
         </tr>
 
         <!-- 🔥 검색된 예약 리스트 -->
         <tr th:each="reservation : ${searchReservation}">
             <td>
-                <input type="checkbox" class="reservationCheckbox" name="reservationCodes"
+                <input type="checkbox" class="reservationCheckbox" 
+                       name="reservationCodes"
                        th:value="${reservation.reservationCode}"
+                       th:data-price="${reservation.totalPrice}"
+                       th:data-status="${reservation.reservationStatus}"
                        th:disabled="${reservation.reservationStatus == '예약취소'}"
+                       onchange="updateButtonVisibility()"
                        th:classappend="${reservation.reservationStatus == '예약취소' ? 'disabled-checkbox' : ''}">
             </td>
             <td th:text="${reservation.reservationCode}"></td>
@@ -98,6 +127,11 @@
             <td th:text="${reservation.totalPrice != null ? #numbers.formatInteger(reservation.totalPrice, 3, 'COMMA') + '원' : '가격 없음'}"></td>
             <td th:text="${reservation.reservationStatus}"
                 th:style="${reservation.reservationStatus == '예약취소' ? 'color: red;' : ''}">
+            </td>
+            <td>
+                <a th:if="${reservation.reservationStatus.name() == '예약완료' or reservation.reservationStatus.name() == '결제대기'}"
+                   th:href="@{/reservation/modify/{code}(code=${reservation.reservationCode})}"
+                   class="btn btn-primary btn-sm">예약변경</a>
             </td>
         </tr>
         </tbody>
@@ -106,7 +140,13 @@
     <button type="submit" class="cancel-button">예약 취소</button>
 </form>
 
+<input type="hidden" id="memberCode" th:value="${#authentication.principal.memberCode}">
+<input type="hidden" id="memberEmail" th:value="${#authentication.principal.memberEmail}">
+<input type="hidden" id="memberName" th:value="${#authentication.principal.memberName}">
+<input type="hidden" id="memberPhone" th:value="${#authentication.principal.memberPhone}">
 
 
+
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

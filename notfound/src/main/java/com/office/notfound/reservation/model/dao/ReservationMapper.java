@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface ReservationMapper {
@@ -51,4 +52,8 @@ public interface ReservationMapper {
                                   @Param("endDatetime") LocalDateTime endDatetime);
 
   void insertReservation(ReservationDTO reservation);
+
+  Optional<ReservationDTO> selectReservationByCode(@Param("reservationCode") Integer reservationCode);
+  
+  void updateReservation(ReservationDTO reservation);
 }

@@ -1,6 +1,7 @@
 package com.office.notfound.payment.model.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class PaymentDTO {
 
@@ -8,24 +9,34 @@ public class PaymentDTO {
     private int memberCode;
     private LocalDateTime paymentDate;
     private String paymentMethod;
-    private int PaymentAmount;
+    private int paymentAmount;
     private String paymentStatus;
     private String impUid;
     private String merchantUid;
+    private List<ReservationPayment> reservations;
     private String apiParm;
+
+    public void parseJson() {
+        if (this.reservations != null && !this.reservations.isEmpty()) {
+            for (ReservationPayment res : this.reservations) {
+                System.out.println("예약 코드: " + res.getReservationCode() + ", 가격: " + res.getPrice());
+            }
+        }
+    }
 
     public PaymentDTO() {
     }
 
-    public PaymentDTO(int paymentCode, int memberCode, LocalDateTime paymentDate, String paymentMethod, int paymentAmount, String paymentStatus, String impUid, String merchantUid, String apiParm) {
+    public PaymentDTO(int paymentCode, int memberCode, LocalDateTime paymentDate, String paymentMethod, int paymentAmount, String paymentStatus, String impUid, String merchantUid, List<ReservationPayment> reservations, String apiParm) {
         this.paymentCode = paymentCode;
         this.memberCode = memberCode;
         this.paymentDate = paymentDate;
         this.paymentMethod = paymentMethod;
-        PaymentAmount = paymentAmount;
+        this.paymentAmount = paymentAmount;
         this.paymentStatus = paymentStatus;
         this.impUid = impUid;
         this.merchantUid = merchantUid;
+        this.reservations = reservations;
         this.apiParm = apiParm;
     }
 
@@ -62,11 +73,11 @@ public class PaymentDTO {
     }
 
     public int getPaymentAmount() {
-        return PaymentAmount;
+        return paymentAmount;
     }
 
     public void setPaymentAmount(int paymentAmount) {
-        PaymentAmount = paymentAmount;
+        this.paymentAmount = paymentAmount;
     }
 
     public String getPaymentStatus() {
@@ -93,6 +104,14 @@ public class PaymentDTO {
         this.merchantUid = merchantUid;
     }
 
+    public List<ReservationPayment> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<ReservationPayment> reservations) {
+        this.reservations = reservations;
+    }
+
     public String getApiParm() {
         return apiParm;
     }
@@ -108,10 +127,11 @@ public class PaymentDTO {
                 ", memberCode=" + memberCode +
                 ", paymentDate=" + paymentDate +
                 ", paymentMethod='" + paymentMethod + '\'' +
-                ", PaymentAmount=" + PaymentAmount +
+                ", paymentAmount=" + paymentAmount +
                 ", paymentStatus='" + paymentStatus + '\'' +
                 ", impUid='" + impUid + '\'' +
                 ", merchantUid='" + merchantUid + '\'' +
+                ", reservations=" + reservations +
                 ", apiParm='" + apiParm + '\'' +
                 '}';
     }

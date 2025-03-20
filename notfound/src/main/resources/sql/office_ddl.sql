@@ -140,7 +140,6 @@ CREATE TABLE tbl_payment (
                              payment_status ENUM('결제완료', '결제취소') DEFAULT '결제완료' COMMENT '결제 상태',
                              imp_uid VARCHAR(30) NOT NULL COMMENT 'API 결제번호',
                              merchant_uid VARCHAR(50) NOT NULL COMMENT '가맹점 주문번호',
-                             api_parm TEXT NOT NULL COMMENT 'API 응답 데이터',
                              FOREIGN KEY (member_code) REFERENCES tbl_member(member_code) ON DELETE CASCADE,
                              INDEX idx_payment_member_code (member_code),
                              INDEX idx_payment_status (payment_status)

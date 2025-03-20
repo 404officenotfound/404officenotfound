@@ -76,7 +76,7 @@ public class ReservationRestController {
      * 🔹 예약 등록 처리 (Rest API)
      */
     @PostMapping("/register")
-    public ResponseEntity<Map<String, Object>> registerReservation(
+    public ResponseEntity<Map<String, Object>> registerReservations(
             @RequestBody Map<String, Object> request,
             @AuthenticationPrincipal MemberDTO member) {
 
@@ -89,39 +89,41 @@ public class ReservationRestController {
         }
 
         try {
-            System.out.println("🔍 받은 요청 데이터: " + request); // 디버깅용 로그
+            List<Map<String, Object>> reservations = (List<Map<String, Object>>) request.get("reservations");
 
-            // 요청 데이터 검증
-            if (!request.containsKey("officeCode") || !request.containsKey("reservationDate") ||
-                    !request.containsKey("startTime") || !request.containsKey("endTime") ||
-                    !request.containsKey("totalPrice")) {
+            if (reservations == null || reservations.isEmpty()) {
                 response.put("success", false);
-                response.put("message", "잘못된 요청 형식입니다.");
+                response.put("message", "예약 데이터가 없습니다.");
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
             }
 
-            // JSON 데이터를 DTO로 변환
-            ReservationDTO reservation = new ReservationDTO();
-            reservation.setMemberCode(member.getMemberCode());
-            reservation.setOfficeCode(Integer.parseInt(request.get("officeCode").toString()));
-            String dateString = request.get("reservationDate").toString();
-            LocalDateTime reservationDateTime = LocalDate.parse(dateString).atStartOfDay(); // 자정 00:00:00 설정
-            reservation.setReservationDate(reservationDateTime);
-            reservation.setStartDatetime(java.time.LocalDateTime.parse(request.get("reservationDate") + "T" + request.get("startTime")));
-            reservation.setEndDatetime(java.time.LocalDateTime.parse(request.get("reservationDate") + "T" + request.get("endTime")));
-            reservation.setTotalPrice(Integer.parseInt(request.get("totalPrice").toString()));
-            reservation.setReservationStatus(ReservationStatus.예약대기);
+            for (Map<String, Object> res : reservations) {
+                ReservationDTO reservation = new ReservationDTO();
+                reservation.setMemberCode(member.getMemberCode());
+                reservation.setOfficeCode(Integer.parseInt(res.get("officeCode").toString()));
 
-            reservationService.registerReservation(reservation);
+                String dateString = res.get("reservationDate").toString();
+                LocalDateTime reservationDateTime = LocalDate.parse(dateString).atStartOfDay().plusHours(9);
+                reservation.setReservationDate(reservationDateTime);
+
+                reservation.setStartDatetime(LocalDateTime.parse(res.get("reservationDate") + "T" + res.get("startTime")));
+                reservation.setEndDatetime(LocalDateTime.parse(res.get("reservationDate") + "T" + res.get("endTime")));
+
+                reservation.setTotalPrice(Integer.parseInt(res.get("totalPrice").toString()));
+                reservation.setReservationStatus(ReservationStatus.예약완료);
+
+                // 🔹 여러 개의 예약을 하나씩 저장
+                reservationService.registerReservation(reservation);
+            }
 
             response.put("success", true);
-            response.put("message", "예약이 완료되었습니다.");
+            response.put("message", "모든 예약이 완료되었습니다.");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            System.err.println("❌ 예약 등록 중 오류 발생: " + e.getMessage());
             response.put("success", false);
-            response.put("message", e.getMessage());
+            response.put("message", "예약 처리 중 오류가 발생했습니다: " + e.getMessage());
             return ResponseEntity.badRequest().body(response);
         }
     }
+
 }

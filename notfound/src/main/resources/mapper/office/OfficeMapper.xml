@@ -27,7 +27,7 @@
         SELECT
             office_code,
             store_code,
-            office_thumbnail,
+            office_thumbnail_url,
             office_num,
             office_type,
             office_price
