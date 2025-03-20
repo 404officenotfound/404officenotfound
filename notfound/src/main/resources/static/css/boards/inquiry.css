@@ -1,23 +1,23 @@
 /* inquiry.css */
 main {
-    margin-top: 280px; /* 헤더 높이만큼 여백 추가 */
+    /*margin-top: 280px;*/ /* 헤더 높이만큼 여백 추가 */
     padding: 20px; /* 내부 여백 */
 }
 
 .container {
     max-width: 1200px; /* 전체 최대 너비 */
-    margin: 0 auto; /* 화면 중앙 정렬 */
+    margin: 30px auto; /* 화면 중앙 정렬 */
     padding: 20px; /* 내부 패딩 추가 */
     border: 1px solid #000000; /* 테두리 색상 */
     border-radius: 8px; /* 모서리 둥글게 */
     background-color: #FFFFFF; /* 배경색 흰색 */
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 */
+    text-align: center;
 }
 
 /* Header 스타일 */
 .container .header {
     display: grid;
-    grid-template-columns: repeat(6, 1fr); /* 6개의 균등한 열 */
     background-color: #F0F0F0; /* 연한 회색 */
     border-bottom: 2px solid #000000; /* 하단 테두리 강조 */
     font-weight: bold;
@@ -28,16 +28,28 @@ main {
 /* Row 스타일 */
 .container .row {
     display: grid;
-    grid-template-columns: repeat(6, 1fr); /* 6개의 균등한 열 */
     text-align: center;
     padding: 10px 0;
     border-bottom: 1px solid #E0E0E0; /* 가늘고 연한 테두리 */
     transition: background-color 0.3s ease; /* 호버 시 배경 전환 애니메이션 */
 }
 
-.container .row:hover {
-    background-color: #F9F9F9; /* 호버 시 연한 배경 강조 */
+/*.header.member-visible {
+    .cell .row {
+    grid-template-columns: repeat(6, 1fr); !* 6개의 균등한 열 *!
+    }
+}*/
+
+.header.member-visible,
+.row .cell.member-visible {
+    grid-template-columns: repeat(6, 1fr); /* 6개의 균등한 열 */
 }
+
+.header.member-hidden,
+.row .cell.member-hidden {
+    grid-template-columns: repeat(5, 1fr); /* 5개의 균등한 열 */
+}
+
 
 /* Cell 스타일 */
 .container .cell {
@@ -45,6 +57,20 @@ main {
     overflow: hidden;
     text-overflow: ellipsis; /* 꽉 찰 경우 말줄임 표시 */
     white-space: nowrap; /* 한 줄 말줄임 */
+}
+
+
+.row {
+    display: grid; /* 그리드 레이아웃 활성화 */
+    gap: 10px; /* 셀 간 간격 */
+}
+
+.row-six-columns {
+    grid-template-columns: repeat(6, 1fr); /* 6개의 균등한 열 */
+}
+
+.row-five-columns {
+    grid-template-columns: repeat(5, 1fr); /* 5개의 균등한 열 */
 }
 
 /* 링크 스타일 */

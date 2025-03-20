@@ -18,33 +18,14 @@
   <div class="side-menu">
     <ul>
       <li><a href="/member/mypage">개인정보변경</a></li>
-
-        <!-- 관리자 계정일 때 보이는 사이드바-->
-        <div sec:authorize="#authentication.principal.memberCode == 1">
-            <ul>
-                <li><a href="/storeadmin/storemanage">매장관리</a></li>
-                <li><a href="/reservation/search">예약관리</a></li>
-                <li><a href="/payment/search">결제관리</a></li>
-                <li><a href="/review/my-reviews">리뷰관리</a></li>
-                <li><a href="/member/reviews">이벤트관리</a></li>
-                <li><a href="/member/reviews">1대1관리</a></li>
-                <li><a href="/member/reviews">FAQ관리</a></li>
-            </ul>
-        </div>
-
-        <!-- 일반 회원 계정일 때 보이는 사이드바 -->
-        <div sec:authorize="#authentication.principal.memberCode == 2">
-          <ul>
-            <li><a href="/reservation/search">예약관리</a></li>
-              <li><a href="/payment/search">결제관리</a></li>
-              <li><a href="/member/inquiry">문의내역</a></li>
-            <li><a href="/review/my-reviews">리뷰관리</a></li>
-          </ul>
-        </div>
+        <li><a href="/reservation/search">예약관리</a></li>
+        <li><a href="/payment/search">결제관리</a></li>
+        <li><a href="/member/inquiry">문의내역</a></li>
+        <li><a href="/review/my-reviews">리뷰관리</a></li>
     </ul>
   </div>
   <section class="my-reviews-container">
-  <p>나의 리뷰만 보여주기</p>
+  <h2>나의 리뷰</h2>
 
       <!-- 리뷰 항목 반복 렌더링 -->
       <div class="review-item" th:each="review : ${reviewList}">
@@ -58,16 +39,12 @@
           </div>
 
           <div class="review-item-content">
-
-
               <h5 th:text="${review.reviewTitle}">리뷰 제목</h5>
               <p th:text="'리뷰번호: ' + ${review.reviewCode}"></p>
               <p th:text="'작성 날짜: ' + ${review.reviewDate}"></p>
               <p th:text="'평점: ' + ${review.reviewRating} + '점'" class="review-rating"></p>
               <p th:text="${review.reviewContent}">리뷰 내용</p>
               <div class="review-actions">
-                  <!--<button class="btn-edit" onclick="location.href='/review/edit/{reviewCode}'">수정</button>-->
-
                   <a class="btn-edit" th:href="@{'/review/edit/' + ${review.reviewCode}}">수정하기</a>
                   <form th:id="'deleteForm' + ${review.reviewCode}"
                         th:action="@{'/review/delete/' + ${review.reviewCode}}"
