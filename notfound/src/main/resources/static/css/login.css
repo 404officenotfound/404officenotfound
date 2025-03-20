@@ -3,135 +3,106 @@ body {
     font-family: 'Noto Sans KR', sans-serif;
     background-color: #f8f9fa;
     margin: 0;
-    padding: 20px;
+    padding: 0;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
     min-height: 100vh;
 }
 
-.login-title {
-    font-size: 24px;
-    color: #333;
-    text-align: center;  /* 중앙 정렬 */
-    margin-bottom: 30px;
-    font-weight: 600;
-    margin-left: 50px;  /* 오른쪽으로 이동 */
+/* 헤더와 메인 간 간격 */
+header + main {
+    margin-top: 10px;
 }
 
-/* 폼 컨테이너 스타일 */
-form {
+/* 메인 콘텐츠 정렬 */
+main {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* 로그인 제목 */
+.login-title {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* 로그인 컨테이너 */
+.login-container {
     width: 100%;
     max-width: 400px;
-    background: white;
-    padding: 30px;
-    border-radius: 16px;
+    background: #fff;
+    padding: 20px 30px;
+    border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* 입력 필드 스타일 */
-input[type="text"],
-input[type="password"],
-input[type="tel"] {
-    width: 100%;  /* 크기 동일화 */
-    padding: 12px 15px;
-    margin: 8px 0 20px;
-    border: 1px solid #e1e1e1;
+/* 입력 필드 디자인 */
+form input[type="text"],
+form input[type="password"] {
+    width: 100%;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
     border-radius: 8px;
-    font-size: 15px;
-    transition: all 0.3s ease;
-    box-sizing: border-box;
+    font-size: 14px;
 }
 
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="tel"]:focus {
-    border-color: #666;
+form input:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+    border-color: #4CAF50;
+    box-shadow: 0 0 3px rgba(76, 175, 80, 0.5);
 }
 
-/* 라벨 스타일 */
-label {
+/* 라벨을 왼쪽 정렬 */
+form label {
+    display: block;
     font-size: 14px;
     color: #666;
     font-weight: 500;
-    display: block;
     margin-bottom: 5px;
+    text-align: left;
 }
 
-/* 로그인 버튼 스타일 */
+/* 로그인 버튼 */
 .form-container button {
-    width: 100%;  /* 크기 동일화 */
-    padding: 14px;
-    background-color: #4CAF50;  /* 초록색 버튼 */
+    width: 100%;
+    padding: 12px;
+    background: #4CAF50;
     color: white;
     border: none;
     border-radius: 8px;
     font-size: 16px;
-    font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 10px;
+    transition: background 0.3s ease;
 }
 
 .form-container button:hover {
-    background-color: #45a049;  /* 초록색 hover */
-    transform: translateY(-2px);
+    background: #45a049;
 }
 
-/* 추가 버튼 영역 */
+/* 추가 버튼 디자인 */
 .extra-buttons {
-    margin-top: 20px;
     display: flex;
     justify-content: center;
-    gap: 15px;
-    margin-left: 50px;  /* 오른쪽으로 이동 */
+    margin-top: 20px;
+    gap: 30px; /* 버튼 간의 간격 조정 */
 }
 
 .extra-buttons button {
-    background: none;
-    border: none;
-    color: #666;
+    all: unset; /* 모든 기본 스타일 제거 */
     font-size: 14px;
-    cursor: pointer;
-    padding: 5px;
-    transition: color 0.3s ease;
-}
-
-.extra-buttons button:hover {
     color: #333;
+    cursor: pointer;
+    padding: 5px 10px;
 }
 
-/* 구분선 */
-.divider {
-    margin: 20px 0;
-    text-align: center;
-    position: relative;
-}
-
-.divider::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 50%;
-    width: 100%;
-    height: 1px;
-    background: #e1e1e1;
-    z-index: 1;
-}
-
-.divider span {
-    background: white;
-    padding: 0 15px;
-    color: #666;
-    font-size: 14px;
-    position: relative;
-    z-index: 2;
-}
-
-/* ----------------------------- */
-/* 모달창 디자인 */
+/* 모달창 스타일 */
 .modal {
     display: none;
     position: fixed;
@@ -146,19 +117,89 @@ label {
     z-index: 1000;
 }
 
-/* 모달 컨텐트 */
+/* 모달 콘텐츠 */
 .modal-content {
     width: 400px;
     max-width: 90%;
-    background: #FFF;
-    border-radius: 16px;
-    padding: 40px 30px;
-    position: relative;
+    padding: 20px 30px;
+    background: #fff;
+    border-radius: 8px;
+    text-align: left; /* 전체 텍스트 왼쪽 정렬 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    animation: fadeIn 0.3s ease; /* 나타날 때 애니메이션 */
+    animation: fadeIn 0.3s ease;
+    position: relative; /* 닫기 버튼을 위한 위치 정의 */
 }
 
+/* 닫기 버튼 (X) 위치 조정 */
+.closeModal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.closeModal:hover {
+    color: #666;
+}
+
+/* 라벨도 왼쪽 정렬 */
+.modal-form label {
+    display: block;
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+/* 모달 폼 입력 */
+.modal-form input {
+    width: calc(100% - 20px);
+    display: block;
+    margin: 0 auto 15px auto; /* 가운데 배치 */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+/* 에러/성공 메시지 중앙 정렬 */
+.modal-result {
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.modal-result.error {
+    color: red;
+}
+
+.modal-result.success {
+    color: green;
+}
+
+/* 모달 버튼 */
+.submit-btn {
+    width: 100%;
+    background: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.submit-btn:hover {
+    background: #45a049;
+}
+
+/* 애니메이션 키프레임 */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -169,127 +210,3 @@ label {
         transform: scale(1);
     }
 }
-
-/* 닫기 버튼 */
-.closeModal {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: none;
-    border: none;
-    font-size: 20px;
-    font-weight: bold;
-    color: #999;
-    cursor: pointer;
-    transition: color 0.2s ease;
-}
-.closeModal:hover {
-    color: #333;
-}
-
-/* 모달창 헤더 */
-.modal-content h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-/* 설명 텍스트 */
-.modal-content p {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 20px;
-}
-
-/* 인풋 필드 */
-.modal-form input[type="text"],
-.modal-form input[type="email"] {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-sizing: border-box;
-    font-size: 14px;
-    transition: border-color 0.2s ease;
-}
-
-.modal-form input[type="text"]:focus,
-.modal-form input[type="email"]:focus {
-    border-color: #4CAF50;
-    outline: none;
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
-}
-
-/* 찾기 버튼 */
-.submit-btn {
-    width: 100%;
-    background: #4CAF50;
-    color: #fff;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.submit-btn:hover {
-    background: #45a049;
-}
-
-/* 결과 텍스트 */
-.modal-result {
-    margin-top: 20px;
-    font-size: 14px;
-    color: #333;
-}
-
-/* 성공 메시지 스타일 */
-.modal-result.success {
-    color: #4CAF50;
-}
-
-/* 실패 메시지 스타일 */
-.modal-result.error {
-    color: #f44336;
-}
-/* 라벨 스타일: 왼쪽 정렬 및 글자 굵게 */
-.modal-form label {
-    font-size: 14px;
-    color: #333; /* 글자 색을 더 어둡게 */
-    font-weight: bold; /* 진하게 */
-    text-align: left; /* 왼쪽 정렬 */
-    display: block; /* 블록 요소로 변경 */
-    margin-bottom: 5px; /* 라벨 아래 여백 추가 */
-}
-
-/* 로고 이미지 스타일 */
-.logo {
-    max-width: 100%; /* 부모 요소만큼 넓이를 제한 */
-    height: auto;    /* 원본 비율 유지 */
-    margin-bottom: 20px; /* 입력창과 간격 조절 */
-    display: block;
-}
-
-/* 로고를 로그인 입력창과 동일한 넓이로 설정 */
-.login-container .logo {
-    width: 100%;  /* 로그인 전체 컨테이너 너비와 동일하게 조정 */
-    max-width: 400px; /* 최대 넓이를 로그인 입력창의 넓이에 맞춤 */
-    margin: 0 auto; /* 중앙 정렬 */
-}
-
-@media (max-width: 768px) {
-    .logo {
-        max-width: 90%; /* 로고가 화면의 90%를 차지하도록 설정 */
-        margin: 0 auto; /* 중앙 정렬 */
-    }
-
-    form {
-        width: 90%; /* 로그인 입력창도 화면 크기에 맞춤 */
-    }
-}
-
-
-
