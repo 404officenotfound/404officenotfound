@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
-    <link rel="stylesheet" href="/css/mypage.css">
     <link rel="stylesheet" href="/css/storemanage.css">
     <title>지점관리 디폴트</title>
 </head>
@@ -27,7 +26,6 @@
         </div>
 
         <div class="main-content">
-            <section>
                 <h2 class="title">지점 관리</h2><br>
                 <div class="admin-controls">
                     <a href="/store/admin/storecreate" class="store-create-btn">지점 등록</a>
@@ -54,13 +52,12 @@
                         </tr>
                     </table>
                 </div>
-            </section>
+        </div>
             <script>
                 function submitDeleteForm(storeCode) {
                     document.getElementById('deleteForm' + storeCode).submit();
                 }
             </script>
-        </div>
     </div>
     <div th:replace="~{fragments/footer :: footer}"></div>
 </main>
