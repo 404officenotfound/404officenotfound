@@ -26,38 +26,38 @@
         </div>
 
         <div class="main-content">
-            <h2 class="title">지점 관리</h2><br>
-            <div class="admin-controls">
-                <a href="/store/admin/storecreate" class="store-create-btn">지점 등록</a>
-                <a href="/samusil/admin/officecreate" class="office-create-btn">사무실 등록</a>
-            </div>
-            <div th:if="${message}" th:text="${message}" class="message"></div>
-            <div>
-                <table class="admin-table">
-                    <tr th:each="store : ${stores}">
-                        <a th:href="@{'saulsil/admin/samusilmanage/' + ${store.storeCode}}" class="office-manage-btn">
-                            <td th:text="${store.storeName}"></td>
-                        </a>
-                        <td class="action-links">
-                            <a th:href="@{'/store/admin/storeedit/' + ${store.storeCode}}" class="store-edit-btn">수정</a>
-                            <form th:id="'deleteForm' + ${store.storeCode}"
-                                  th:action="@{'/store/admin/delete/' + ${store.storeCode}}" method="post" style="display: inline;">
-                                <button type="button" class="store-delete-btn"
-                                        th:onclick="'if(confirm(\'정말 삭제하시겠습니까?\')) { submitDeleteForm(' + ${store.storeCode} + '); }'">
-                                    삭제
-                                </button>
-                            </form>
-                            <a th:href="@{'/samusil/admin/officemanage/' + ${store.storeCode}}" class="office-list-btn">사무실관리</a>
-                        </td>
-                    </tr>
-                </table>
-            </div>
+                <h2 class="title">지점 관리</h2><br>
+                <div class="admin-controls">
+                    <a href="/store/admin/storecreate" class="store-create-btn">지점 등록</a>
+                    <a href="/samusil/admin/officecreate" class="office-create-btn">사무실 등록</a>
+                </div>
+                <div th:if="${message}" th:text="${message}" class="message"></div>
+                <div>
+                    <table class="admin-table">
+                        <tr th:each="store : ${stores}">
+                            <a th:href="@{'saulsil/admin/samusilmanage/' + ${store.storeCode}}" class="office-manage-btn">
+                                <td th:text="${store.storeName}"></td>
+                            </a>
+                            <td class="action-links">
+                                <a th:href="@{'/store/admin/storeedit/' + ${store.storeCode}}" class="store-edit-btn">수정</a>
+                                <form th:id="'deleteForm' + ${store.storeCode}"
+                                      th:action="@{'/store/admin/delete/' + ${store.storeCode}}" method="post" style="display: inline;">
+                                    <button type="button" class="store-delete-btn"
+                                            th:onclick="'if(confirm(\'정말 삭제하시겠습니까?\')) { submitDeleteForm(' + ${store.storeCode} + '); }'">
+                                        삭제
+                                    </button>
+                                </form>
+                                <a th:href="@{'/samusil/admin/officemanage/' + ${store.storeCode}}" class="office-list-btn">사무실관리</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
         </div>
-        <script>
-            function submitDeleteForm(storeCode) {
-                document.getElementById('deleteForm' + storeCode).submit();
-            }
-        </script>
+            <script>
+                function submitDeleteForm(storeCode) {
+                    document.getElementById('deleteForm' + storeCode).submit();
+                }
+            </script>
     </div>
     <div th:replace="~{fragments/footer :: footer}"></div>
 </main>

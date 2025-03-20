@@ -103,9 +103,11 @@ public class FileUploadUtils {
 
         /* 저장할 파일 이름 생성 */
         String savedFileName = imageName + ext;
+        System.out.println("savedFileName------------->" + savedFileName);
 
         /* 저장할 파일 경로 생성 */
         File target = new File(dir, savedFileName);
+        System.out.println("target---------> = " + target);
 
         /* 파일 저장 */
         reviewThumbnail.transferTo(target);
@@ -114,19 +116,19 @@ public class FileUploadUtils {
         return "/img/review/" + savedFileName;
     }
 
-  public static boolean deleteReviewFile(String fileDir, String fileName) {
+   public static boolean deleteReviewFile(String fileDir, String fileName) {
 
-            System.out.println("--- 이미지 삭제 시작 ---");
-            System.out.println("fileDir = " + fileDir);
-            System.out.println("fileName = " + fileName);
+                System.out.println("--- 이미지 삭제 시작 ---");
+                System.out.println("fileDir = " + fileDir);
+                System.out.println("fileName = " + fileName);
 
-/* build 디렉토리 경로를 기반으로 삭제할 파일 경로 생성 */
-        String projectPath = System.getProperty("user.dir") + "/notfound";;
-        String buildPath = projectPath + "/build/resources/main/static/img/review";
-        Path filePath = Paths.get(buildPath, fileName);
+    /* build 디렉토리 경로를 기반으로 삭제할 파일 경로 생성 */
+            String projectPath = System.getProperty("user.dir") + "/notfound";;
+            String buildPath = projectPath + "/build/resources/main/static/img/review";
+            Path filePath = Paths.get(buildPath, fileName);
 
-/* 파일 존재 여부 확인 후 삭제 */
-        try {
+            try {
+    /* 파일 존재 여부 확인 후 삭제 */
 
 
             if (Files.exists(filePath)) {

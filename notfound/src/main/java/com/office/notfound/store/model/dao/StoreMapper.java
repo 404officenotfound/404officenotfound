@@ -27,7 +27,5 @@ public interface StoreMapper {
     void deleteStore(int storeCode);
 
     String findImageByStoreCode(int storeCode);
-
-//    List<Store> findStoresByRegion(String storeCity, String storeGu);
 }
 

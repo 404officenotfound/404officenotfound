@@ -18,8 +18,8 @@
 }
 
 .store-thumbnail {
-    width: 200px;  /* 썸네일 크기를 줄여서 화면에 더 잘 맞게 */
-    height: 200px;
+    width: 150px;  /* 썸네일 크기를 줄여서 화면에 더 잘 맞게 */
+    height: 150px;
     margin-right: 20px;  /* 썸네일과 텍스트 사이에 간격을 둠 */
 }
 
@@ -45,7 +45,7 @@
     color: #555;
     margin: 0;
 }
-main {
+section {
     display: flex;
     flex-direction: column;  /* 내부 요소들을 세로로 정렬 */
     justify-content: flex-start; /* 세로 상단 정렬 */

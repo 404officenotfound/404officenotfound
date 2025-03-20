@@ -14,7 +14,7 @@ a:visited {
     justify-content: flex-end; /* 내부 요소를 오른쪽 정렬 */
     margin-bottom: 10px; /* 버튼 아래 여백 추가 테이블과의 간격 */
     height: 50px;
-    background-color: red;
+    background-color: #ffffff;
     display: flex;  /* 가로 정렬 */
     align-items: center; /* 세로 중앙 정렬 (필요하면 추가) */
 

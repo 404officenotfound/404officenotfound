@@ -40,6 +40,18 @@ mybatis:
   type-aliases-package: com.office.notfound
 
 
+
+
+
+#logging:
+#  level:
+#    # 스프링 시큐리티 로깅 레벨
+#    org.springframework.security: info
+#    # 프로젝트 로깅 레벨
+#    com.ohgiraffers.semi: debug
+#    # 마이바티스 로깅 레벨
+#    org.mybatis: info
+
 # 이미지 업로드를 위한 사용자 정의 변수 설정 (@Value 어노테이션 복습)
 image:
   add-resource-locations: classpath:/static/
