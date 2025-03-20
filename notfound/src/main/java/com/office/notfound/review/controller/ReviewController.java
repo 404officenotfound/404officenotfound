@@ -34,7 +34,7 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
-    // 리뷰 전체 조회
+    // 리뷰 전체 조회 (관리자용)
     @GetMapping("/list")
     public String selectAllReviewList( Model model) {
 
@@ -57,12 +57,12 @@ public class ReviewController {
         return "review/officeReview";
     }
 
-    // 나의 리뷰 조회
+    // 나의 리뷰 조회 (일반회원용)
     @GetMapping("/my-reviews")
     public String selectMyReviews(@AuthenticationPrincipal MemberDTO member
             , Model model) {
 
-//        System.out.println("member확인-------------------> " + member);
+        System.out.println("member확인-------------------> " + member);
 
         // 현재 로그인한 사용자의 ID 확인
         System.out.println("로그인한 회원 ID: " + member.getMemberId());
@@ -98,7 +98,7 @@ public class ReviewController {
 
             newReview.setPaymentCode(1);        // payment_code를 1로 설정
 
-            System.out.println("newReview.getReviewDate() = " + newReview.getReviewDate());
+//            System.out.println("newReview.getReviewDate() = " + newReview.getReviewDate());
 
             reviewService.registNewReview(newReview, reviewThumbnail);
 
@@ -167,7 +167,6 @@ public class ReviewController {
     public String userReviewDelete(@PathVariable int reviewCode,
                                      RedirectAttributes rAttr) {
         try {
-            System.out.println("--------리뷰 삭제 핸들러 발동--------");
             reviewService.deleteReview(reviewCode);
             rAttr.addFlashAttribute("message", "리뷰가 삭제되었습니다.");
             return "redirect:/review/my-reviews";

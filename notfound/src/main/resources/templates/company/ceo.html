@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <title>CEO 인사말</title>
     <link rel="stylesheet" href="/css/header.css">
-    <link rel="stylesheet" href="/css/introduce.css">
+    <link rel="stylesheet" href="/css/ceo.css">
     <link rel="stylesheet" href="/css/footer.css">
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
-<main>
-    <img src="/img/logo/picture.png" alt="인물" class="company-icon">
+<main class="ceo-container">
+    <img src="/img/logo/picture.jpg" alt="인물" class="company-icon">
 
     <div class="ceo-content">
         <h1 class="ceo-title">| CEO 한마디</h1>
@@ -28,6 +28,7 @@
         </div>
     </div>
 </main>
+
 
 <div th:replace="~{fragments/footer :: footer}"></div>
 </body>

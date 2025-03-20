@@ -3,7 +3,7 @@
 INSERT INTO tbl_member
 (member_name, member_id, member_password, member_email, member_phone, member_enddate, member_endstatus)
 VALUES
-    ('정상협', 'user01', '$2a$10$cYuXuzmhojpxD2AV7CoZX.dq1qVXnWUlmdvx1Y3P5xezD5z968nNu', 'user01@gmail.com', '010-1234-5678', NULL, 'N'),
+    ('관리자', 'user01', '$2a$10$cYuXuzmhojpxD2AV7CoZX.dq1qVXnWUlmdvx1Y3P5xezD5z968nNu', 'user01@gmail.com', '010-1234-5678', NULL, 'N'),
     ('일반사용자','user02', '$2a$10$A.i2AkaE/4qhjwo45MHofeShPXOLsD0HanK7Ce..npQj7GKslsJR.', 'user02@gmail.com', '010-1234-5678', NULL, 'N' ),
     ('일반사용자2','user03', '$2a$10$bxvD9ctVmDoZjQAXv4nfVOQx6zyOR9hc2ELFKxK21wjRaHf/O3CQm', 'user03@gmail.com', '010-1234-5678', NULL, 'N' ),
     ('일반사용자3','user04', '$2a$10$fWGThR11/nx7oDngNCTpiOq14g6tpjwf61TskCEZ1yFIIdI1CHTQu', 'user04@gmail.com', '010-1234-5678', NULL, 'N' );
