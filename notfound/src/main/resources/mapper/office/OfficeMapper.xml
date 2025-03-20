@@ -9,12 +9,13 @@
         <result property="officeType" column="office_type"/>
         <result property="officeNum" column="office_num"/>
         <result property="officePrice" column="office_price"/>
-        <result property="officeThumbnail" column="office_thumbnail"/>
+        <result property="officeThumbnailUrl" column="office_thumbnail_url"/>
     </resultMap>
 
     <select id="findAllOffices" resultMap="officeResultMap">
         SELECT
-            office_thumbnail,
+            office_code,
+            office_thumbnail_url,
             office_num,
             office_type,
             office_price
@@ -26,15 +27,26 @@
         SELECT
             office_code,
             store_code,
-            office_thumbnail,
+            office_thumbnail_url,
             office_num,
             office_type,
             office_price
         FROM
+
            tbl_office
         WHERE
             office_code = #{officeCode}
     </select>
+
+    <select id="getOfficeListByStore" resultType="com.office.notfound.samusil.model.dto.OfficeDTO">
+        SELECT office_code,
+               office_num
+        FROM tbl_office WHERE store_code = #{storeCode}
+    </select>
+    <delete id="deleteOfficeByStoreAndOfficeCode" parameterType="int">
+        DELETE FROM tbl_office
+        WHERE store_code = #{storeCode} AND office_code = #{officeCode}
+    </delete>
 
 
 </mapper>

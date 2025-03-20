@@ -4,6 +4,17 @@ server:
 
 ## driver config
 spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: "lastfortress99999@gmail.com"
+    password: "mjwv fwni zvcy thlp"
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/officedb
@@ -16,13 +27,20 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
-
+      location: upload-dir
+      enabled: true
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
 ## mybatis config
 mybatis:
   mapper-locations: mapper/**/*.xml
   configuration:
     map-underscore-to-camel-case: true
   type-aliases-package: com.office.notfound
+
+
+
 
 
 #logging:
@@ -40,6 +58,10 @@ image:
   add-resource-handler: /**
   image-dir: build/resources/main/static/img/store
   image-url: /img/store
+
+file:
+  upload-dir: C:/upload/store
+  upload-url: /image/store/
 
 portone:
   api-key: 8266201362865180

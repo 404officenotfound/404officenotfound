@@ -19,7 +19,7 @@ public interface MemberMapper {
     // 회원 권한 등록
     Integer registMemberAuthority(MemberAuthorityDTO memberAuthorityDTO);
 
-    /*MyBatis의 Mapper 인터페이스에서 사용하는 어노테이션으로 SQL 쿼리에서 사용할 파라미터 이름을 지정하며 #{memberId}와 매핑 */
+    // 중복 사용자 조회
     Integer countMemberById(@Param("memberId") String memberId);
 
     // 이메일 중복 체크 메서드 추가
@@ -29,8 +29,33 @@ public interface MemberMapper {
     // 사용자 권한 조회
     List<AuthorityDTO> findAllAuthoritiesByMemberCode(int memberCode);
 
-
+    // 회원정보수정
     int updatemember(MemberDTO updateMember);
-
+    // 어드민정보수정
     int updateadmin(MemberDTO updateAdminMember);
+    // 회원 코드로 회원정보 조회
+    MemberDTO findMemberByCode(@Param("memberCode") int memberCode);
+    // 회원탈퇴
+    int withdrawMember(@Param("memberCode") int memberCode);
+
+    // 이름과 이메일로 아이디를 조회
+    String findMemberIdByNameAndEmail(@Param("memberName") String memberName,
+                                      @Param("memberEmail") String memberEmail);
+    // 비밀번호 변경
+    int updatePassword(@Param("memberCode") int memberCode, @Param("memberPassword") String memberPassword);
+
+    // 비밀번호 초기화
+    int resetPassword(@Param("memberId") String memberId,
+                      @Param("memberName") String memberName,
+                      @Param("memberEmail") String memberEmail,
+                      @Param("newPassword") String newPassword);
+
+    // ID, 이름, 이메일로 사용자 조회
+    MemberDTO findMemberByIdNameEmail(@Param("memberId") String memberId,
+                                      @Param("memberName") String memberName,
+                                      @Param("memberEmail") String memberEmail);
+
+
+
+
 }

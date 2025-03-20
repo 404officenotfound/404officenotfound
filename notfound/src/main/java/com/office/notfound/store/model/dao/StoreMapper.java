@@ -21,5 +21,11 @@ public interface StoreMapper {
     void insertStore(StoreDTO store);
 
     List<StoreDTO> findStoresByCityAndGu(@Param("city") String city, @Param("gu") String gu);
+
+    void updateStore(StoreDTO store);
+
+    void deleteStore(int storeCode);
+
+    String findImageByStoreCode(int storeCode);
 }
 

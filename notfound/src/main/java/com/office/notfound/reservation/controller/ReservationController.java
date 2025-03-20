@@ -3,20 +3,17 @@ package com.office.notfound.reservation.controller;
 import com.office.notfound.member.model.dto.MemberDTO;
 import com.office.notfound.reservation.model.dto.ReservationDTO;
 import com.office.notfound.reservation.model.service.ReservationService;
-import com.office.notfound.store.model.dto.StoreDTO;
 import com.office.notfound.samusil.model.dto.OfficeDTO;
-import com.office.notfound.store.model.service.StoreService;
 import com.office.notfound.samusil.model.service.OfficeService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.office.notfound.store.model.dto.StoreDTO;
+import com.office.notfound.store.model.service.StoreService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
 
 @Controller
 @RequestMapping("/reservation")
@@ -140,77 +137,54 @@ public class ReservationController {
     /**
      * 🔹 예약 등록 페이지 이동
      */
-    @GetMapping("/register/{officeCode}")
-    public String showRegisterForm(@PathVariable int officeCode, Model model,
-                                   @AuthenticationPrincipal MemberDTO member) {
+    @GetMapping("/register")
+    public String showRegisterForm(@RequestParam int storeCode,
+                                 @RequestParam int officeCode,
+                                 Model model,
+                                 @AuthenticationPrincipal MemberDTO member) {
         if (member == null) {
             return "redirect:/auth/login";
         }
 
-        // 📌 디버깅 로그 추가
-        System.out.println("📌 전달된 officeCode: " + officeCode);
-
-        // officeCode가 0이면 잘못된 요청이므로 예외 발생
-        if (officeCode <= 0) {
-            throw new RuntimeException("📌 유효하지 않은 officeCode: " + officeCode);
-        }
-
+        // 매장 정보 조회
+        StoreDTO store = storeService.findStoreByCode(storeCode);
+        
+        // 사무실 정보 조회
         OfficeDTO office = officeService.findOfficeDetail(officeCode);
 
         if (office == null) {
-            throw new RuntimeException("📌 office가 null입니다. officeCode: " + officeCode);
+            System.out.println("❌ Office 객체가 null입니다. officeCode: " + officeCode);
+            model.addAttribute("errorMessage", "해당 사무실 정보를 찾을 수 없습니다.");
+            return "error-page";
         }
 
-        StoreDTO store = storeService.findStoreByCode(office.getStoreCode());
-
-        model.addAttribute("office", office);
         model.addAttribute("store", store);
-
+        model.addAttribute("office", office);
+        
         return "reservation/register";
     }
 
-
-    /**
-     * 🔹 예약 가능한 시간대 조회
-     */
-    @PostMapping("/api/reservations/available-times")
-    @ResponseBody
-    public ResponseEntity<List<String>> getAvailableTimes(@RequestBody Map<String, Object> request) {
-        int officeCode = (int) request.get("officeCode");
-        String date = (String) request.get("date");
-        
-        List<String> availableTimes = reservationService.getAvailableTimeSlots(officeCode, date);
-        return ResponseEntity.ok(availableTimes);
+    @GetMapping("/modify/{reservationCode}")
+    public String showModifyForm(@PathVariable Integer reservationCode, Model model) {
+        ReservationDTO reservation = reservationService.getReservation(reservationCode);
+        model.addAttribute("reservation", reservation);
+        return "reservation/modify";
     }
 
-    /**
-     * 🔹 예약 등록 처리
-     */
-    @PostMapping("/api/reservations/register")
-    @ResponseBody
-    public ResponseEntity<Map<String, Object>> registerReservation(
-            @RequestBody ReservationDTO reservation,
-            @AuthenticationPrincipal MemberDTO member) {
-        
-        Map<String, Object> response = new HashMap<>();
-        
-        if (member == null) {
-            response.put("success", false);
-            response.put("message", "로그인이 필요합니다.");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-        }
-
+    @PostMapping("/modify/{reservationCode}")
+    public String modifyReservation(@PathVariable Integer reservationCode,
+                                    @AuthenticationPrincipal MemberDTO member,
+                                    @ModelAttribute ReservationDTO modifiedReservation,
+                                    RedirectAttributes redirectAttributes) {
         try {
-            reservation.setMemberCode(member.getMemberCode());
-            reservationService.registerReservation(reservation);
-            
-            response.put("success", true);
-            response.put("message", "예약이 완료되었습니다.");
-            return ResponseEntity.ok(response);
+            // 예약 수정 처리
+            reservationService.modifyReservation(modifiedReservation);
+            redirectAttributes.addFlashAttribute("message", "예약이 성공적으로 수정되었습니다.");
+
+            return "redirect:/reservation/search";
         } catch (Exception e) {
-            response.put("success", false);
-            response.put("message", e.getMessage());
-            return ResponseEntity.badRequest().body(response);
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/reservation/modify/" + reservationCode;
         }
     }
 }

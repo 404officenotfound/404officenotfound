@@ -169,8 +169,8 @@
         SELECT DATE_FORMAT(start_datetime, '%H:00') as booked_time
         FROM tbl_reservation
         WHERE office_code = #{officeCode}
-        AND DATE(start_datetime) = #{date}
-        AND reservation_status != '예약취소'
+          AND DATE(start_datetime) = #{date}
+          AND reservation_status != '예약취소'
     </select>
 
     <!-- 시간대 중복 체크 -->
@@ -189,20 +189,51 @@
     <!-- 예약 등록 -->
     <insert id="insertReservation" parameterType="com.office.notfound.reservation.model.dto.ReservationDTO">
         INSERT INTO tbl_reservation (
-            member_code,
-            office_code,
-            start_datetime,
-            end_datetime,
-            total_price,
-            reservation_status
+        member_code,
+        office_code,
+        start_datetime,
+        end_datetime,
+        total_price,
+        reservation_status
         ) VALUES (
-            #{memberCode},
-            #{officeCode},
-            #{startDatetime},
-            #{endDatetime},
-            #{totalPrice},
-            #{reservationStatus}
+        #{memberCode},
+        #{officeCode},
+        #{startDatetime},
+        #{endDatetime},
+        #{totalPrice},
+        COALESCE(#{reservationStatus}, '예약완료')
         )
     </insert>
 
+    <!-- 예약 코드로 예약 정보 조회 -->
+    <select id="selectReservationByCode" resultMap="reservationResultMap">
+        SELECT
+            r.reservation_code,
+            r.member_code,
+            r.office_code,
+            CONCAT(s.store_name, '(', o.office_num, ')') AS storeName,
+            r.start_datetime,
+            r.end_datetime,
+            r.total_price,
+            r.reservation_status
+        FROM
+            tbl_reservation r
+            JOIN tbl_office o ON r.office_code = o.office_code
+            JOIN tbl_store s ON o.store_code = s.store_code
+        WHERE
+            r.reservation_code = #{reservationCode}
+    </select>
+
+    <!-- 예약 정보 수정 -->
+    <update id="updateReservation" parameterType="com.office.notfound.reservation.model.dto.ReservationDTO">
+        UPDATE tbl_reservation
+        SET
+            office_code = #{officeCode},
+            start_datetime = #{startDatetime},
+            end_datetime = #{endDatetime},
+            total_price = #{totalPrice},
+            reservation_status = #{reservationStatus}
+        WHERE
+            reservation_code = #{reservationCode}
+    </update>
 </mapper>

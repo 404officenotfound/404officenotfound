@@ -7,18 +7,18 @@ public class OfficeDTO {
     private String officeType;
     private int officeNum;
     private int officePrice;
-    private String officeThumbnail;
+    private String officeThumbnailUrl;
 
     public OfficeDTO() {
     }
 
-    public OfficeDTO(int officeCode, int storeCode, String officeType, int officeNum, int officePrice, String officeThumbnail) {
+    public OfficeDTO(int officeCode, int storeCode, String officeType, int officeNum, int officePrice, String officeThumbnailUrl) {
         this.officeCode = officeCode;
         this.storeCode = storeCode;
         this.officeType = officeType;
         this.officeNum = officeNum;
         this.officePrice = officePrice;
-        this.officeThumbnail = officeThumbnail;
+        this.officeThumbnailUrl = officeThumbnailUrl;
     }
 
     public int getOfficeCode() {
@@ -61,12 +61,12 @@ public class OfficeDTO {
         this.officePrice = officePrice;
     }
 
-    public String getOfficeThumbnail() {
-        return officeThumbnail;
+    public String getOfficeThumbnailUrl() {
+        return officeThumbnailUrl;
     }
 
-    public void setOfficeThumbnail(String officeThumbnail) {
-        this.officeThumbnail = officeThumbnail;
+    public void setOfficeThumbnailUrl(String officeThumbnailUrl) {
+        this.officeThumbnailUrl = officeThumbnailUrl;
     }
 
     @Override
@@ -77,7 +77,7 @@ public class OfficeDTO {
                 ", officeType='" + officeType + '\'' +
                 ", officeNum=" + officeNum +
                 ", officePrice=" + officePrice +
-                ", officeThumbnail='" + officeThumbnail + '\'' +
+                ", officeThumbnailUrl='" + officeThumbnailUrl + '\'' +
                 '}';
     }
 }

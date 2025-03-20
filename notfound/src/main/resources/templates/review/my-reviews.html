@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/mypage.css">
+  <link rel="stylesheet" href="/css/boards/my-reviews.css">
+
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<main>
+
+<div class="mypage-container">
+  <div class="side-menu">
+    <ul>
+      <li><a href="/member/mypage">개인정보변경</a></li>
+        <li><a href="/reservation/search">예약관리</a></li>
+        <li><a href="/payment/search">결제관리</a></li>
+        <li><a href="/member/inquiry">문의내역</a></li>
+        <li><a href="/review/my-reviews">리뷰관리</a></li>
+    </ul>
+  </div>
+  <section class="my-reviews-container">
+  <h2>나의 리뷰</h2>
+
+      <!-- 리뷰 항목 반복 렌더링 -->
+      <div class="review-item" th:each="review : ${reviewList}">
+          <div th:if="${not #lists.isEmpty(review.reviewImage)}">
+          <img th:src="${review.reviewImage}" alt="리뷰 이미지" />
+          </div>
+          <div th:if="${#lists.isEmpty(review.reviewImage)}">
+            <div class="review-notImage">
+                <span> 등록된 이미지가 없습니다.</span>
+            </div>
+          </div>
+
+          <div class="review-item-content">
+              <h5 th:text="${review.reviewTitle}">리뷰 제목</h5>
+              <p th:text="'리뷰번호: ' + ${review.reviewCode}"></p>
+              <p th:text="'작성 날짜: ' + ${review.reviewDate}"></p>
+              <p th:text="'평점: ' + ${review.reviewRating} + '점'" class="review-rating"></p>
+              <p th:text="${review.reviewContent}">리뷰 내용</p>
+              <div class="review-actions">
+                  <a class="btn-edit" th:href="@{'/review/edit/' + ${review.reviewCode}}">수정하기</a>
+                  <form th:id="'deleteForm' + ${review.reviewCode}"
+                        th:action="@{'/review/delete/' + ${review.reviewCode}}"
+                        method="post" style="display: inline;">
+                  <button class="btn-delete" th:onclick="'if(confirm(\'정말 삭제하시겠습니까?\')) { submitDeleteForm(' + ${review.reviewCode} + '); }'">삭제하기</button>
+                  </form>
+              </div>
+          </div>
+      </div>
+
+      <!-- 리뷰 등록 버튼 -->
+      <button class="review-button" onclick="location.href='/review/regist'">리뷰등록</button>
+  </section>
+  </div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</main>
+<script>
+    function submitDeleteForm(reviewCode) {
+        document.getElementById('deleteForm' + reviewCode).submit();
+    }
+</script>
+</body>
+</html>

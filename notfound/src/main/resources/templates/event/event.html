@@ -12,7 +12,6 @@
 <div th:replace="~{fragments/header :: header}"></div>
 <main>
     <section class="event">
-
         <!--<tr th:each="eventList : ${eventList}">-->
             <div class="card mb-3" th:each="eventList : ${eventList}">
                 <div class="row g-0">
@@ -24,7 +23,7 @@
                             <h5>
                             <a class="card-title" th:href="@{ /event/detail/{code} (code=${ eventList.eventCode })}" th:text="${eventList.eventTitle}"></a>
                             </h5>
-                            <p class="card-text">진행 상태</p>
+                            <!--<p class="card-text">진행 상태</p>-->
                             <small class="text-body-secondary" th:text="${eventList.eventStatus}"></small>
 
                         </div>

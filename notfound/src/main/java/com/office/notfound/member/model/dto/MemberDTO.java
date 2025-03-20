@@ -5,6 +5,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -68,7 +69,18 @@ public class MemberDTO implements UserDetails {
      * */
     @Override
     public boolean isEnabled() {
-        return !"Y".equals(memberEndstatus); // 탈퇴 상태가 'Y'이면 false 반환
+        // 탈퇴 상태가 'Y'이면 false 반환
+        if ("Y".equals(memberEndstatus)) {
+            return false;
+        }
+
+        // 탈퇴 후 3개월 이내에 재가입을 제한하는 로직
+        if (memberEnddate != null && memberEndstatus.equals("Y")
+                && ChronoUnit.MONTHS.between(memberEnddate, LocalDateTime.now()) < 3) {
+            return false; // 탈퇴 후 3개월 이내는 재가입 불가
+        }
+
+        return true; // 그 외의 경우는 활성화 상태
     }
 
     public MemberDTO() {

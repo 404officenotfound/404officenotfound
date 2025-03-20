@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>회원가입</title>
-
+    <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/signup.css">
+    <link rel="stylesheet" href="/css/footer.css">
 </head>
 <body>
-
-<img src="/img/logo/새로고.JPG" alt="로고" onclick="window.location.href='/';" style="cursor: pointer;" width="400px" height="80px">
-<!-- 회원가입 폼 -->
+<div th:replace="~{fragments/header :: header}"></div>
+<main>
 <div>
     <div>
-        <h2 class="signup-title">회원가입을 위해<br>정보를 입력해주세요.</h2>
+        <h3 class="signup-title">회원가입을 위해<br>정보를 입력해주세요.</h3>
         <form th:action="@{/member/signup}" method="post">
             <!--    이름        -->
             <label for="memberName">* 이름<br>
@@ -26,7 +26,7 @@
             <label for="memberId">* 아이디<br>
                 <input type="text" id="memberId" name="memberId">
                 <button type="button" id="idDuplicate">아이디 중복 확인</button>
-            </label>
+            </label><br><br>
             <!--   중복확인결과 메시지  -->
             <small id="idCheckResult" style="color: red;"></small>
             <br><br>
@@ -36,7 +36,11 @@
             </label>
             <!--   전화번호   -->
             <label for="memberPhone">* 전화번호<br>
-                <input type="tel" id="memberPhone" name="memberPhone"><br>
+                <input type="tel" id="memberPhone" name="memberPhone"  pattern="^010-\d{4}-\d{4}$"
+                       placeholder="010-1234-5678"><br>
+                <!-- 실시간 메시지 표시 -->
+                <small id="phoneError" style="color: red; display: none;">올바른 형식으로 입력하세요. (예: 010-1234-5678)</small>
+
             </label>
 
             <!-- 경고 메시지를 표시할 영역 -->
@@ -94,6 +98,8 @@
     </div>
 </div>
 
+</main>
+<div th:replace="~{fragments/footer :: footer}"></div>
 
 <!--AJAX(Asynchronous JavaScript and XML)는 웹 페이지에서 서버와 비동기적으로 데이터를 주고받을 수 있게 해주는 기술로, 데이터를 json이나 xml방식을 사용한다. 서버에서 클라이언트로
         전달할때 JSON을 많이 사용.
@@ -166,6 +172,23 @@
             warningMessage.textContent = "";  // 필수 항목이 입력된 경우 경고 메시지 비우기
         }
     });
+
+
+    document.getElementById("memberPhone").addEventListener("input", function () {
+        const phoneInput = this.value;
+        const phonePattern = /^010-\d{4}-\d{4}$/;
+        const errorElement = document.getElementById("phoneError");
+
+        // 형식이 맞는지 확인
+        if (phonePattern.test(phoneInput)) {
+            errorElement.style.display = "none"; // 에러 메시지 숨기기
+            this.setCustomValidity(""); // 폼 제출 허용
+        } else {
+            errorElement.style.display = "block"; // 에러 메시지 보이기
+            this.setCustomValidity("올바른 형식으로 입력하세요."); // 폼 제출 차단
+        }
+    });
+
 
 
 </script>

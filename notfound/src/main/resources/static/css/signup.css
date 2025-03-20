@@ -1,35 +1,55 @@
-
 /* 기본 스타일 */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f9;
     margin: 0;
     padding: 0;
+    min-height: 100vh; /* 화면 전체를 커버할 수 있도록 최소 높이 설정 */
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    flex-direction: column;
+    flex-direction: column; /* 헤더, 메인, 푸터를 세로 배치 */
 }
 
-h2 {
+/* 메인 회원가입 폼 중앙 정렬 */
+main {
+    display: flex;
+    justify-content: center; /* 가로로 가운데 정렬 */
+    align-items: center; /* 세로로 가운데 정렬 */
+    flex-grow: 1; /* 메인 영역이 헤더와 푸터를 제외한 공간을 채움 */
+    max-width: 800px; /* 메인 영역의 최대 가로 크기 */
+    margin: 0 auto; /* 좌우 중앙 배치를 위한 auto 마진 */
+    padding: 20px; /* 내부 여백 */
+    box-sizing: border-box; /* 패딩 크기를 포함한 박스 모델 설정 */
+}
+
+/* 회원가입 폼에 테두리 추가 */
+form {
+    width: 100%;
+    max-width: 400px; /* 회원가입 폼의 최대 폭 */
+    background-color: #ffffff; /* 폼 배경색 */
+    padding: 20px;
+    border: 1px solid #ccc; /* 얇은 테두리 추가 */
+    border-radius: 10px; /* 테두리에 라운드 효과 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 */
+    box-sizing: border-box; /* 패딩 포함한 박스 모델 설정 */
+}
+
+/* h3 회원가입 안내 텍스트 */
+.signup-title {
+    font-size: 22px;
     color: #333;
     text-align: center;
+    margin-bottom: 20px;
 }
 
-label {
-    font-size: 16px;
-    color: #555;
-}
-
-/* 수정된 input 스타일 */
+/* input 스타일 */
 input[type="text"], input[type="password"], input[type="tel"] {
-    width: 250px; /* 기존보다 작게 설정 */
+    width: 100%; /* 입력 필드가 부모 너비에 맞게 */
     padding: 10px;
     margin: 5px 0 15px 0;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 14px;
+    box-sizing: border-box;
 }
 
 button {
@@ -47,31 +67,32 @@ button:hover {
     background-color: #45a049;
 }
 
-/* 회원가입 버튼 가운데 정렬 */
+/* 회원등록 버튼 가운데 정렬 */
 .form-container {
     display: flex;
     justify-content: center; /* 버튼을 가운데 정렬 */
-    width: 100%; /* 폼의 너비를 100%로 설정 */
+    width: 100%;
 }
 
 /* 모달 스타일 */
 .modal {
-    display: none; /* 처음에는 모달을 숨김 */
-    position: absolute;
-    z-index: 1;
+    display: none;
+    position: fixed;
+    z-index: 100;
     left: 0;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 0;
     width: 100%;
+    height: 100%;
     background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
-    overflow: auto; /* 모달 내용이 화면을 넘치지 않도록 처리 */
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-content {
     background-color: #fff;
     margin: 0 auto;
     padding: 20px;
-    border-radius: 5px;
+    border-radius: 10px;
     width: 80%;
     max-width: 500px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -82,17 +103,8 @@ button:hover {
     color: #333;
 }
 
-.modal-content ul {
-    padding-left: 20px;
-}
-
-.modal-content li {
-    font-size: 16px;
-    color: #555;
-}
-
 .modal-content button {
-    background-color: #f44336; /* 닫기 버튼에 빨간색 */
+    background-color: #f44336;
     margin-top: 20px;
 }
 
@@ -100,35 +112,13 @@ button:hover {
     background-color: #e53935;
 }
 
-/* 회원가입 폼 스타일 */
-form {
+/* 푸터 스타일 보조 (페이지 하단 고정) */
+footer {
     width: 100%;
-    margin: 20px auto;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #fdfdfd; /* 배경을 밝은 색으로 변경 */
-}
-
-form label {
-    display: block;
-    margin-bottom: 8px;
-}
-
-small {
-    font-size: 14px;
-}
-
-small#idCheckResult {
-    font-weight: bold;
-}
-
-/* 회원가입을 위한 안내 텍스트 */
-.signup-title {
-    font-size: 24px;
-    color: #333;
     text-align: center;
-    margin-bottom: 20px;
+    padding: 10px 0;
+    background: #fdfdfd;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    color: #555;
 }
-

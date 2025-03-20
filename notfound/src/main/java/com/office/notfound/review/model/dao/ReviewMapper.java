@@ -16,4 +16,12 @@ public interface ReviewMapper {
     List<OfficeReviewDTO> findOfficeReview(int storeCode);
 
     void registNewReview(ReviewDTO newReview);
+
+    List<ReviewDTO> selectReviewsByMemberId(String memberId);
+
+    ReviewDTO findMyReviewByCode(int reviewCode);
+
+    void updateReview(ReviewDTO myReview);
+
+    void deleteReview(int reviewCode);
 }

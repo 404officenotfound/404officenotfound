@@ -12,10 +12,10 @@
         <result property="latitude" column="latitude"/>
         <result property="longitude" column="longitude"/>
         <result property="description" column="description"/>
-        <result property="storeThumbnail" column="store_thumbnail"/>
-        <result property="storeImg1" column="store_img1"/>
-        <result property="storeImg2" column="store_img2"/>
-        <result property="storeImg3" column="store_img3"/>
+        <result property="storeThumbnailUrl" column="store_thumbnail_url"/>
+        <result property="storeImg1Url" column="store_img1_url"/>
+        <result property="storeImg2Url" column="store_img2_url"/>
+        <result property="storeImg3Url" column="store_img3_url"/>
     </resultMap>
 
     <select id="findAllStores" parameterType="com.office.notfound.store.model.dto.StoreDTO">
@@ -26,7 +26,7 @@
             store_gu,
             store_address,
             description,
-            store_thumbnail
+            store_thumbnail_url
         FROM
             tbl_store
         ORDER BY
@@ -39,11 +39,13 @@
             store_city,
             store_gu,
             store_address,
+            latitude,
+            longitude,
             description,
-            store_thumbnail,
-            store_img1,
-            store_img2,
-            store_img3
+            store_thumbnail_url,
+            store_img1_url,
+            store_img2_url,
+            store_img3_url
         FROM
             tbl_store
         WHERE
@@ -71,7 +73,7 @@
             store_city,
             store_gu,
             store_address,
-            store_thumbnail
+            store_thumbnail_url
         FROM
             tbl_store
         WHERE
@@ -86,23 +88,61 @@
             store_city,
             store_gu,
             store_address,
+            latitude,
+            longitude,
             description,
-            store_thumbnail,
-            store_img1,
-            store_img2,
-            store_img3
+            store_thumbnail_url,
+            store_img1_url,
+            store_img2_url,
+            store_img3_url
         )
         VALUES (
                    #{storeName},
                    #{storeCity},
                    #{storeGu},
                    #{storeAddress},
+                   #{latitude},
+                   #{longitude},
                    #{description},
-                   #{storeThumbnail},
-                   #{storeImg1},
-                   #{storeImg2},
-                   #{storeImg3}
+                   #{storeThumbnailUrl},
+                   #{storeImg1Url},
+                   #{storeImg2Url},
+                   #{storeImg3Url}
                );
     </insert>
-
+    <update id="updateStore" parameterType="com.office.notfound.store.model.dto.StoreDTO">
+        UPDATE tbl_store
+        SET
+            store_name = #{storeName},
+            store_city = #{storeCity},
+            store_gu = #{storeGu},
+            store_address = #{storeAddress},
+            latitude = #{latitude},
+            longitude = #{longitude},
+            description = #{description},
+            store_thumbnail_url = CASE WHEN #{storeThumbnailUrl} IS NOT NULL THEN #{storeThumbnailUrl} ELSE store_thumbnail_url END,
+            store_img1_url = #{storeImg1Url},
+            store_img2_url = #{storeImg2Url},
+            store_img3_url = #{storeImg3Url}
+        WHERE store_code = #{storeCode}
+    </update>
+    <select id="findImageByStoreCode" parameterType="com.office.notfound.store.model.dto.StoreDTO">
+        SELECT store_name = #{storeName},
+               store_city = #{storeCity},
+               store_gu = #{storeGu},
+               store_address = #{storeAddress},
+               latitude = #{latitude},
+               longitude = #{longitude},
+               description = #{description},
+               store_thumbnail_url = CASE WHEN #{storeThumbnailUrl} IS NOT NULL THEN #{storeThumbnailUrl} ELSE store_thumbnail_url END,
+               store_img1_url = #{storeImg1Url},
+               store_img2_url = #{storeImg2Url},
+               store_img3_url = #{storeImg3Url}
+        FROM tbl_store
+        WHERE store_code = #{storeCode}
+    </select>
+    <delete id="deleteStore" parameterType="int">
+        DELETE FROM tbl_store
+        WHERE store_code = #{storeCode}
+    </delete>
 </mapper>
