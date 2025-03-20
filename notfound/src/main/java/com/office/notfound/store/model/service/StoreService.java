@@ -12,20 +12,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+
+import static com.office.notfound.common.util.FileUploadUtils.saveStoreFile;
 
 @Service
 public class StoreService {
 
-    @Value("build/resources/main/static/img/store")
-    private String IMAGE_DIR;
-
-    @Value("/img/store/")
-    private String IMAGE_URL;
+    @Value("${file.upload-dir}")
+    private String uploadDir;
 
     private final StoreMapper storeMapper;
 
@@ -48,21 +50,74 @@ public class StoreService {
     @Transactional
     public void createStore(StoreDTO store, MultipartFile storeThumbnail, MultipartFile storeImg1, MultipartFile storeImg2, MultipartFile storeImg3) throws Exception {
 
-        // 이미지 저장
-        if (!storeThumbnail.isEmpty()) {
+        String fileName = UUID.randomUUID().toString().replace("-", ""); // 파일명 생성
+        Map<String, String> fileUrls = saveStoreFile(uploadDir, fileName, storeThumbnail, storeImg1, storeImg2, storeImg3);
 
-            String imageName = UUID.randomUUID().toString().replace("-", "");
-            String replaceFileName = FileUploadUtils.saveFile(IMAGE_DIR, imageName, storeThumbnail, storeImg1, storeImg2, storeImg3);
-
-            store.setStoreThumbnailUrl(replaceFileName);
-            store.setStoreImg1Url(replaceFileName);
-            store.setStoreImg2Url(replaceFileName);
-            store.setStoreImg3Url(replaceFileName);
-        }
+        // DTO에 저장된 이미지 URL 세팅
+        store.setStoreThumbnailUrl(fileUrls.get("storeThumbnailUrl"));
+        store.setStoreImg1Url(fileUrls.get("storeImg1Url"));
+        store.setStoreImg2Url(fileUrls.get("storeImg2Url"));
+        store.setStoreImg3Url(fileUrls.get("storeImg3Url"));
 
         // 상품 정보 저장
         storeMapper.insertStore(store);
     }
+
+
+//    @Transactional
+//    public void createStore(StoreDTO store, MultipartFile storeImg1) throws Exception {
+//
+//        // 각 이미지의 저장된 URL을 저장할 변수 선언
+//        String img1Url = null;
+//
+//        // 이미지 저장
+//        if (!storeImg1.isEmpty()) {
+//            String fileName = UUID.randomUUID().toString().replace("-", "");
+//            img1Url = FileUploadUtils.saveStoreFile(uploadDir, fileName, storeImg1);
+//        }
+//        store.setStoreImg1Url(img1Url);
+//
+//        // 상품 정보 저장
+//        storeMapper.insertStore(store);
+//    }
+//
+//    @Transactional
+//    public void createStore(StoreDTO store, MultipartFile storeImg2) throws Exception {
+//
+//        // 각 이미지의 저장된 URL을 저장할 변수 선언
+//        String img2Url = null;
+//
+//        // 이미지 저장
+//        if (!storeImg2.isEmpty()) {
+//            String fileName = UUID.randomUUID().toString().replace("-", "");
+//            img2Url = FileUploadUtils.saveStoreFile(uploadDir, fileName, storeImg2);
+//        }
+//        store.setStoreImg2Url(img2Url);
+//
+//
+//        // 상품 정보 저장
+//        storeMapper.insertStore(store);
+//    }
+//
+//    @Transactional
+//    public void createStore(StoreDTO store, MultipartFile storeImg3) throws Exception {
+//
+//        // 각 이미지의 저장된 URL을 저장할 변수 선언
+//        String img3Url = null;
+//
+//        // 이미지 저장
+//
+//        if (!storeImg3.isEmpty()) {
+//            String fileName = UUID.randomUUID().toString().replace("-", "");
+//            img3Url = FileUploadUtils.saveStoreFile(uploadDir, fileName, storeImg3);
+//        }
+//
+//        store.setStoreImg3Url(img3Url);
+//
+//
+//        // 상품 정보 저장
+//        storeMapper.insertStore(store);
+//    }
 
     public List<String> getDistinctCities() {
 
@@ -81,7 +136,39 @@ public class StoreService {
     }
 
     @Transactional
-    public void updateStore(StoreDTO store) {
+    public void updateStore(StoreDTO store, MultipartFile newImage) {
+
+        String oldImageName = storeMapper.findImageByStoreCode(store.getStoreCode());
+        String oldImagePath = uploadDir + "/" + oldImageName;
+
+        // 새로운 이미지가 업로드되었을 경우
+        if (!newImage.isEmpty()) {
+            // 기존 이미지 삭제
+            File oldFile = new File(oldImagePath);
+            if (oldFile.exists()) {
+                oldFile.delete(); // 기존 파일 삭제
+                System.out.println("[INFO] 기존 이미지 삭제 완료: " + oldImagePath);
+            }
+
+            // 새로운 이미지 저장
+            String newFileName = UUID.randomUUID().toString().replace("-", "") +
+                    newImage.getOriginalFilename().substring(newImage.getOriginalFilename().lastIndexOf("."));
+            File newFile = new File(uploadDir + "/" + newFileName);
+            try {
+                newImage.transferTo(newFile);
+                System.out.println("[INFO] 새 이미지 저장 완료: " + newFile.getAbsolutePath());
+            } catch (IOException e) {
+                System.out.println("[ERROR] 파일 저장 중 오류 발생: " + e.getMessage());
+                e.printStackTrace();
+            }
+            System.out.println("[INFO] 새 이미지 저장 완료: " + newFile.getAbsolutePath());
+
+            // DB에 새로운 이미지 정보 업데이트
+            store.setStoreThumbnailUrl(newFileName);
+            store.setStoreImg1Url(newFileName);
+            store.setStoreImg2Url(newFileName);
+            store.setStoreImg3Url(newFileName);
+        }
         // 오류 발생시 자동 롤백
         storeMapper.updateStore(store);
     }

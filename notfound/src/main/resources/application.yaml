@@ -29,6 +29,9 @@ spring:
       max-request-size: 10MB
       location: upload-dir
       enabled: true
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
 ## mybatis config
 mybatis:
   mapper-locations: mapper/**/*.xml
@@ -55,6 +58,10 @@ image:
   add-resource-handler: /**
   image-dir: build/resources/main/static/img/store
   image-url: /img/store
+
+file:
+  upload-dir: C:/upload/store
+  upload-url: /image/store/
 
 portone:
   api-key: 8266201362865180

@@ -5,7 +5,7 @@
     width: 100%;
 }
 
-/* 인증 링크 컨테이너 */
+/* 인증 링크 */
 .auth-links {
     display: flex;
     justify-content: flex-end;
@@ -14,7 +14,6 @@
     padding-right: 20px;
 }
 
-/* 로그인/회원가입 링크 스타일 */
 .auth-links a {
     color: #333;
     text-decoration: none;
@@ -26,19 +25,13 @@
     color: #4CAF50;
 }
 
-/* 로그인 후 사용자 정보 스타일 */
-.auth-links span {
-    font-size: 14px;
-    color: #333;
-    margin-right: 15px;
-}
-
-/* 로그아웃 버튼 스타일 */
 .auth-links form {
     margin: 0;
     padding: 0;
+    display: inline;
 }
 
+/* 로그아웃 버튼 복원 */
 .auth-links button {
     background: none;
     border: none;
@@ -52,75 +45,116 @@
     color: #4CAF50;
 }
 
-/* 로고 헤더 스타일 */
+/* 로고와 네비게이션 정렬 컨테이너 */
+.logo-nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 30px;
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+    position: relative;
+}
+
+/* 새로고 로고 */
 #logo-header {
-    display: block;
-    text-align: center;
-    padding: 20px 0;
+    margin-left: 50px;
 }
 
 #logo-header img {
     max-width: 300px;
     height: auto;
+    cursor: pointer;
+}
+
+/* 네비게이션을 화면 중앙에 배치 */
+nav {
+    position: absolute; /* 위치를 절대값으로 지정 */
+    top: 50%; /* 화면 세로 중앙 */
+    left: 50%; /* 화면 가로 중앙 */
+    transform: translate(-50%, -50%); /* 위치 보정 */
+    z-index: 10; /* 상단에 표시 */
+    padding: 20px;
+    width: 40%; /* 원래 가로 길이 유지 (화면의 80%) */
+    max-width: 1200px; /* 최대 가로 길이 제한 */
+    background-color: rgba(255, 255, 255, 0.95); /* 배경 투명도 */
+    border-radius: 8px; /* 모서리 둥글게 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 약간의 그림자 효과 */
 }
 
 /* 네비게이션 메뉴 스타일 */
-nav {
-    background-color: #fff;
-    border-bottom: 1px solid #eee;
-}
-
 .nav-menu {
     display: flex;
     justify-content: center;
     list-style: none;
     margin: 0;
     padding: 0;
+    gap: 80px; /* 글자 간 간격을 기존보다 더 넓힘 */
 }
 
 .nav-menu > li {
     position: relative;
-    padding: 15px 30px;
 }
 
 .nav-menu > li > a,
 .nav-menu > li > span {
+    font-size: 20px;
+    font-weight: bold;
     color: #333;
     text-decoration: none;
-    font-size: 16px;
-    cursor: pointer;
+    padding: 15px 20px;
+    transition: all 0.3s ease;
+    border-bottom: 2px solid transparent;
 }
 
-/* 드롭다운 메뉴 스타일 */
+.nav-menu > li > a:hover,
+.nav-menu > li > span:hover {
+    color: #4CAF50;
+    border-bottom: 2px solid #4CAF50;
+}
+
+/* 드롭다운 메뉴 */
 .dropdown-menu {
     display: none;
     position: absolute;
     top: 100%;
     left: 0;
     background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    min-width: 150px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    min-width: 180px;
     padding: 10px 0;
     z-index: 1000;
+    border-radius: 4px;
 }
 
 .dropdown:hover .dropdown-menu {
     display: block;
 }
 
-.dropdown-menu li {
-    list-style: none;
-}
-
-.dropdown-menu a {
+.dropdown-menu li a {
     display: block;
-    padding: 8px 20px;
+    font-size: 16px;
+    padding: 10px 20px;
     color: #333;
     text-decoration: none;
-    font-size: 14px;
 }
 
-.dropdown-menu a:hover {
+.dropdown-menu li a:hover {
     background-color: #f8f9fa;
     color: #4CAF50;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    nav {
+        position: static; /* 모바일에서 절대값 위치 제거 */
+        transform: none;
+        margin-top: 20px;
+    }
+
+    .nav-menu {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px; /* 모바일에서는 작은 간격으로 설정 */
+    }
 }

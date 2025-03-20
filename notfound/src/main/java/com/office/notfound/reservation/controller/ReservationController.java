@@ -142,16 +142,16 @@ public class ReservationController {
      */
     @GetMapping("/register")
     public String showRegisterForm(@RequestParam int storeCode,
-                                 @RequestParam int officeCode,
-                                 Model model,
-                                 @AuthenticationPrincipal MemberDTO member) {
+                                   @RequestParam int officeCode,
+                                   Model model,
+                                   @AuthenticationPrincipal MemberDTO member) {
         if (member == null) {
             return "redirect:/auth/login";
         }
 
         // 매장 정보 조회
         StoreDTO store = storeService.findStoreByCode(storeCode);
-        
+
         // 사무실 정보 조회
         OfficeDTO office = officeService.findOfficeDetail(officeCode);
 
@@ -163,7 +163,7 @@ public class ReservationController {
 
         model.addAttribute("store", store);
         model.addAttribute("office", office);
-        
+
         return "reservation/register";
     }
 
