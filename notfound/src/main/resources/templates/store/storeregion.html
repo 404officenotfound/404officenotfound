@@ -26,7 +26,6 @@
         <div class="content">
             <div th:each="store : ${storeRegionPage}" class="store-container">
                 <div class="store-grid">
-<!--                    <img th:src="@{${store.storeThumbnail}}" th:alt="${store.storeName}" class="store-thumbnail">-->
                     <img th:src="${store.storeThumbnailUrl}" th:alt="${store.storeName}" class="store-thumbnail">
 
                     <div class="store-item">
