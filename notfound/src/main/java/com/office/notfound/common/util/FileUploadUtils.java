@@ -83,7 +83,7 @@ public class FileUploadUtils {
             throws IOException {
 
         /* 프로젝트 루트 디렉토리의 절대 경로를 가져옴 */
-        String projectPath = System.getProperty("user.dir");
+        String projectPath = System.getProperty("user.dir") + "/notfound";
 
         /* build 폴더 경로 생성 */
         String buildPath = projectPath + "/build/resources/main/static/img/review";
@@ -110,7 +110,7 @@ public class FileUploadUtils {
         reviewThumbnail.transferTo(target);
 
         /* 저장된 파일 이름 반환 */
-        return savedFileName;
+        return "/img/review/" + savedFileName;
     }
 
     //    /* 이미지 삭제 기능은 SpringBoot 파일 업로드 기능을 복습하며 직접 구현해보세요~ */
