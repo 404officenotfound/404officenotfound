@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>main페이지</title>
+    <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
 </head>
@@ -15,19 +16,6 @@
 </video>
 </main>
 <div th:replace="~{fragments/footer :: footer}"></div>
-<button onclick="location.href='reservation/search'">이환섭-예약관리</button>
-<button onclick="location.href='admin/reservation/search'">이환섭-관리자-예약관리</button>
-<button onclick="location.href='payment/search'">이환섭-결제관리</button>
-<button onclick="location.href='payment/admin/search'">이환섭-관리자-결제관리</button>
-
-<a href="review/list">이슬기-리뷰 전체 조회</a>
-<a href="event/list">이벤트 전체 조회</a>
-
-
-
-<br>
-
-<br>
 
 <script th:inline="text">
     /* 설명. 회원가입 결과 메세지를 출력용 alert() */

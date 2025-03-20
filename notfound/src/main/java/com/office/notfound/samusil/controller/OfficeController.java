@@ -72,6 +72,7 @@ public class OfficeController {
 
 
         return "redirect:/reservation/register?storeCode=" + storeCode + "&officeCode=" + officeCode;
+
     }
 
     @GetMapping("/samusil/admin/officemanage/{storeCode}")

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/boards/event.css">
@@ -16,7 +17,7 @@
             <div class="card mb-3" th:each="eventList : ${eventList}">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <img th:src="@{/img/logo/새로고.JPG}" class="img-fluid rounded-start" th:alt="|event no.${eventList.eventCode}|">
+                        <img th:src="@{|/img/logo/event_img${eventList.eventCode}.jpg|}" class="img-fluid rounded-start" th:alt="|event no.${eventList.eventCode}|">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
