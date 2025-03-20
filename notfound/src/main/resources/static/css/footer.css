@@ -10,26 +10,27 @@ footer {
     font-size: 14px;
     position: relative;
     box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2); /* 위쪽 그림자 */
+    margin-top: 50px;
 }
 
 /* 좌측 영역 (로고 등을 포함할 수 있는 부분) */
 #logo-footer {
     flex: 1;
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
     font-weight: bold;
     font-size: 20px; /* 강조된 크기 */
     color: #f8b400; /* 로고 색상 (밝은 오렌지 톤) */
+    margin-left: 7em;
 }
 
 /* 중앙 텍스트 영역 */
 #middle-footer {
     flex: 2;
-    text-align: center;
+    text-align: left;
     line-height: 1.8; /* 읽기 쉽도록 줄 간격 조정 */
     font-size: 15px;
     color: #ccc; /* 연한 회색 톤 */
+    margin: 0 7em;
 }
 
 #middle-footer p {
@@ -42,20 +43,20 @@ footer {
     flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: flex-end; /* 오른쪽 정렬 */
     font-size: 15px;
     color: #fff;
-    text-align: right;
+    justify-content: end;
+    margin-right: 7em;
 }
 
 #right-footer h3 {
     margin: 0;
-    color: #f8b400; /* 상담 번호 헤드라인 색상 */
-    font-size: 22px;
+    color: #FFFFFF; /* 상담 번호 헤드라인 색상 */
+    font-size: 40px;
 }
 
 #right-footer h5 {
-    margin: 3px 0;
+    margin: 10px 0;
     color: #aaa; /* 서브 텍스트 색상 */
     font-size: 13px;
     font-weight: normal;
