@@ -22,6 +22,7 @@
         FROM tbl_office
         WHERE store_code = #{storeCode}
     </select>
+
     <select id="findOfficeDetail" parameterType="int" resultMap="officeResultMap">
         SELECT
             office_code,
@@ -36,6 +37,7 @@
             office_code = #{officeCode}
             LIMIT 1;
     </select>
+
     <select id="getOfficeListByStore" resultType="com.office.notfound.samusil.model.dto.OfficeDTO">
         SELECT office_code,
                office_num

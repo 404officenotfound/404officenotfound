@@ -3,20 +3,17 @@ package com.office.notfound.reservation.controller;
 import com.office.notfound.member.model.dto.MemberDTO;
 import com.office.notfound.reservation.model.dto.ReservationDTO;
 import com.office.notfound.reservation.model.service.ReservationService;
-import com.office.notfound.store.model.dto.StoreDTO;
 import com.office.notfound.samusil.model.dto.OfficeDTO;
-import com.office.notfound.store.model.service.StoreService;
 import com.office.notfound.samusil.model.service.OfficeService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.office.notfound.store.model.dto.StoreDTO;
+import com.office.notfound.store.model.service.StoreService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
 
 @Controller
 @RequestMapping("/reservation")
@@ -142,16 +139,16 @@ public class ReservationController {
      */
     @GetMapping("/register")
     public String showRegisterForm(@RequestParam int storeCode,
-                                   @RequestParam int officeCode,
-                                   Model model,
-                                   @AuthenticationPrincipal MemberDTO member) {
+                                 @RequestParam int officeCode,
+                                 Model model,
+                                 @AuthenticationPrincipal MemberDTO member) {
         if (member == null) {
             return "redirect:/auth/login";
         }
 
         // 매장 정보 조회
         StoreDTO store = storeService.findStoreByCode(storeCode);
-
+        
         // 사무실 정보 조회
         OfficeDTO office = officeService.findOfficeDetail(officeCode);
 
@@ -163,8 +160,31 @@ public class ReservationController {
 
         model.addAttribute("store", store);
         model.addAttribute("office", office);
-
+        
         return "reservation/register";
     }
 
+    @GetMapping("/modify/{reservationCode}")
+    public String showModifyForm(@PathVariable Integer reservationCode, Model model) {
+        ReservationDTO reservation = reservationService.getReservation(reservationCode);
+        model.addAttribute("reservation", reservation);
+        return "reservation/modify";
+    }
+
+    @PostMapping("/modify/{reservationCode}")
+    public String modifyReservation(@PathVariable Integer reservationCode,
+                                    @AuthenticationPrincipal MemberDTO member,
+                                    @ModelAttribute ReservationDTO modifiedReservation,
+                                    RedirectAttributes redirectAttributes) {
+        try {
+            // 예약 수정 처리
+            reservationService.modifyReservation(modifiedReservation);
+            redirectAttributes.addFlashAttribute("message", "예약이 성공적으로 수정되었습니다.");
+
+            return "redirect:/reservation/search";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/reservation/modify/" + reservationCode;
+        }
+    }
 }

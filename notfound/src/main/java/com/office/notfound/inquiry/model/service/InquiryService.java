@@ -17,12 +17,20 @@ public class InquiryService {
         this.inquiryMapper = inquiryMapper;
     }
 
+    // 모든 문의 조회 (관리자)
     public List<InquiryDTO> selectAllInquiryList() {
 
         return inquiryMapper.selectAllInquiryList();
     }
 
+    // 특정 사용자의 문의 조회
+    public List<InquiryDTO> selectMyInquiryList(int memberCode) {
+        return inquiryMapper.selectMyInquiryList(memberCode);
+    }
+
+    // 문의 상세 페이지
     public InquiryDTO selectInquiryByCode(int code) {
         return inquiryMapper.selectInquiryByCode(code);
     }
+
 }

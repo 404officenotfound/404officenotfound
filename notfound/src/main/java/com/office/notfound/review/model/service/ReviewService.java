@@ -77,8 +77,6 @@ public class ReviewService {
 
     public List<ReviewDTO> selectReviewsByMemberId(String memberId) {
 
-        System.out.println("reviewService-------------memberId = " + memberId);
-
         return reviewMapper.selectReviewsByMemberId(memberId);
     }
 
@@ -111,7 +109,7 @@ public class ReviewService {
                 // 기존 이미지가 있다면 먼저 삭제
                 if (originalImageUrl != null && !originalImageUrl.isEmpty()) {
 
-                    FileUploadUtils.deleteReviewFile();
+//                    FileUploadUtils.deleteReviewFile();
                 }
 
                 // 새 이미지 저장
@@ -149,7 +147,6 @@ public class ReviewService {
 
         // 리뷰 이미지 정보 조회
         ReviewDTO review = reviewMapper.findMyReviewByCode(reviewCode);
-        System.out.println("삭제서비스-------review이미지정보조회---------- " + review);
 
         if (review == null) {
             throw new IllegalArgumentException("리뷰가 존재하지 않습니다.");

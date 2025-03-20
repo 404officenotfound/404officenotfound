@@ -2,63 +2,123 @@
 .ceo-container {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    min-height: calc(100vh - 200px);
-    padding: 60px 20px;
+    align-items: center; /* 컨텐츠를 이미지와 텍스트 세로 정렬 */
+    min-height: calc(100vh - 200px); /* 헤더/푸터 제외한 높이 */
+    padding: 60px 20px; /* 상하단 간격 유지 */
     background-color: #fff;
+    gap: 70px; /* 이미지와 텍스트 사이 간격 추가 (기존 60px -> 70px) */
+    flex-wrap: wrap; /* 반응형을 위해 래핑 허용 */
 }
 
+/* 이미지 스타일 */
+.ceo-container img {
+    width: 450px; /* 이미지 폭 유지 */
+    height: auto;
+    margin-top: -40px; /* 이미지 위치를 더 위로 이동 (기존 -20px -> -40px) */
+    border-radius: 8px; /* 둥근 모서리 설정 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+    animation: fade-in 1.5s ease-in-out; /* 부드럽게 나타나는 효과 */
+}
+
+/* 텍스트 영역 */
 .ceo-content {
-    max-width: 800px;
-    width: 100%;
+    flex: 1; /* 텍스트가 남은 공간 모두 사용 */
+    max-width: 800px; /* 텍스트 최대 너비 유지 */
+    animation: slide-in-left 1.5s ease-in-out;
 }
 
 /* CEO 제목 스타일 */
 .ceo-title {
-    font-size: 28px;
+    font-size: 32px; /* 제목 크기 유지 */
     font-weight: bold;
-    color: #333;
-    margin-bottom: 40px;
-    position: relative;
+    color: #222;
+    margin-bottom: 40px; /* 제목과 본문 사이 여백 */
 }
 
 /* CEO 메시지 스타일 */
 .ceo-message {
-    font-size: 16px;
-    line-height: 1.8;
-    color: #333;
+    font-size: 20px; /* 기본 텍스트 크기 유지 */
+    line-height: 2; /* 줄 간격 */
+    color: #555;
 }
 
 .ceo-message p {
-    margin-bottom: 25px;
+    margin-bottom: 30px; /* 하단 여백 확대 (기존 25px -> 30px) */
 }
 
-/* CEO 서명 */
+/* 강조된 텍스트 스타일 */
+.highlight {
+    color: #3CB371; /* 민트색 */
+    font-weight: bold;
+    animation: fade-in-highlight 1.5s ease-in;
+}
+
+/* CEO 서명 스타일 */
 .ceo-signature {
     text-align: right;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 22px; /* 서명 크기 유지 */
     margin-top: 40px;
-    color: #333;
+    color: #555; /* 서명 컬러 */
 }
 
 /* 반응형 디자인 */
 @media (max-width: 768px) {
     .ceo-container {
-        padding: 40px 20px;
+        flex-direction: column; /* 이미지를 위로 */
+        padding: 40px 20px; /* 상하 패딩 조정 */
+        gap: 40px; /* 이미지와 텍스트 간격 확대 (기존 30px -> 40px) */
+    }
+
+    .ceo-container img {
+        width: 100%; /* 이미지가 화면 크기에 맞게 프리셋 */
+        max-width: 400px; /* 최대 크기 제한 */
+        margin-top: -20px; /* 모바일에서 이미지 위치를 약간 위로 */
     }
 
     .ceo-title {
-        font-size: 24px;
+        font-size: 28px; /* 제목 크기 축소 */
         margin-bottom: 30px;
     }
 
     .ceo-message {
-        font-size: 14px;
+        font-size: 18px; /* 텍스트 글자 크기 축소 */
     }
 
     .ceo-signature {
-        font-size: 16px;
+        font-size: 18px; /* 서명 글자 크기 축소 */
         margin-top: 30px;
+    }
+}
+
+/* 애니메이션 키프레임 */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slide-in-left {
+    0% {
+        transform: translateX(-100px); /* 좌측에서 시작 */
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0); /* 원래 위치 */
+        opacity: 1;
+    }
+}
+
+@keyframes fade-in-highlight {
+    0% {
+        background-color: rgba(60, 179, 113, 0.2); /* 강조 색상 */
+        color: #333; /* 기본 텍스트 색상 */
+    }
+    100% {
+        background-color: transparent;
+        color: #3CB371; /* 민트색 강조 */
     }
 }
