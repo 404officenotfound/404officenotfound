@@ -5,7 +5,7 @@
     <title>지역별 지점 조회</title>
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
-    <link rel="stylesheet" href="/css/storeregion.css">
+    <link rel="stylesheet" href="/css/store/storeregion.css">
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
@@ -26,7 +26,9 @@
         <div class="content">
             <div th:each="store : ${storeRegionPage}" class="store-container">
                 <div class="store-grid">
-                    <img th:src="${store.storeThumbnail}" th:alt="${store.storeName}" class="store-thumbnail">
+<!--                    <img th:src="@{${store.storeThumbnail}}" th:alt="${store.storeName}" class="store-thumbnail">-->
+                    <img th:src="${store.storeThumbnailUrl}" th:alt="${store.storeName}" class="store-thumbnail">
+
                     <div class="store-item">
                         <!-- 상세지점으로 갈 때 브라우저에 표시될 경로 주소다. -->
                         <a th:href="@{'/store/detailstore/' + ${store.storeCode}}">
