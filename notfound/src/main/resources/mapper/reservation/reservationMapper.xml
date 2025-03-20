@@ -159,7 +159,7 @@
 
     <!-- 🔹 예약 상태 업데이트 -->
     <update id="updateReservationStatus">
-        UPDATE tbl_reservation 
+        UPDATE tbl_reservation
         SET reservation_status = #{status}
         WHERE reservation_code = #{reservationCode}
     </update>
@@ -178,31 +178,31 @@
         SELECT COUNT(*) = 0
         FROM tbl_reservation
         WHERE office_code = #{officeCode}
-        AND reservation_status != '예약취소'
+          AND reservation_status != '예약취소'
         AND (
             (start_datetime BETWEEN #{startDatetime} AND #{endDatetime})
-            OR (end_datetime BETWEEN #{startDatetime} AND #{endDatetime})
+           OR (end_datetime BETWEEN #{startDatetime} AND #{endDatetime})
         <![CDATA[ OR (start_datetime <= #{startDatetime} AND end_datetime >= #{endDatetime})]]>
-        )
+            )
     </select>
 
     <!-- 예약 등록 -->
     <insert id="insertReservation" parameterType="com.office.notfound.reservation.model.dto.ReservationDTO">
         INSERT INTO tbl_reservation (
-        member_code,
-        office_code,
-        start_datetime,
-        end_datetime,
-        total_price,
-        reservation_status
+            member_code,
+            office_code,
+            start_datetime,
+            end_datetime,
+            total_price,
+            reservation_status
         ) VALUES (
-        #{memberCode},
-        #{officeCode},
-        #{startDatetime},
-        #{endDatetime},
-        #{totalPrice},
-        COALESCE(#{reservationStatus}, '예약완료')
-        )
+                     #{memberCode},
+                     #{officeCode},
+                     #{startDatetime},
+                     #{endDatetime},
+                     #{totalPrice},
+                     COALESCE(#{reservationStatus}, '예약완료')
+                 )
     </insert>
 
     <!-- 예약 코드로 예약 정보 조회 -->
@@ -218,8 +218,8 @@
             r.reservation_status
         FROM
             tbl_reservation r
-            JOIN tbl_office o ON r.office_code = o.office_code
-            JOIN tbl_store s ON o.store_code = s.store_code
+                JOIN tbl_office o ON r.office_code = o.office_code
+                JOIN tbl_store s ON o.store_code = s.store_code
         WHERE
             r.reservation_code = #{reservationCode}
     </select>

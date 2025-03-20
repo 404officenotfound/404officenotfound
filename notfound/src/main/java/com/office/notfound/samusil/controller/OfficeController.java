@@ -71,9 +71,6 @@ public class OfficeController {
         model.addAttribute("office", office);
 
 
-        return "/store/detailstore";
-
-        // 예약 등록 페이지로 리다이렉트
         return "redirect:/reservation/register?storeCode=" + storeCode + "&officeCode=" + officeCode;
     }
 

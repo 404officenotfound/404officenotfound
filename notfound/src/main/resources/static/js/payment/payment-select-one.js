@@ -13,7 +13,7 @@ function toggleSearchFields() {
 // 🔥 폼 유효성 검사
 function validateForm() {
     const searchType = document.getElementById('searchType').value;
-    
+
     if (searchType === 'paymentCode') {
         const input = document.querySelector('input[name="paymentCode"]').value.trim();
         if (input === "") {

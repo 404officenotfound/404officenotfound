@@ -1,13 +1,13 @@
 // 검색 필드 토글
 function toggleSearchFields() {
     const searchType = document.getElementById('searchType').value;
-    
+
     // 모든 검색 필드 숨기기
     document.getElementById('reservationCodeSearch').style.display = 'none';
     document.getElementById('memberCodeSearch').style.display = 'none';
     document.getElementById('reservationDateSearch').style.display = 'none';
     document.getElementById('reservationPeriodSearch').style.display = 'none';
-    
+
     // 선택된 검색 타입에 따라 해당 필드 보이기
     switch(searchType) {
         case 'reservationCode':
@@ -29,7 +29,7 @@ function toggleSearchFields() {
 function toggleAllCheckboxes() {
     const checkboxes = document.getElementsByClassName('reservation-checkbox');
     const selectAllCheckbox = document.getElementById('selectAll');
-    
+
     for(let checkbox of checkboxes) {
         if(!checkbox.disabled) {
             checkbox.checked = selectAllCheckbox.checked;
@@ -40,7 +40,7 @@ function toggleAllCheckboxes() {
 // 검색 폼 유효성 검사
 function validateForm() {
     const searchType = document.getElementById('searchType').value;
-    
+
     switch(searchType) {
         case 'reservationCode':
             const reservationCode = document.querySelector('input[name="reservationCode"]').value;
@@ -53,7 +53,7 @@ function validateForm() {
                 return false;
             }
             break;
-            
+
         case 'memberCode':
             const memberCode = document.querySelector('input[name="memberCode"]').value;
             if(!memberCode) {
@@ -65,7 +65,7 @@ function validateForm() {
                 return false;
             }
             break;
-            
+
         case 'reservationDate':
             const reservationDate = document.querySelector('input[name="reservationDate"]').value;
             if(!reservationDate) {
@@ -73,7 +73,7 @@ function validateForm() {
                 return false;
             }
             break;
-            
+
         case 'reservationPeriod':
             const startDate = document.querySelector('input[name="startDatetime"]').value;
             const endDate = document.querySelector('input[name="endDatetime"]').value;
@@ -87,7 +87,7 @@ function validateForm() {
             }
             break;
     }
-    
+
     return true;
 }
 
@@ -102,7 +102,7 @@ function handleCancel() {
         if(checkbox.checked) {
             const row = checkbox.closest('tr');
             const status = row.querySelector('td:nth-last-child(1)').textContent.trim();
-            
+
             if(status !== '예약취소') {
                 selectedCodes.push(checkbox.value);
             } else {
@@ -137,7 +137,7 @@ function handleDelete() {
         if(checkbox.checked) {
             const row = checkbox.closest('tr');
             const status = row.querySelector('td:nth-last-child(1)').textContent.trim();
-            
+
             if(status === '예약취소') {
                 selectedCodes.push(checkbox.value);
             } else {

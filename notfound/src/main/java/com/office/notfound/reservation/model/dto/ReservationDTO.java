@@ -7,7 +7,7 @@ public class ReservationDTO {
   private  int reservationCode;
   private  int memberCode;
   private  int officeCode;
-  private String storeName;    // 매핑 대상
+  private String storeName;
   private  LocalDateTime reservationDate;
   private  LocalDateTime startDatetime;
   private  LocalDateTime endDatetime;
