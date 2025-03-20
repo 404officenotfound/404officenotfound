@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>회원가입</title>
-
+    <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/signup.css">
+    <link rel="stylesheet" href="/css/footer.css">
 </head>
 <body>
-
-<img src="/img/logo/새로고.JPG" alt="로고" onclick="window.location.href='/';" style="cursor: pointer;" width="400px" height="80px">
-<!-- 회원가입 폼 -->
+<div th:replace="~{fragments/header :: header}"></div>
+<main>
 <div>
     <div>
-        <h2 class="signup-title">회원가입을 위해<br>정보를 입력해주세요.</h2>
+        <h3 class="signup-title">회원가입을 위해<br>정보를 입력해주세요.</h3>
         <form th:action="@{/member/signup}" method="post">
             <!--    이름        -->
             <label for="memberName">* 이름<br>
@@ -26,7 +26,7 @@
             <label for="memberId">* 아이디<br>
                 <input type="text" id="memberId" name="memberId">
                 <button type="button" id="idDuplicate">아이디 중복 확인</button>
-            </label>
+            </label><br><br>
             <!--   중복확인결과 메시지  -->
             <small id="idCheckResult" style="color: red;"></small>
             <br><br>
@@ -98,8 +98,8 @@
     </div>
 </div>
 
-
-
+</main>
+<div th:replace="~{fragments/footer :: footer}"></div>
 
 <!--AJAX(Asynchronous JavaScript and XML)는 웹 페이지에서 서버와 비동기적으로 데이터를 주고받을 수 있게 해주는 기술로, 데이터를 json이나 xml방식을 사용한다. 서버에서 클라이언트로
         전달할때 JSON을 많이 사용.
