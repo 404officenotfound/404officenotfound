@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS tbl_member (
                                           member_enddate DATETIME NULL COMMENT '탈퇴날짜',
                                           member_endstatus VARCHAR(20) NOT NULL DEFAULT 'N' COMMENT '탈퇴여부',
                                           CONSTRAINT pk_member_code PRIMARY KEY (member_code)
-) ENGINE=INNODB COMMENT '회원정보';
+) ENGINE=INNODB COMMENT '회원정보' AUTO_INCREMENT = 1;
 
 
 -- 2. 권한 테이블 (tbl_authority)
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS tbl_authority
     authority_name VARCHAR(20) NOT NULL COMMENT '권한이름',
     -- TABLE LEVEL CONSTRAINTS
     CONSTRAINT pk_authority_code PRIMARY KEY (authority_code)
-) ENGINE=INNODB COMMENT '권한' AUTO_INCREMENT = 1;
+) ENGINE=INNODB COMMENT '권한';
 
 -- 3. 회원별권한 테이블 (tbl_member_role)
 CREATE TABLE IF NOT EXISTS tbl_member_role
