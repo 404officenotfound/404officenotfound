@@ -1,7 +1,3 @@
-img{
-    width: 100px;
-    height: 100px;
-}
 .store-container {
     display: flex;
     justify-content: space-between;  /* 썸네일과 텍스트를 양옆으로 배치 */
@@ -22,8 +18,8 @@ img{
 }
 
 .store-thumbnail {
-    width: 100px;  /* 썸네일 크기를 줄여서 화면에 더 잘 맞게 */
-    height: 100px;
+    width: 150px;  /* 썸네일 크기를 줄여서 화면에 더 잘 맞게 */
+    height: 150px;
     margin-right: 20px;  /* 썸네일과 텍스트 사이에 간격을 둠 */
 }
 
