@@ -88,9 +88,9 @@ public class StoreController {
     @PostMapping("store/admin/storecreate")
     public String adminStoreCreate(@ModelAttribute StoreDTO store,
                                    @RequestParam("storeThumbnail") MultipartFile storeThumbnail,
-                                   @RequestParam("storeImg1") MultipartFile storeImg1,
-                                   @RequestParam("storeImg2") MultipartFile storeImg2,
-                                   @RequestParam("storeImg3") MultipartFile storeImg3,
+                                   @RequestParam(value = "storeImg1", required = false) MultipartFile storeImg1,
+                                   @RequestParam(value = "storeImg2", required = false) MultipartFile storeImg2,
+                                   @RequestParam(value = "storeImg3", required = false) MultipartFile storeImg3,
                                    RedirectAttributes rttr) {
 
 //        try {
@@ -170,7 +170,6 @@ public class StoreController {
         List<StoreDTO> stores = storeService.findStoresByCityAndGu(city, gu);
         System.out.println("결과 스토어 리스트: " + stores); // 디버깅용 출력
         return stores;
-
     }
 
     // 지점 수정 페이지 넘어가기
@@ -192,6 +191,7 @@ public class StoreController {
     @PostMapping("/store/admin/storeedit/{storeCode}")
     public String adminStoreEdit(@PathVariable("storeCode") int storeCode,
                                  @ModelAttribute StoreDTO store,
+                                 @RequestParam(value = "newImage", required = false) MultipartFile newImage,
                                  RedirectAttributes rttr) {
 
         try {
@@ -200,7 +200,7 @@ public class StoreController {
             }
 
             store.setStoreCode(storeCode);
-            storeService.updateStore(store);
+            storeService.updateStore(store, newImage);
             rttr.addFlashAttribute("message", "지점 정보 수정을 성공하였습니다.");
             // 지점 수정 성공 후 이동하는 페이지는 디폴트
             return "redirect:/store/admin/storemanage";
