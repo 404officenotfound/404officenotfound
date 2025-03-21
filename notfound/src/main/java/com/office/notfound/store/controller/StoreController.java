@@ -57,6 +57,7 @@ public class StoreController {
         // 사무실 상세 리스트 내 리뷰 조회용
         List<OfficeReviewDTO> FindOfficeReview = reviewService.findOfficeReview(storeCode);
 
+
         // 모델에 해당 매장 정보를 담아 상세 페이지를 반환
         model.addAttribute("store", store);
         model.addAttribute("latitude", store.getLatitude());

@@ -23,11 +23,6 @@
     </div>
 
     <div class="span-box">
-      <div>회원 번호 </div>
-      <span th:text="${inquiry.memberCode}"></span>
-    </div>
-
-    <div class="span-box">
       <div>아이디 </div>
       <span th:text="${inquiry.memberId}"></span>
     </div>
@@ -41,23 +36,33 @@
       <div>답변상태 </div>
       <span th:text="${inquiry.inquiryAnswerState}"></span>
     </div>
-
   </div>
+
+    <div class="box2">
+      <div class="box3">
+        <span>나의 질문</span>
+      </div>
+    <div th:text="${inquiry.inquiryContent}" class="box2-myq"></div>
+    </div>
 
 
     <div class="box2">
-    <div th:text="${inquiry.inquiryContent}"></div>
+      <div class="box3">
+        <span>답변</span>
+      </div>
+      <div class="box3">
+        <div th:if="${inquiry.inquiryAdminAnswer != null}">
+          <div th:text="${inquiry.inquiryAdminAnswer}" class="box2-myq">
+        </div>
+        <div th:if="${inquiry.inquiryAdminAnswer == null}" class="box2-myq">
+            <span>등록된 리뷰가 없습니다. </span>
+        </div>
+      </div>
     </div>
-
-    <div class="box2">
-
-    <div class="box2-1" th:text="${inquiry.inquiryAdminAnswer}">
-      <span th:text="${inquiry.inquiryCode}">답변 상태</span>
-    </div>
-  </div>
   </div>
 
   <button onclick="location.href='/inquiry/list'">목록으로</button><br>
+</div>
 </div>
 
 <div th:replace="~{fragments/footer :: footer}"></div>
