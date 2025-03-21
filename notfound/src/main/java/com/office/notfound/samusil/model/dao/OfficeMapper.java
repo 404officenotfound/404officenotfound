@@ -26,4 +26,5 @@ public interface OfficeMapper {
     int deleteOfficeByStoreAndOfficeCode(@Param("storeCode") int storeCode, @Param("officeCode") int officeCode);
 
     int deleteOffice(int officeCode);
+
 }

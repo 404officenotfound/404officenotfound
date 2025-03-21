@@ -25,6 +25,7 @@ import java.util.List;
 @Controller
 public class StoreController {
 
+
     private final StoreService storeService;
     private final OfficeService officeService;
     private final ReviewService reviewService;

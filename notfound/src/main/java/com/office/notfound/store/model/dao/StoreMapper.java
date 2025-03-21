@@ -28,4 +28,5 @@ public interface StoreMapper {
     void deleteStore(int storeCode);
 
     String findImageByStoreCode(int storeCode);
+
 }
