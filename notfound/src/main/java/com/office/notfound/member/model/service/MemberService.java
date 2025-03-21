@@ -253,10 +253,3 @@ public class MemberService {
     }
 
 }
-
-
-
-
-
-
-

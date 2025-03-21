@@ -4,6 +4,7 @@ import com.office.notfound.store.model.dto.StoreDTO;
 import org.apache.catalina.Store;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -25,5 +26,6 @@ public interface StoreMapper {
     void updateStore(StoreDTO store);
 
     void deleteStore(int storeCode);
-}
 
+    String findImageByStoreCode(int storeCode);
+}

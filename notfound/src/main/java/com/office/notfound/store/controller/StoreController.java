@@ -95,6 +95,7 @@ public class StoreController {
                                    @RequestParam(value = "storeImg3", required = false) MultipartFile storeImg3,
                                    RedirectAttributes rttr) {
 
+
         try {
             storeService.createStore(store, storeThumbnail, storeImg1, storeImg2, storeImg3);
             rttr.addFlashAttribute("message", "새 지점 등록을 성공하였습니다.");
@@ -186,7 +187,7 @@ public class StoreController {
     }
 
     // 지점 삭제하기
-    @PostMapping("/store/admin/storemanage/{storeCode}")
+    @PostMapping("/store/admin/delete/{storeCode}")
     public String adminStoreDelete(@PathVariable("storeCode") int storeCode,
                                    RedirectAttributes rttr) {
 
@@ -204,5 +205,20 @@ public class StoreController {
     public String deleteStore(@PathVariable("storeCode") int storeCode) {
         storeService.deleteStore(storeCode);
         return "redirect:/store/admin/storemanage";
+    }
+
+    @GetMapping("/error")
+    public String handleError(HttpServletRequest request) {
+        Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+        if (status != null) {
+            int statusCode = Integer.parseInt(status.toString());
+
+            if (statusCode == 404) {
+                return "error/404";
+            } else if (statusCode == 500) {
+                return "error/500";
+            }
+        }
+        return "error/error"; // 기본 에러 페이지
     }
 }
