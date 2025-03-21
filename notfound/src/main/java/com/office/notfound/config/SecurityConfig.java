@@ -44,8 +44,8 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth -> {
             // 로그인, 회원가입, 실패 페이지(authFailHandler정의)와 홈(home)은 모두에게 접근 허용
             auth.requestMatchers("/auth/login","/member/signup","/main", "/", "/member/check-duplicate", "/member/find-id",
-                    "/member/reset-password", "/company/introduce", "/company/ceo", "/store/storelist", "/store/storeregion",
-                    "/faq/list", "/event/list", "/store/detailstore/*").permitAll();
+                    "/member/reset-password", "/company/introduce", "/company/ceo", "/store/storelist",   "/faq/list",
+                    "/event/list", "/store/detailstore/*").permitAll();
             // '/admin/*' 엔드포인트는 ADMIN 권한을 가진 사용자만 접근 허용
             auth.requestMatchers("/admin/*").hasAnyAuthority("ADMIN");
             // '/user/*' 엔드포인트는 USER 권한을 가진 사용자만 접근 허용
