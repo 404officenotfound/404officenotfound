@@ -42,7 +42,7 @@ public class SecurityConfig {
         // #1. 서버의 리소스에 접근 가능한 권한을 설정
         http.authorizeHttpRequests(auth -> {
             // 로그인, 회원가입, 실패 페이지(authFailHandler정의)와 홈(home)은 모두에게 접근 허용
-//            auth.requestMatchers("/auth/login","/member/signup","/auth/fail","/main", "/").permitAll();
+//            auth.requestMatchers("/auth/login","/member/signup","/auth/fail","/main", "/", "/member/check-duplicate").permitAll();
             // '/admin/*' 엔드포인트는 ADMIN 권한을 가진 사용자만 접근 허용
 //            auth.requestMatchers("/admin/*").hasAnyAuthority("ADMIN");
             // '/user/*' 엔드포인트는 USER 권한을 가진 사용자만 접근 허용
