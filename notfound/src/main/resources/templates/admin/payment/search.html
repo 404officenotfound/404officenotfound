@@ -1,13 +1,99 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="/css/common.css">
+    <title>결제 내역 검색</title>
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/search/search.css">
+    <script src="/js/payment/payment-select-one.js" defer></script>
 </head>
 <body>
+<div th:replace="~{fragments/header :: header}"></div>
+<h2>결제 내역 검색</h2>
+
+<!-- 🔥 검색 유형 선택 드롭다운 -->
+
+<div class="search-container">
+    <select id="searchType" onchange="toggleSearchFields()">
+        <option value="paymentCode">결제번호로 검색</option>
+        <option value="paymentCode">회원번호로 검색</option>
+        <option value="paymentDate">결제일자로 검색</option>
+        <option value="paymentPeriod">기간으로 검색</option>
+    </select>
+
+
+    <form action="/payment/search" method="get" onsubmit="return validateForm()">
+        <!-- 결제번호 검색 -->
+        <div id="paymentCodeSearch">
+            <input type="text" class="search-input" name="paymentCode" placeholder="결제번호를 입력하세요">
+            <button type="submit" class="search-button">검색</button>
+        </div>
+
+        <!-- 결제일자 검색 -->
+        <div id="paymentDateSearch" style="display: none;">
+            <input type="date" class="search-input" name="paymentDate">
+            <button type="submit" class="search-button">검색</button>
+        </div>
+
+        <div id="memberCodeSearch" style="display: none;">
+            <input type="text" name="memberCode" placeholder="회원번호를 입력하세요">
+        </div>
+
+        <!-- 결제기간 검색 -->
+        <div id="paymentPeriodSearch" style="display: none;">
+            <input type="date" class="search-input" name="startDate" id="startDateInput">
+            <span>~</span>
+            <input type="date" class="search-input" name="endDate" id="endDateInput">
+            <button type="submit" class="search-button">검색</button>
+        </div>
+    </form>
+</div>
+
+    <!-- 🔥 검색 결과 없음 메시지 -->
+    <p th:if="${searchExecuted and
+((Adminpayments == null or #lists.isEmpty(Adminpayments)) and (searchAdminPayment == null or #lists.isEmpty(searchAdminPayment)))}" id="noResultsMessage">
+        검색 결과가 없습니다.
+    </p>
+
+    <table th:if="${searchExecuted and not #lists.isEmpty(Adminpayments)}">
+        <tr>
+            <th>결제번호</th>
+            <th>회원번호</th>
+            <th>결제날짜</th>
+            <th>결제방법</th>
+            <th>결제금액</th>
+            <th>결제상태</th>
+        </tr>
+        <tr th:each="payment : ${AdminpaymentList}">
+            <td th:text="${payment.memberCode}"></td>
+            <td th:text="${payment.paymentCode}"></td>
+            <td th:text="${payment.paymentDate}"></td>
+            <td th:text="${payment.paymentMethod}"></td>
+            <td th:text="${payment.paymentAmount}"></td>
+            <td th:text="${payment.paymentStatus}"></td>
+        </tr>
+    </table>
+
+
+    <!-- 상세 조회 결과 (검색 필터를 기준으로 출력된 결과) -->
+    <table th:if="${searchExecuted and not #lists.isEmpty(searchAdminPayment)}">
+        <tr>
+            <th>결제번호</th>
+            <th>결제날짜</th>
+            <th>결제방법</th>
+            <th>결제금액</th>
+            <th>결제상태</th>
+        </tr>
+        <tr th:each="payment : ${searchAdminPayment}">
+            <td th:text="${payment.paymentCode}"></td>
+            <td th:text="${payment.paymentDate}"></td>
+            <td th:text="${payment.paymentMethod}"></td>
+            <td th:text="${payment.paymentAmount}"></td>
+            <td th:text="${payment.paymentStatus}"></td>
+        </tr>
+    </table>
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
 </html>

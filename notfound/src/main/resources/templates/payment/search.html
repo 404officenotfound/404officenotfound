@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>결제 내역 검색</title>
-    <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
-    <link rel="stylesheet" href="/css/payment/payment-select-one.css">
     <link rel="stylesheet" href="/css/search/search.css">
     <script src="/js/payment/payment-select-one.js" defer></script>
 </head>
@@ -23,23 +21,23 @@
     </select>
 
     <form action="/payment/search" method="get" onsubmit="return validateForm()">
-        <!-- 🔥 결제번호 검색 -->
+        <!-- 결제번호 검색 -->
         <div id="paymentCodeSearch">
-            <input type="text" name="paymentCode" placeholder="결제번호를 입력하세요">
+            <input type="text" class="search-input" name="paymentCode" placeholder="결제번호를 입력하세요">
             <button type="submit" class="search-button">검색</button>
         </div>
 
-        <!-- 🔥 결제일자 검색 -->
+        <!-- 결제일자 검색 -->
         <div id="paymentDateSearch" style="display: none;">
-            <input type="date" name="paymentDate">
+            <input type="date" class="search-input" name="paymentDate">
             <button type="submit" class="search-button">검색</button>
         </div>
 
-        <!-- 🔥 결제기간 검색 -->
+        <!-- 결제기간 검색 -->
         <div id="paymentPeriodSearch" style="display: none;">
-            <input type="date" name="startDate" id="startDateInput" onchange="validateDates()">
+            <input type="date" class="search-input" name="startDate" id="startDateInput">
             <span>~</span>
-            <input type="date" name="endDate" id="endDateInput" onchange="validateDates()">
+            <input type="date" class="search-input" name="endDate" id="endDateInput">
             <button type="submit" class="search-button">검색</button>
         </div>
     </form>
@@ -55,11 +53,10 @@
     검색 결과가 없습니다.
 </p>
 
+<!-- 전체 조회 결과 테이블 -->
 <table th:if="${searchExecuted and not #lists.isEmpty(paymentList)}">
     <tr>
         <th>결제번호</th>
-        <th>회원 ID</th>
-        <th>예약번호</th>
         <th>결제날짜</th>
         <th>결제방법</th>
         <th>결제금액</th>
@@ -67,22 +64,17 @@
     </tr>
     <tr th:each="payment : ${paymentList}">
         <td th:text="${payment.paymentCode}"></td>
-        <td th:text="${payment.memberCode}"></td>
-        <td th:text="${payment.reservationCode}"></td>
-        <td th:text="${payment.paymentDate}"></td>
+        <td th:text="${#temporals.format(payment.paymentDate, 'yy-MM-dd')}"></td>
         <td th:text="${payment.paymentMethod}"></td>
-        <td th:text="${payment.paymentAmount}"></td>
+        <td th:text="${#numbers.formatInteger(payment.paymentAmount, 3, 'COMMA') + '원'}"></td>
         <td th:text="${payment.paymentStatus}"></td>
     </tr>
 </table>
 
-
-<!-- 상세 조회 결과 (검색 필터를 기준으로 출력된 결과) -->
+<!-- 검색 결과 테이블 -->
 <table th:if="${searchExecuted and not #lists.isEmpty(searchPayment)}">
     <tr>
         <th>결제번호</th>
-        <th>회원 ID</th>
-        <th>예약번호</th>
         <th>결제날짜</th>
         <th>결제방법</th>
         <th>결제금액</th>
@@ -90,11 +82,9 @@
     </tr>
     <tr th:each="payment : ${searchPayment}">
         <td th:text="${payment.paymentCode}"></td>
-        <td th:text="${payment.memberCode}"></td>
-        <td th:text="${payment.reservationCode}"></td>
-        <td th:text="${payment.paymentDate}"></td>
+        <td th:text="${#temporals.format(payment.paymentDate, 'yy-MM-dd')}"></td>
         <td th:text="${payment.paymentMethod}"></td>
-        <td th:text="${payment.paymentAmount}"></td>
+        <td th:text="${#numbers.formatInteger(payment.paymentAmount, 3, 'COMMA') + '원'}"></td>
         <td th:text="${payment.paymentStatus}"></td>
     </tr>
 </table>

@@ -23,15 +23,17 @@ public class AdminPaymentController {
     /**
      * 🔹 관리자: 모든 결제 내역 전체 조회 (Thymeleaf 반환)
      */
+
     @GetMapping("/search/all")
     public String getAllPayments(Model model) {
-        List<PaymentDTO> paymentList = paymentService.findAllPaymentsForAdmin();
+
+        List<PaymentDTO> Adminpayments = paymentService.findAllPaymentsForAdmin();
 
         model.addAttribute("searchExecuted", true);  // ✅ 검색 실행 여부 추가
-        model.addAttribute("payments", paymentList != null ? paymentList : List.of());
-        model.addAttribute("message", paymentList.isEmpty() ? "검색 결과가 없습니다." : "");
+        model.addAttribute("Adminpayments", Adminpayments != null ? Adminpayments : List.of());
+        model.addAttribute("message", Adminpayments.isEmpty() ? "검색 결과가 없습니다." : "");
 
-        return "search/all";
+        return "admin/payment/search";
     }
 
     /**
@@ -46,11 +48,11 @@ public class AdminPaymentController {
             @RequestParam(required = false) String endDate,
             Model model) {
 
-        List<PaymentDTO> searchPayment = paymentService.searchAdminPayment(paymentCode, memberCode, paymentDate, startDate, endDate);
+        List<PaymentDTO> searchAdminPayment = paymentService.searchAdminPayment(paymentCode, memberCode, paymentDate, startDate, endDate);
 
         model.addAttribute("searchExecuted", true);  // ✅ 검색 실행 여부 추가
-        model.addAttribute("payments", searchPayment != null ? searchPayment : List.of());
-        model.addAttribute("message", searchPayment.isEmpty() ? "검색 결과가 없습니다." : "");
+        model.addAttribute("searchAdminPayment", searchAdminPayment != null ? searchAdminPayment : List.of());
+        model.addAttribute("message", searchAdminPayment.isEmpty() ? "검색 결과가 없습니다." : "");
 
         return "admin/payment/search";
     }

@@ -16,7 +16,7 @@ h2 {
 
 /* 검색 컨테이너 스타일링 */
 .search-container {
-    max-width: 1200px;
+    max-width: 900px;
     min-height: 200px;
     margin: 0 auto;
     padding: 40px;
@@ -24,6 +24,10 @@ h2 {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     border: 1px solid #eaeaea;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
 /* 검색 상단 영역 스타일링 */
@@ -69,19 +73,17 @@ select:hover, select:focus {
     display: flex;
     align-items: center;
     gap: 15px;
-    flex: 1;
+    width: 100%;
 }
 
 /* 입력 필드 스타일링 */
-input[type="text"],
-input[type="date"] {
-    width: 100%;
-    min-width: 300px;
+.search-input {
+    flex: 1;
+    min-width: 200px;
     padding: 12px 15px;
     border: 1px solid #eaeaea;
     border-radius: 4px;
     font-size: 1em;
-    transition: all 0.2s ease;
 }
 
 input[type="text"]:focus,
@@ -107,10 +109,9 @@ input[type="date"]:focus {
     gap: 10px;
 }
 
-/* 버튼 스타일링 */
-.search-button, .btn {
-    white-space: nowrap;
-    padding: 12px 25px;
+/* 검색 및 전체 조회 버튼 스타일링 */
+.search-button, .view-all-button {
+    padding: 10px 20px;
     border: 1px solid #eaeaea;
     border-radius: 4px;
     background-color: #ffffff;
@@ -118,10 +119,10 @@ input[type="date"]:focus {
     cursor: pointer;
     font-size: 1em;
     transition: all 0.2s ease;
-    min-width: 100px;
+    margin-right: 10px;
 }
 
-.search-button:hover, .btn:hover {
+.search-button:hover, .view-all-button:hover {
     background-color: #cce8e6;
     border-color: #cce8e6;
     color: #333333;
@@ -129,7 +130,7 @@ input[type="date"]:focus {
 
 /* 테이블 스타일링 */
 table {
-    width: 100%;
+    width: 80%;
     margin: 20px 0;
     border-collapse: collapse;
     background-color: white;
@@ -208,8 +209,7 @@ input[type="checkbox"] {
         width: 100%;
     }
 
-    input[type="text"],
-    input[type="date"] {
+    .search-input {
         width: 100%;
     }
 
@@ -217,7 +217,54 @@ input[type="checkbox"] {
         flex-direction: column;
     }
 
-    .search-button, .btn {
+    .search-button, .view-all-button {
         width: 100%;
     }
+}
+
+/* 결제하기 버튼 스타일링 */
+.payment-button {
+    display: block;
+    margin: 20px auto;
+    padding: 12px 25px;
+    border: 1px solid #eaeaea;
+    border-radius: 4px;
+    background-color: #ffffff;
+    color: #333333;
+    cursor: pointer;
+    font-size: 1em;
+    transition: all 0.2s ease;
+    min-width: 100px;
+    text-align: center;
+}
+
+.payment-button:hover {
+    background-color: #cce8e6;
+    border-color: #cce8e6;
+    color: #333333;
+}
+
+/* 페이징 버튼 스타일링 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.pagination button {
+    margin: 0 5px;
+    padding: 10px 15px;
+    border: 1px solid #eaeaea;
+    border-radius: 4px;
+    background-color: #ffffff;
+    color: #333333;
+    cursor: pointer;
+    font-size: 1em;
+    transition: all 0.2s ease;
+}
+
+.pagination button:hover {
+    background-color: #cce8e6;
+    border-color: #cce8e6;
+    color: #333333;
 } 
