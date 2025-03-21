@@ -33,6 +33,20 @@
             payment_code DESC
     </select>
 
+    <select id="AdminpaymentList" resultMap="paymentResultMap">
+        SELECT
+            payment_code,
+            member_code,
+            payment_date,
+            payment_method,
+            payment_amount,
+            payment_status
+        from
+            tbl_payment
+        ORDER BY
+            payment_code DESC
+    </select>
+
     <!-- 결제 상세 조회 -->
     <select id="searchPayment" resultMap="paymentResultMap">
         SELECT
@@ -76,7 +90,7 @@
         payment_amount,
         payment_status
         FROM tbl_payment
-        WHERE
+        WHERE 1=1
         <if test="memberCode != null">
             AND member_code = #{memberCode}
         </if>

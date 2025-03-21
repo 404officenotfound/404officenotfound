@@ -16,14 +16,10 @@ public interface PaymentMapper {
                                    @Param("endDate") String endDate);
 
     List<PaymentDTO> findAllPayments(@Param("memberCode") Integer memberCode);
-
-    int getReservationPrice(int reservationCode);
-
+    
     void updatePaymentStatus(@Param("paymentCode") int paymentCode, @Param("paymentStatus") String paymentStatus);
 
     PaymentDTO findPaymentById(int paymentCode);
-    
-    int getReservationCodeByPayment(@Param("paymentCode") int paymentCode);
 
     List<Integer> getReservationCodesByPayment(@Param("paymentCode") int paymentCode);
 

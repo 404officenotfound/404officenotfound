@@ -21,6 +21,7 @@ public class AdminController {
     /**
      * 🔹 관리자: 특정 조건으로 예약 검색
      */
+
     @GetMapping("/reservation/search")
     public String searchReservation(
             @RequestParam(required = false) String reservationCode,

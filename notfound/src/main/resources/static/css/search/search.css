@@ -73,17 +73,17 @@ select:hover, select:focus {
     display: flex;
     align-items: center;
     gap: 15px;
-    flex: 1;
+    width: 100%;
 }
 
 /* 입력 필드 스타일링 */
 .search-input {
     flex: 1;
-    padding: 10px;
+    min-width: 200px;
+    padding: 12px 15px;
     border: 1px solid #eaeaea;
     border-radius: 4px;
     font-size: 1em;
-    margin-right: 10px;
 }
 
 input[type="text"]:focus,

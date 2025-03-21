@@ -26,7 +26,7 @@ public class PaymentController {
     @GetMapping("/search/all")
     public String getAllPayments(@AuthenticationPrincipal MemberDTO member, Model model) {
         if (member == null) {
-            return "redirect:/login";  // ✅ 로그인 필요하면 로그인 페이지로 이동
+            return "redirect:/login";
         }
 
         List<PaymentDTO> paymentList = paymentService.findAllPayments(member.getMemberCode()); // 🔹 `memberCode` 필수 적용
