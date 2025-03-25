@@ -22,4 +22,4 @@
 ### "404 OFFICE NOT FOUND"는 단순히 사무실을 찾지 못한 현실을 보여주는 것이 아니라, 
 이를 해결하기 위한 움직임을 의미하며, 우리가 만들어갈 프로젝트의 방향성을 지향한다. “
 
-![image](https://github.com/user-attachments/assets/358df443-db10-4615-ab45-0d30e5f347a4)
+![image](https://github.com/user-attachments/assets/5aac45b5-1b59-4850-bf4f-8c954327dd1b)
