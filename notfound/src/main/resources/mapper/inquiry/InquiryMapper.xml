@@ -31,6 +31,62 @@
 
     <select id="selectInquiryByCode" parameterType="int" resultMap="selectAllInquiryListMapper">
         SELECT * FROM tbl_inquiry
-        WHERE inquiry_code = #{code}
+        WHERE inquiry_code = #{inquiryCode}
     </select>
+
+    <!-- 문의글 등록 -->
+    <insert id="registNewInquiry" parameterType="com.office.notfound.inquiry.model.dto.InquiryDTO">
+        INSERT INTO
+            tbl_inquiry
+        (
+           inquiry_code,
+           member_code,
+           member_id,
+           inquiry_title,
+           inquiry_content,
+           inquiry_created_at,
+           inquiry_answer_state,
+           inquiry_admin_answer
+        )
+        VALUES (#{inquiryCode},
+                #{memberCode},
+                #{memberId},
+                #{inquiryTitle},
+                #{inquiryContent},
+                DATE_FORMAT(now(), '%Y-%m-%d %H:%i:%s'),
+                #{inquiryAnswerState},
+                #{inquiryAdminAnswer})
+    </insert>
+
+    <!-- 나의 리뷰 조회 -->
+    <select id="findMyInquiryByCode" resultType="com.office.notfound.inquiry.model.dto.InquiryDTO" parameterType="_int">
+        SELECT * FROM tbl_inquiry WHERE inquiry_code = #{inquiryCode}
+    </select>
+
+    <!-- 문의글 수정 -->
+    <update id="updateReview" parameterType="com.office.notfound.inquiry.model.dto.InquiryDTO">
+        UPDATE
+        tbl_inquiry
+        SET
+        inquiry_code = #{inquiryCode},
+        member_code = #{memberCode},
+        member_id = #{memberId},
+        inquiry_title = #{inquiryTitle},
+        inquiry_content = #{inquiryContent},
+        inquiry_created_at = DATE_FORMAT(now(), '%Y-%m-%d %H:%i:%s'),
+        inquiry_answer_state = #{inquiryAnswerState},
+        inquiry_admin_answer = #{inquiryAdminAnswer}
+        WHERE
+        inquiry_code = #{inquiryCode}
+
+    </update>
+
+    <!-- 문의글 삭제 -->
+    <delete id="deleteInquiry" parameterType="int">
+        DELETE FROM
+            tbl_inquiry
+        WHERE
+            inquiry_code = #{inquiryCode}
+    </delete>
+
 </mapper>

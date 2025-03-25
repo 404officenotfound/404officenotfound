@@ -66,8 +66,6 @@ public class ReviewService {
             // 서비스에서 파일 저장 후 경로 확인
             System.out.println("파일 저장 경로 확인: " + replaceFileName);
 
-            System.out.println("리뷰서비스 imageName-----------------> = " + imageName);
-//            System.out.println("리뷰서비스 newReview-----------------> = " + newReview);
         } else {
             newReview.setReviewImage(null);
         }
@@ -77,11 +75,9 @@ public class ReviewService {
         reviewMapper.registNewReview(newReview);
     }
 
-    public List<ReviewDTO> selectReviewsByMemberId(String memberId) {
+    public List<ReviewDTO> selectReviewsByMemberCode(int memberCode) {
 
-        System.out.println("reviewService-------------memberId = " + memberId);
-
-        return reviewMapper.selectReviewsByMemberId(memberId);
+        return reviewMapper.selectReviewsByMemberCode(memberCode);
     }
 
     public ReviewDTO findMyReviewByCode(int reviewCode) {
