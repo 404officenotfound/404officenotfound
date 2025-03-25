@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -47,22 +47,35 @@
 
 
     <div class="box2">
-      <div class="box3">
-        <span>답변</span>
-      </div>
-      <div class="box3">
         <div th:if="${inquiry.inquiryAdminAnswer != null}">
+        <div class="box3">
+          <span>답변 내용</span>
+        </div>
           <div th:text="${inquiry.inquiryAdminAnswer}" class="box2-myq">
+          </div>
         </div>
         <div th:if="${inquiry.inquiryAdminAnswer == null}" class="box2-myq">
-            <span>등록된 리뷰가 없습니다. </span>
+            <span>--- 답변 대기중 입니다. ---</span>
         </div>
       </div>
-    </div>
   </div>
 
   <button onclick="location.href='/inquiry/list'">목록으로</button><br>
-</div>
+  <div sec:authorize="#authentication.principal.memberCode == 1">
+    <form th:id="'deleteForm' + ${inquiry.inquiryCode}"
+          th:action="@{'/inquiry/delete/' + ${inquiry.inquiryCode}}"
+          method="post" style="display: inline;">
+      <button class="btn-delete" th:onclick="'if(confirm(\'정말 삭제하시겠습니까?\')) { submitDeleteForm(' + ${inquiry.inquiryCode} + '); }'">삭제하기</button>
+    </form>
+  </div>
+  <div sec:authorize="#authentication.principal.memberCode != 1">
+    <a class="btn-edit" th:href="@{'/inquiry/edit/' + ${inquiry.inquiryCode}}">수정하기</a>
+    <form th:id="'deleteForm' + ${inquiry.inquiryCode}"
+          th:action="@{'/inquiry/delete/' + ${inquiry.inquiryCode}}"
+          method="post" style="display: inline;">
+      <button class="btn-delete" th:onclick="'if(confirm(\'정말 삭제하시겠습니까?\')) { submitDeleteForm(' + ${inquiry.inquiryCode} + '); }'">삭제하기</button>
+    </form>
+  </div>
 </div>
 
 <div th:replace="~{fragments/footer :: footer}"></div>

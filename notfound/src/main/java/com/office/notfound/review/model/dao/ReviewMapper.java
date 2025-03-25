@@ -17,7 +17,7 @@ public interface ReviewMapper {
 
     void registNewReview(ReviewDTO newReview);
 
-    List<ReviewDTO> selectReviewsByMemberId(String memberId);
+    List<ReviewDTO> selectReviewsByMemberCode(int memberCode);
 
     ReviewDTO findMyReviewByCode(int reviewCode);
 

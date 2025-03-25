@@ -49,8 +49,14 @@ main {
     padding: 10px 0;
 }
 
+.box1 label {
+    display: flex;
+    margin: 10px;
+}
+
 .box2-myq {
     margin: 10px;
+    text-align: left;
 }
 
 .box3 {
@@ -67,6 +73,11 @@ main {
 
 .span-box span {
     margin-left :  100px;
+}
+
+.span-box .form-control {
+    width: 30em;
+    resize: none;
 }
 
 
