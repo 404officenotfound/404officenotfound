@@ -107,7 +107,7 @@
         fetch는 JavaScript에서 웹 브라우저가 서버와 비동기적으로 데이터를 주고받을 수 있게 해주는 API로,
         이를 통해 클라이언트 측에서 서버로 HTTP 요청을 보내고, 서버의 응답을 받을 수 있습니다. fetch는 주로 REST API와 통신할 때 사용된다.
          /member/check-duplicate는 서버에서 아이디 중복을 확인하는 기능을 담당하는 API의 경로이며, memberId는 사용자가 입력한 아이디로, 이 값은 URL의 쿼리 매개변수로 전달하고
-         서버로부터 응답은 response변수에 저장되고, response.json()은 서버에서 받은 응답 본문을 JSON 형식으로 변환하는 메서드로 변환후 date변수에서 사용된다.
+         서버로부터 응답은 response변수에 저장되고, response.json()은 서버에서 받은 응답 본문인 JSON 형식을 JS객체로 변환하는 메서드로 변환후 date변수에서 사용된다.
         이 메서드는 반환값이 Promise 객체이므로, 변환된 데이터를 처리하기 위해 .then()을 사용해야 한다.
 -->
 <script>
