@@ -20,17 +20,19 @@
             <div class="box1">
                 <div class="span-box">
                     <label for="inquiryTitle" class="form-label">제목</label>
-                    <input type="text" name="inquiryTitle" id="inquiryTitle" class="form-control"><br>
+                    <input type="text" name="inquiryTitle" id="inquiryTitle" class="form-control" required><br>
                 </div>
             </div>
             <div class="box1">
                 <div class="span-box">
                     <label for="inquiryContent" class="form-label">내용</label>
-                    <textarea class="form-control" name="inquiryContent" id="inquiryContent" rows="10"></textarea>
+                    <textarea class="form-control" name="inquiryContent" id="inquiryContent" rows="10" required></textarea>
                 </div>
             </div>
-                <button type="submit">등록하기</button>
-                <button onclick="history.back()">이전으로</button>
+            <div class="inquiry-button">
+                <button type="submit" style="margin: 0 5px;">등록하기</button>
+                <button onclick="history.back()" style="margin: 0 5px;">이전으로</button>
+            </div>
             </form>
         </div>
     </div>

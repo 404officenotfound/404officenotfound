@@ -30,15 +30,6 @@
         <div class="cell">답변 상태</div>
     </div>
 
-<!--/*
-    <div class="header">
-    <div class="cell">문의글 번호</div>
-      <div sec:authorize="#authentication.principal.memberCode == 1" class="cell">회원 번호</div>
-    <div class="cell">아이디</div>
-    <div class="cell">제목</div>
-    <div class="cell">등록일자</div><div class="cell">답변 상태</div>
-  </div> */-->
-
     <div th:each="i : ${inquiryList}"
          class="row"
          sec:authorize="#authentication.principal.memberCode == 1"
@@ -69,21 +60,6 @@
         <div class="cell" th:text="${i.inquiryDate}"></div>
         <div class="cell" th:text="${i.inquiryAnswerState}"></div>
     </div>
-
-
-<!--/*  <div th:each="i : ${inquiryList}" class="row">
-    <div class="cell" th:text="${i.inquiryCode}"></div>
-      <div sec:authorize="#authentication.principal.memberCode == 1" th:classappend="'member-visible'" class="cell" th:text="${i.memberCode}"></div>
-    &lt;!&ndash;<div class="cell" th:text="${i.memberCode}"></div>&ndash;&gt;
-    <div class="cell" th:text="${i.memberId}"></div>
-    <div class="cell">
-      <a class="inquiry-link" th:href="@{ /inquiry/detail/{code} (code=${i.inquiryCode})}"
-         th:text="${i.inquiryTitle}" th:attr="onclick=|logInquiryCode('${i.inquiryCode}')|"></a>
-    </div>
-    <div class="cell" th:text="${i.inquiryDate}"></div><div class="cell" th:text="${i.inquiryAnswerState}"></div>
-&lt;!&ndash;      "${#dates.format(${i.inquiryDate}, 'dd-MM-yyyy')}"&ndash;&gt;
-  </div> */-->
-
 
 </div>
     <div class="inquiry-button" sec:authorize="#authentication.principal.memberCode != 1">

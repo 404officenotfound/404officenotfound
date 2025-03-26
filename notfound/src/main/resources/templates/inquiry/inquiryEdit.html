@@ -20,38 +20,46 @@
                 <div class="span-box">
                     <label for="inquiryTitle" class="form-label">제목</label>
                     <input type="text" name="inquiryTitle" id="inquiryTitle" class="form-control"
-                           th:value="${myInquiry.inquiryTitle}"><br>
+                           th:value="${myInquiry.inquiryTitle}"
+                           th:readonly="${#authentication.principal.memberCode == 1}">
                 </div>
             </div>
             <div class="box1">
                 <div class="span-box">
                     <label for="inquiryContent" class="form-label">내용</label>
-                    <textarea class="form-control" name="inquiryContent" id="inquiryContent" rows="10">
+                    <textarea class="form-control" name="inquiryContent" id="inquiryContent" rows="10"
+                              th:readonly="${#authentication.principal.memberCode == 1}">
                         [[${myInquiry.inquiryContent}]]
                     </textarea>
                 </div>
             </div>
-            <button type="submit">수정하기</button>
-            <button onclick="history.back()" type="button">이전으로</button>
+            <div sec:authorize="#authentication.principal.memberCode == 1" class="box1">
+                <div class="span-box">
+                    <label for="inquiryAdminAnswer" class="form-label">답변 입력</label>
+                    <textarea class="form-control" name="inquiryAdminAnswer" id="inquiryAdminAnswer" rows="5">
+                        [[${myInquiry.inquiryAdminAnswer}]]
+                    </textarea>
+                </div>
+            </div>
+            <div class="inquiry-button">
+                <div sec:authorize="#authentication.principal.memberCode != 1">
+                    <button type="submit" style=" margin: 0 5px;">수정하기</button>
+                </div>
+                <div sec:authorize="#authentication.principal.memberCode == 1">
+                    <button type="submit" style="width: 103px;  margin: 0 5px;">답변 등록</button>
+                </div>
+                <button onclick="history.back()" type="button">이전으로</button>
+                <form th:id="'deleteForm' + ${myInquiry.inquiryCode}"
+                      th:action="@{'/inquiry/delete/' + ${myInquiry.inquiryCode}}"
+                      method="post" style="display: inline;">
+                    <button class="btn-delete" th:onclick="'if(confirm(\'정말 삭제하시겠습니까?\')) { submitDeleteForm(' + ${myInquiry.inquiryCode} + '); }'"
+                            style=" margin: 0 5px;">삭제하기</button>
+                </form>
+            </div>
         </form>
 
-        <div sec:authorize="#authentication.principal.memberCode == 1">
-            <form th:id="'deleteForm' + ${myInquiry.inquiryCode}"
-                  th:action="@{'/inquiry/delete/' + ${myInquiry.inquiryCode}}"
-                  method="post" style="display: inline;">
-                <button class="btn-delete" th:onclick="'if(confirm(\'정말 삭제하시겠습니까?\')) { submitDeleteForm(' + ${myInquiry.inquiryCode} + '); }'">삭제하기</button>
-            </form>
-        </div>
-        <div sec:authorize="#authentication.principal.memberCode != 1">
-            <form th:id="'deleteForm' + ${myInquiry.inquiryCode}"
-                  th:action="@{'/inquiry/delete/' + ${myInquiry.inquiryCode}}"
-                  method="post" style="display: inline;">
-                <button class="btn-delete" th:onclick="'if(confirm(\'정말 삭제하시겠습니까?\')) { submitDeleteForm(' + ${myInquiry.inquiryCode} + '); }'">삭제하기</button>
-            </form>
-        </div>
-
-    <div th:replace="~{fragments/footer :: footer}"></div>
     </section>
+    <div th:replace="~{fragments/footer :: footer}"></div>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 

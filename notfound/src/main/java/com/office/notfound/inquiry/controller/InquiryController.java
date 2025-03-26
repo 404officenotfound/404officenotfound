@@ -35,21 +35,12 @@ public class InquiryController {
         if (isAdmin) {
             // 관리자라면 모든 문의 목록 조회
             inquiryList = inquiryService.selectAllInquiryList();
-//            System.out.println("inquiryList --------------= " + inquiryList);
         } else {
             // 일반 사용자라면 본인의 문의 목록만 조회
             inquiryList = inquiryService.selectMyInquiryList(loginUser.getMemberCode());
-//            System.out.println("inquiryList--------------- " + inquiryList);
         }
 
         model.addAttribute("inquiryList", inquiryList);
-
-
-
-/*        List<InquiryDTO> inquiryList = inquiryService.selectAllInquiryList();
-
-        model.addAttribute("inquiryList", inquiryList);*/
-//        System.out.println("inquiryList " + inquiryList);
 
         return "inquiry/inquiry";
     }
@@ -60,7 +51,6 @@ public class InquiryController {
         InquiryDTO inquiry = inquiryService.selectInquiryByCode(inquiryCode);
 
         model.addAttribute("inquiry", inquiry);
-//        System.out.println("inquiry " + inquiry);
 
         return "inquiry/inquiryDetail";
     }
@@ -133,8 +123,13 @@ public class InquiryController {
             myInquiry.setInquiryCode(inquiryCode);
             myInquiry.setMemberId(member.getMemberId());
             myInquiry.setMemberCode(member.getMemberCode());
-            myInquiry.setInquiryAnswerState("답변 대기");
-            myInquiry.setInquiryAdminAnswer(null);
+
+            if (myInquiry.getMemberCode() == 1) {
+                myInquiry.setInquiryAnswerState("답변 완료");
+            } else {
+                myInquiry.setInquiryAnswerState("답변 대기");
+                myInquiry.setInquiryAdminAnswer(null);
+            }
 
             inquiryService.updateMyInquiry(myInquiry);
 
