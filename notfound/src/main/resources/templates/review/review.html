@@ -40,7 +40,6 @@
             <div class="review-item-content">
                 <h5 th:text="${review.reviewTitle}">리뷰 제목</h5>
                 <p th:text="'리뷰번호: ' + ${review.reviewCode}"></p>
-                <p th:text="'멤버코드: ' + ${review.memberCode}"></p>
                 <p th:text="'작성자: ' + ${review.memberId}"></p>
                 <p th:text="'작성 날짜: ' + ${review.reviewDate}"></p>
                 <p th:text="'평점: ' + ${review.reviewRating} + '점'" class="review-rating"></p>

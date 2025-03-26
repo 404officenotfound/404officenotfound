@@ -62,13 +62,8 @@ public class ReviewController {
     public String selectMyReviews(@AuthenticationPrincipal MemberDTO member
             , Model model) {
 
-        System.out.println("member확인-------------------> " + member);
-
-        // 현재 로그인한 사용자의 ID 확인
-        System.out.println("로그인한 회원 ID: " + member.getMemberId());
-
-        // 로그인한 회원 ID로 리뷰 조회
-        List<ReviewDTO> myReviews = reviewService.selectReviewsByMemberId(member.getMemberId());
+        // 로그인한 멤버 코드로 리뷰 조회
+        List<ReviewDTO> myReviews = reviewService.selectReviewsByMemberCode(member.getMemberCode());
 
         model.addAttribute("member", member);
         model.addAttribute("reviewList", myReviews);
@@ -89,7 +84,7 @@ public class ReviewController {
                                RedirectAttributes rAttr,
                                Locale locale) {
         try {
-            // 로그인의 memberID 넣기
+            // 로그인한 회원의 ID 및 memberCode 넣기
             newReview.setMemberId(member.getMemberId());
             // 로그인한 회원번호 찾아서 새 리뷰 객체에 넣기
             newReview.setMemberCode(member.getMemberCode());
@@ -103,11 +98,16 @@ public class ReviewController {
             reviewService.registNewReview(newReview, reviewThumbnail);
 
             logger.info("Locale : {}", locale);
+            logger.info("LocalDate.now() : {}", LocalDate.now());
 
             rAttr.addFlashAttribute("message", "새 리뷰 등록을 성공하였습니다.");
-//            System.out.println("newReview확인------------> " + newReview);
 
-            return "redirect:/review/my-reviews";     // 리뷰 목록으로 리다이렉트
+            if (newReview.getMemberCode() == 1) {
+                return "redirect:/review/list";
+            } else {
+                return "redirect:/review/my-reviews";     // 리뷰 목록으로 리다이렉트
+
+            }
 
         } catch (IllegalArgumentException e) {
             rAttr.addFlashAttribute("errorMessage", e.getMessage());
@@ -153,7 +153,15 @@ public class ReviewController {
             reviewService.updateMyReview(myReview, reviewThumbnail);
 
             rAttr.addFlashAttribute("message", "리뷰가 수정되었습니다.");
-            return "redirect:/review/my-reviews";
+
+
+            if (myReview.getMemberCode() == 1) {
+                return "redirect:/review/list";
+            } else {
+                return "redirect:/review/my-reviews";     // 리뷰 목록으로 리다이렉트
+
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             rAttr.addFlashAttribute("message", "리뷰 수정에 실패했습니다: " + e.getMessage());
@@ -165,11 +173,20 @@ public class ReviewController {
     // 리뷰 삭제 핸들러
     @PostMapping("/delete/{reviewCode}")
     public String userReviewDelete(@PathVariable int reviewCode,
+                                   @AuthenticationPrincipal MemberDTO member,
                                      RedirectAttributes rAttr) {
+
         try {
             reviewService.deleteReview(reviewCode);
             rAttr.addFlashAttribute("message", "리뷰가 삭제되었습니다.");
-            return "redirect:/review/my-reviews";
+
+            if (member.getMemberCode() == 1) {
+                return "redirect:/review/list";
+            } else {
+                return "redirect:/review/my-reviews";     // 리뷰 목록으로 리다이렉트
+
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             rAttr.addFlashAttribute("message", "리뷰가 실패했습니다: " + e.getMessage());

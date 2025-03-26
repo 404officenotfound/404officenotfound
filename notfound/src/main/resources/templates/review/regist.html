@@ -23,12 +23,12 @@
             <div sec:authorize="#authentication.principal.memberCode == 1">
                 <ul>
                     <li><a href="/storeadmin/storemanage">매장관리</a></li>
-                    <li><a href="/member/inquiry">예약관리</a></li>
-                    <li><a href="/member/reviews">결제관리</a></li>
-                    <li><a href="/review/my-reviews">리뷰관리</a></li>
+                    <li><a href="/member/reservation">예약관리</a></li>
+                    <li><a href="/payment/search">결제관리</a></li>
+                    <li><a href="/review/list">리뷰관리</a></li>
                     <li><a href="/member/reviews">이벤트관리</a></li>
-                    <li><a href="/member/reviews">1대1관리</a></li>
-                    <li><a href="/member/reviews">FAQ관리</a></li>
+                    <li><a href="inquiry/list">1대1관리</a></li>
+                    <li><a href="/faq/list">FAQ관리</a></li>
                 </ul>
             </div>
 
@@ -36,8 +36,8 @@
             <div sec:authorize="#authentication.principal.memberCode == 2">
                 <ul>
                     <li><a href="/member/reservation">예약관리</a></li>
-                    <li><a href="/member/reviews">결제관리</a></li>
-                    <li><a href="/member/inquiry">문의내역</a></li>
+                    <li><a href="/payment/search">결제관리</a></li>
+                    <li><a href="/inquiry/list">문의내역</a></li>
                     <li><a href="/review/my-reviews">리뷰관리</a></li>
                 </ul>
             </div>
@@ -65,21 +65,14 @@
           <label for="reviewContent" class="form-label">내용 : </label>
               <textarea class="form-control" name="reviewContent" id="reviewContent" rows="3"></textarea>
           </div>
-          <!-- 부트스트랩-->
               <div class="mb-3">
-<!--                  <label for="formFile" class="form-label">이미지 업로드</label>
-                  <input class="form-control" type="file" id="formFile">-->
                   <label for="reviewThumbnail" class="form-label">이미지 업로드</label>
                   <input class="form-control" type="file" name="reviewThumbnail" id="reviewThumbnail" accept="image/*" onchange="previewImage(this)">
                   <img id="preview" class="preview-image">
               </div>
-            <!-- 일반 파일 업로드 인풋 // 정상 작동 -->
-          <label>이미지 업로드</label>
-          <!--<span>파일 : <input type="file" name="reviewThumbnail" id="reviewThumbnail" accept="image/*" onchange="previewImage(this)"><br></span>-->
-          <!--<img id="preview" class="preview-image">-->
 
           <button type="submit">등록하기</button>
-          <button onclick="history.back()">이전으로</button>
+          <button type="button" onclick="location.href='/review/my-reviews'">이전으로</button>
       </form>
     </section>
     </div>

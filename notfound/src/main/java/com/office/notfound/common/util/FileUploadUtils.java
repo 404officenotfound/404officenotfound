@@ -111,11 +111,9 @@ public class FileUploadUtils {
 
         /* 저장할 파일 이름 생성 */
         String savedFileName = imageName + ext;
-        System.out.println("savedFileName------------->" + savedFileName);
 
         /* 저장할 파일 경로 생성 */
         File target = new File(dir, savedFileName);
-        System.out.println("target---------> = " + target);
 
         /* 파일 저장 */
         reviewThumbnail.transferTo(target);

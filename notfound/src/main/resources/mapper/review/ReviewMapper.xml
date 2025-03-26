@@ -39,8 +39,8 @@
         <result property="reviewImage" column="review_image"/>
     </resultMap>
 
-    <!--<select id="selectAllReviewList" resultMap="selectAllReviewListMapper">-->
-    <select id="selectAllReviewList" resultType="com.office.notfound.review.model.dto.ReviewDTO">
+    <select id="selectAllReviewList" resultMap="selectAllReviewListMapper">
+<!--    <select id="selectAllReviewList" resultType="com.office.notfound.review.model.dto.ReviewDTO">-->
         SELECT * FROM  tbl_review r
     </select>
 
@@ -74,8 +74,8 @@
 
 
     <!-- 로그인 유저의 리뷰 조회 -->
-    <select id="selectReviewsByMemberId" resultType="com.office.notfound.review.model.dto.ReviewDTO" parameterType="String">
-        SELECT * FROM tbl_review WHERE member_id = #{memberId}
+    <select id="selectReviewsByMemberCode" resultType="com.office.notfound.review.model.dto.ReviewDTO" parameterType="_int">
+        SELECT * FROM tbl_review WHERE member_code = #{memberCode}
     </select>
 
 
